@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import './App.css';
+import { useTranslation } from './hooks/useTranslation';
+import LanguageSwitcher from './components/LanguageSwitcher';
 
 // ===================== DATA STRUCTURES & GAME CONSTANTS =====================
 const MAX_RESEARCH_LEVEL = 2;
@@ -16,46 +18,71 @@ const IMAGE_ASSETS = {
     night: 'https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?q=80&w=2670&auto=format&fit=crop',
 };
 const speciesData = [
-    { id: 'forest_squirrel', name: 'Forest Squirrel', emoji: '🐿️', rarity: 'common', habitat: 'ground', quizPool: [
-        { question: 'What is a squirrel\'s favorite activity?', correctAnswer: 'Burying nuts', wrongAnswers: ['Swimming', 'Flying south', 'Singing opera'] },
-        { question: 'What is a group of squirrels called?', correctAnswer: 'A scurry', wrongAnswers: ['A flock', 'A herd', 'A school'] },
-        { question: 'How do squirrels primarily find their buried nuts?', correctAnswer: 'A powerful sense of smell', wrongAnswers: ['A photographic memory', 'GPS trackers', 'Asking other squirrels'] },
-        { question: 'A squirrel\'s front teeth...', correctAnswer: 'Never stop growing', wrongAnswers: ['Fall out every year', 'Are replaced twice', 'Are made of wood'] },
-        { question: 'To fool other animals, squirrels will sometimes pretend to...', correctAnswer: 'Bury a nut', wrongAnswers: ['Be a statue', 'Conduct an orchestra', 'Read a tiny newspaper'] },
-        { question: 'What is a primary predator of the Forest Squirrel?', correctAnswer: 'Hawks and owls', wrongAnswers: ['Deer', 'Fish', 'Insects'] },
-        { question: 'How do squirrels communicate with each other?', correctAnswer: 'Through complex tail flicks and chatters', wrongAnswers: ['By writing letters', 'Using telepathy', 'Sending smoke signals'] },
-        { question: 'What is the average lifespan of a wild Forest Squirrel?', correctAnswer: 'About 2-3 years', wrongAnswers: ['About 10-12 years', 'About 6 months', 'Over 20 years'] }
-    ], encounterRules: { time: ['day'], weather: ['clear'] }, masteryPerk: { id: 'keen-eye', name: 'Keen Eye', description: 'Slightly increases the chance of finding Radiant Variants.' } },
-    { id: 'night_owl', name: 'Night Owl', emoji: '🦉', rarity: 'uncommon', habitat: 'sky', quizPool: [
-        { question: 'What makes an owl a silent hunter?', correctAnswer: 'Specialized feather structure', wrongAnswers: ['It holds its breath', 'It wears tiny slippers', 'It only hunts in vacuums'] },
-        { question: 'What is an owl\'s head rotation capability?', correctAnswer: 'Up to 270 degrees', wrongAnswers: ['A full 360 degrees', 'Only 90 degrees', 'It cannot rotate its head'] },
-        { question: 'A group of owls is called a...', correctAnswer: 'Parliament', wrongAnswers: ['Congress', 'Senate', 'Court'] },
-        { question: 'Owls cannot move their eyeballs. Why?', correctAnswer: 'They are fixed in their sockets', wrongAnswers: ['They are too lazy', 'They are square-shaped', 'They prefer not to'] },
-        { question: 'What is the term for an owl\'s pellet?', correctAnswer: 'A casting', wrongAnswers: ['A nugget', 'A hootenanny', 'A gobstopper'] },
-        { question: 'What is an owl\'s primary diet?', correctAnswer: 'Small mammals, insects, and other birds', wrongAnswers: ['Fruits and berries', 'Seeds and nuts', 'Only fish'] },
-        { question: 'An owl\'s eyes are not true "eyeballs." What are they?', correctAnswer: 'Eye tubes', wrongAnswers: ['Eye squares', 'Eye cones', 'Eye discs'] },
-        { question: 'Why are owls often associated with wisdom in mythology?', correctAnswer: 'Their nocturnal habits and watchful gaze', wrongAnswers: ['They can read ancient texts', 'They attended owl university', 'They wear tiny spectacles'] }
-    ], encounterRules: { time: ['night'], weather: ['clear'] }, masteryPerk: { id: 'night-vision', name: 'Night Vision', description: 'Allows you to find some daytime creatures at night.' } },
-    { id: 'rain_frog', name: 'Rain Frog', emoji: '🐸', rarity: 'uncommon', habitat: 'ground', quizPool: [
-        { question: 'Where do many frog species lay their eggs?', correctAnswer: 'In water', wrongAnswers: ['In trees', 'In deserts', 'In nests made of twigs'] },
-        { question: 'How do frogs drink water?', correctAnswer: 'They absorb it through their skin', wrongAnswers: ['They use a long tongue', 'They only drink morning dew', 'They don\'t need water'] },
-        { question: 'What is the study of amphibians and reptiles called?', correctAnswer: 'Herpetology', wrongAnswers: ['Ornithology', 'Ichthyology', 'Frogology'] },
-        { question: 'A frog\'s call is unique to its...', correctAnswer: 'Species', wrongAnswers: ['Mood', 'Favorite color', 'Astrological sign'] },
-        { question: 'What is a "tadpole"?', correctAnswer: 'A larval frog', wrongAnswers: ['A type of fish', 'A very small toad', 'A frog\'s nickname'] },
-        { question: 'A frog\'s slimy skin is crucial for what function?', correctAnswer: 'Respiration (breathing)', wrongAnswers: ['Hearing', 'Seeing in the dark', 'Digesting food'] },
-        { question: 'What does the term "cold-blooded" mean for a frog?', correctAnswer: 'Its body temperature matches its environment', wrongAnswers: ['It has ice in its veins', 'It prefers winter', 'It is unfriendly'] },
-        { question: 'Some frog species can survive being frozen solid. How?', correctAnswer: 'High glucose in their organs acts as antifreeze', wrongAnswers: ['They wrap in a thick blanket of leaves', 'They shiver very, very fast', 'They have a tiny internal furnace'] }
-    ], encounterRules: { time: ['day', 'night'], weather: ['rainy'] }, masteryPerk: { id: 'rain-resistance', name: 'Rain Resistance', description: 'Allows you to find some clear-weather creatures in the rain.' } },
-    { id: 'firefly', name: 'Firefly', emoji: '✨', rarity: 'rare', habitat: 'sky', quizPool: [
-        { question: 'How do fireflies produce light?', correctAnswer: 'Bioluminescence', wrongAnswers: ['They swallow tiny light bulbs', 'Static electricity', 'Reflecting moonlight'] },
-        { question: 'What is the main purpose of a firefly\'s light?', correctAnswer: 'To attract mates', wrongAnswers: ['To see in the dark', 'To scare predators', 'To charge their phones'] },
-        { question: 'Are fireflies a type of fly?', correctAnswer: 'No, they are beetles', wrongAnswers: ['Yes, a type of housefly', 'They are related to moths', 'They are a type of mosquito'] },
-        { question: 'The light produced by a firefly is called...', correctAnswer: 'Cold light', wrongAnswers: ['Hot light', 'Sparkle light', 'Flashy light'] },
-        { question: 'What do firefly larvae often eat?', correctAnswer: 'Snails and slugs', wrongAnswers: ['Leaves and nectar', 'Tiny rocks', 'Moonbeams'] },
-        { question: 'What time of year are fireflies most commonly seen?', correctAnswer: 'Early summer', wrongAnswers: ['Deep winter', 'The first day of spring', 'Only on Halloween'] },
-        { question: 'Do all fireflies glow?', correctAnswer: 'No, some species do not light up', wrongAnswers: ['Yes, every single one', 'Only the males', 'Only the females'] },
-        { question: 'A firefly\'s light is extremely efficient, losing very little energy as...', correctAnswer: 'Heat', wrongAnswers: ['Sound', 'Electricity', 'Mass'] }
-    ], encounterRules: { time: ['night'], weather: ['clear'] }, masteryPerk: { id: 'biolight-attractor', name: 'Biolight Attractor', description: 'Slightly increases the encounter rate at night.' } },
+    { id: 'onca_pintada', name: 'Onça-pintada', emoji: '🐆', rarity: 'rare', habitat: 'ground', quizPool: [
+        { question: 'Qual é o maior felino das Américas?', correctAnswer: 'Onça-pintada', wrongAnswers: ['Leão', 'Tigre', 'Puma'] },
+        { question: 'Como a onça-pintada caça suas presas?', correctAnswer: 'Mordida no crânio', wrongAnswers: ['Estrangulamento', 'Perseguição longa', 'Armadilhas'] },
+        { question: 'Qual é o habitat preferido da onça-pintada?', correctAnswer: 'Floresta densa', wrongAnswers: ['Deserto', 'Pradaria', 'Montanha'] },
+        { question: 'A onça-pintada é um animal...', correctAnswer: 'Solitary', wrongAnswers: ['Social', 'Migratório', 'Aquático'] },
+        { question: 'Qual é a principal ameaça à onça-pintada?', correctAnswer: 'Perda de habitat', wrongAnswers: ['Caça excessiva', 'Doenças', 'Mudanças climáticas'] },
+        { question: 'Como a onça-pintada marca seu território?', correctAnswer: 'Arranhando árvores', wrongAnswers: ['Construindo ninhos', 'Fazendo sons', 'Plantando árvores'] },
+        { question: 'Qual é a velocidade máxima da onça-pintada?', correctAnswer: '80 km/h', wrongAnswers: ['120 km/h', '60 km/h', '100 km/h'] },
+        { question: 'A onça-pintada é considerada...', correctAnswer: 'Espécie bandeira', wrongAnswers: ['Espécie invasora', 'Espécie comum', 'Espécie doméstica'] }
+    ], encounterRules: { time: ['day', 'night'], weather: ['clear'] }, masteryPerk: { id: 'predator-instinct', name: 'Predator Instinct', description: 'Increases encounter rate with rare species.' } },
+    
+    { id: 'mico_leao_dourado', name: 'Mico-leão-dourado', emoji: '🦁', rarity: 'rare', habitat: 'sky', quizPool: [
+        { question: 'Onde vive o mico-leão-dourado?', correctAnswer: 'Mata Atlântica', wrongAnswers: ['Amazônia', 'Cerrado', 'Caatinga'] },
+        { question: 'Qual é a cor característica do mico-leão-dourado?', correctAnswer: 'Dourado', wrongAnswers: ['Prateado', 'Marrom', 'Preto'] },
+        { question: 'O mico-leão-dourado é...', correctAnswer: 'Endêmico do Brasil', wrongAnswers: ['Encontrado em toda América', 'Originário da África', 'Espécie invasora'] },
+        { question: 'Qual é a dieta do mico-leão-dourado?', correctAnswer: 'Frutas e insetos', wrongAnswers: ['Apenas folhas', 'Apenas carne', 'Apenas sementes'] },
+        { question: 'Como o mico-leão-dourado se comunica?', correctAnswer: 'Vocalizações', wrongAnswers: ['Gestos', 'Mudanças de cor', 'Telepatia'] },
+        { question: 'Qual é o status de conservação do mico-leão-dourado?', correctAnswer: 'Em perigo', wrongAnswers: ['Extinto', 'Seguro', 'Vulnerável'] },
+        { question: 'O mico-leão-dourado vive em...', correctAnswer: 'Grupos familiares', wrongAnswers: ['Isolamento', 'Grandes bandos', 'Casais'] },
+        { question: 'Qual é a principal ameaça ao mico-leão-dourado?', correctAnswer: 'Fragmentação florestal', wrongAnswers: ['Caça', 'Poluição', 'Mudanças climáticas'] }
+    ], encounterRules: { time: ['day'], weather: ['clear'] }, masteryPerk: { id: 'canopy-vision', name: 'Canopy Vision', description: 'Increases chance of finding tree-dwelling species.' } },
+    
+    { id: 'tucano_toco', name: 'Tucano-toco', emoji: '🦜', rarity: 'common', habitat: 'sky', quizPool: [
+        { question: 'Qual é a característica mais marcante do tucano?', correctAnswer: 'Bico colorido', wrongAnswers: ['Asas grandes', 'Pernas longas', 'Olhos grandes'] },
+        { question: 'O que o tucano come?', correctAnswer: 'Frutas e insetos', wrongAnswers: ['Apenas carne', 'Apenas sementes', 'Apenas néctar'] },
+        { question: 'Como o tucano usa seu bico?', correctAnswer: 'Para regular temperatura', wrongAnswers: ['Apenas para comer', 'Para voar', 'Para nadar'] },
+        { question: 'O tucano é um pássaro...', correctAnswer: 'Arborícola', wrongAnswers: ['Aquático', 'Terrestre', 'Subterrâneo'] },
+        { question: 'Qual é o som característico do tucano?', correctAnswer: 'Croak grave', wrongAnswers: ['Canto melodioso', 'Silêncio', 'Assobio'] },
+        { question: 'O tucano constrói ninhos em...', correctAnswer: 'Ocos de árvores', wrongAnswers: ['No chão', 'Em arbustos', 'Em rochas'] },
+        { question: 'Quantos ovos o tucano geralmente põe?', correctAnswer: '2-4 ovos', wrongAnswers: ['1 ovo', '6-8 ovos', '10-12 ovos'] },
+        { question: 'O tucano é importante para...', correctAnswer: 'Dispersão de sementes', wrongAnswers: ['Polinização', 'Controle de pragas', 'Limpeza do solo'] }
+    ], encounterRules: { time: ['day'], weather: ['clear'] }, masteryPerk: { id: 'fruit-finder', name: 'Fruit Finder', description: 'Increases chance of finding fruit-eating species.' } },
+    
+    { id: 'capivara', name: 'Capivara', emoji: '🐹', rarity: 'common', habitat: 'ground', quizPool: [
+        { question: 'Qual é o maior roedor do mundo?', correctAnswer: 'Capivara', wrongAnswers: ['Castor', 'Porco-espinho', 'Rato'] },
+        { question: 'Onde a capivara gosta de viver?', correctAnswer: 'Próximo à água', wrongAnswers: ['No deserto', 'Nas montanhas', 'No oceano'] },
+        { question: 'A capivara é um animal...', correctAnswer: 'Semi-aquático', wrongAnswers: ['Terrestre', 'Voador', 'Subterrâneo'] },
+        { question: 'Como a capivara se refresca?', correctAnswer: 'Nadando', wrongAnswers: ['Suando', 'Respirando rápido', 'Tremendo'] },
+        { question: 'Qual é a dieta da capivara?', correctAnswer: 'Plantas aquáticas', wrongAnswers: ['Carne', 'Insetos', 'Sementes'] },
+        { question: 'A capivara vive em...', correctAnswer: 'Grupos familiares', wrongAnswers: ['Isolamento', 'Grandes bandos', 'Casais'] },
+        { question: 'Qual é o predador natural da capivara?', correctAnswer: 'Onça-pintada', wrongAnswers: ['Águia', 'Cobra', 'Peixe'] },
+        { question: 'A capivara é conhecida por ser...', correctAnswer: 'Muito social', wrongAnswers: ['Agressiva', 'Timida', 'Solitary'] }
+    ], encounterRules: { time: ['day'], weather: ['clear', 'rainy'] }, masteryPerk: { id: 'water-sense', name: 'Water Sense', description: 'Increases chance of finding water-dependent species.' } },
+    
+    { id: 'sagui', name: 'Sagui', emoji: '🐒', rarity: 'uncommon', habitat: 'sky', quizPool: [
+        { question: 'O sagui é um tipo de...', correctAnswer: 'Primata', wrongAnswers: ['Roedor', 'Ave', 'Réptil'] },
+        { question: 'Qual é o tamanho do sagui?', correctAnswer: 'Muito pequeno', wrongAnswers: ['Grande', 'Médio', 'Enorme'] },
+        { question: 'O sagui se alimenta principalmente de...', correctAnswer: 'Goma de árvores', wrongAnswers: ['Carne', 'Folhas', 'Sementes'] },
+        { question: 'Como o sagui se move?', correctAnswer: 'Saltando entre galhos', wrongAnswers: ['Correndo no chão', 'Nadando', 'Voando'] },
+        { question: 'O sagui vive em...', correctAnswer: 'Grupos pequenos', wrongAnswers: ['Isolamento', 'Grandes bandos', 'Casais'] },
+        { question: 'Qual é a característica do sagui?', correctAnswer: 'Garras afiadas', wrongAnswers: ['Asas', 'Escamas', 'Chifres'] },
+        { question: 'O sagui é encontrado em...', correctAnswer: 'Mata Atlântica', wrongAnswers: ['Deserto', 'Tundra', 'Oceano'] },
+        { question: 'O sagui é importante para...', correctAnswer: 'Polinização', wrongAnswers: ['Controle de pragas', 'Dispersão de sementes', 'Limpeza do solo'] }
+    ], encounterRules: { time: ['day'], weather: ['clear'] }, masteryPerk: { id: 'tree-climber', name: 'Tree Climber', description: 'Increases chance of finding arboreal species.' } },
+    
+    { id: 'beija_flor', name: 'Beija-flor', emoji: '🐦', rarity: 'uncommon', habitat: 'sky', quizPool: [
+        { question: 'Como o beija-flor voa?', correctAnswer: 'Bate as asas muito rápido', wrongAnswers: ['Planando', 'Com vento', 'Com motor'] },
+        { question: 'O que o beija-flor come?', correctAnswer: 'Néctar das flores', wrongAnswers: ['Sementes', 'Insetos', 'Carne'] },
+        { question: 'O beija-flor pode voar...', correctAnswer: 'Para trás', wrongAnswers: ['Apenas para frente', 'Apenas para cima', 'Apenas para baixo'] },
+        { question: 'Qual é a velocidade do batimento das asas do beija-flor?', correctAnswer: '80 vezes por segundo', wrongAnswers: ['20 vezes por segundo', '120 vezes por segundo', '40 vezes por segundo'] },
+        { question: 'O beija-flor é importante para...', correctAnswer: 'Polinização', wrongAnswers: ['Controle de pragas', 'Dispersão de sementes', 'Limpeza do solo'] },
+        { question: 'O beija-flor constrói ninhos com...', correctAnswer: 'Teias de aranha', wrongAnswers: ['Gravetos', 'Barro', 'Pedras'] },
+        { question: 'Quantos ovos o beija-flor põe?', correctAnswer: '1-2 ovos', wrongAnswers: ['3-4 ovos', '5-6 ovos', '7-8 ovos'] },
+        { question: 'O beija-flor é encontrado em...', correctAnswer: 'Américas', wrongAnswers: ['Europa', 'Ásia', 'África'] }
+    ], encounterRules: { time: ['day'], weather: ['clear'] }, masteryPerk: { id: 'nectar-seeker', name: 'Nectar Seeker', description: 'Increases chance of finding flower-dependent species.' } }
 ];
 
 // ===================== COMPONENTS =====================
@@ -70,10 +97,99 @@ const selectByRarity = (speciesPool) => {
     }
     return speciesPool[speciesPool.length - 1];
 };
-const EcoLogComponent = ({ ecoLog, onBack }) => ( <div className="screen-container"> <h1>Eco-Log</h1> <p style={{ textAlign: 'center', color: 'var(--light-text)', maxWidth: '600px', marginBottom: '2rem' }}>This catalog tracks all the species you have discovered. Max out their research to unlock perks.</p> <div className="screen-grid"> {speciesData.map(species => { const entry = ecoLog[species.id]; const isDiscovered = !!entry; return ( <div key={species.id} className={`card ${isDiscovered ? 'discovered' : 'undiscovered'}`}> <div className="emoji">{isDiscovered ? species.emoji : '❓'}</div> <h3>{isDiscovered ? species.name : 'Undiscovered'}</h3> {isDiscovered ? ( <> <p>Level: {entry.researchLevel} / {MAX_RESEARCH_LEVEL}</p> <p>Rarity: {species.rarity}</p> <div className="xp-bar-container" title={`XP: ${entry.researchXp} / ${XP_PER_LEVEL}`}> <div className="xp-bar-fill" style={{ width: `${(entry.researchXp / XP_PER_LEVEL) * 100}%` }}></div> </div> </> ) : ( <p>Keep exploring to find this species.</p> )} </div> ); })} </div> <button className="secondary-button" onClick={onBack} style={{ marginTop: '2rem' }}>Back</button> </div> );
-const PerksScreen = ({ unlockedPerks, onBack }) => ( <div className="screen-container"> <h1>Mastery Perks</h1> <p style={{ textAlign: 'center', color: 'var(--light-text)', maxWidth: '600px', marginBottom: '2rem' }}>These passive skills are earned by mastering a species' research. They provide permanent advantages.</p> <div className="screen-grid"> {speciesData.map(species => { const perk = species.masteryPerk; const isUnlocked = unlockedPerks.includes(perk.id); return ( <div key={perk.id} className={`card ${isUnlocked ? 'unlocked' : 'locked'}`}> <div className="emoji">{isUnlocked ? species.emoji : '🔒'}</div> <h3>{perk.name}</h3> <p className="description">{perk.description}</p> {!isUnlocked && <p>Master the {species.name} to unlock.</p>} </div> ); })} </div> <button className="secondary-button" onClick={onBack} style={{ marginTop: '2rem' }}>Back</button> </div> );
-const ResultModal = ({ message, onClose }) => ( <div className="modal-overlay" onClick={onClose}> <div className="modal-content" onClick={(e) => e.stopPropagation()}> <h2>{message}</h2> <button className="explore-button" onClick={onClose} style={{marginTop: '1rem'}}>OK</button> </div> </div> );
-const EncounterModal = ({ encounter, isRadiant, onLog, onRelease }) => ( <div className="modal-overlay"> <div className="modal-content"> <div className="emoji" style={{ filter: isRadiant ? 'drop-shadow(0 0 1rem #fde047)' : 'none' }}>{encounter.emoji}</div> <h2>A {isRadiant && 'Radiant '}{encounter.name} appeared!</h2> <p>What will you do?</p> <div className="button-group"> <button className="explore-button" onClick={onLog}>Log It</button> <button className="danger-button" onClick={onRelease}>Let It Go</button> </div> </div> </div> );
+const EcoLogComponent = ({ ecoLog, onBack }) => {
+    const { t, tNested } = useTranslation();
+    return (
+        <div className="screen-container">
+            <h1>{t('screens.ecoLog.title')}</h1>
+            <p style={{ textAlign: 'center', color: 'var(--light-text)', maxWidth: '600px', marginBottom: '2rem' }}>
+                {t('screens.ecoLog.description')}
+            </p>
+            <div className="screen-grid">
+                {speciesData.map(species => {
+                    const entry = ecoLog[species.id];
+                    const isDiscovered = !!entry;
+                    const speciesName = tNested(`species.${species.id}.name`) || species.name;
+                    return (
+                        <div key={species.id} className={`card ${isDiscovered ? 'discovered' : 'undiscovered'}`}>
+                            <div className="emoji">{isDiscovered ? species.emoji : '❓'}</div>
+                            <h3>{isDiscovered ? speciesName : t('gameUI.undiscovered')}</h3>
+                            {isDiscovered ? (
+                                <>
+                                    <p>{t('gameUI.level')}: {entry.researchLevel} / {MAX_RESEARCH_LEVEL}</p>
+                                    <p>{t('gameUI.rarity')}: {species.rarity}</p>
+                                    <div className="xp-bar-container" title={`XP: ${entry.researchXp} / ${XP_PER_LEVEL}`}>
+                                        <div className="xp-bar-fill" style={{ width: `${(entry.researchXp / XP_PER_LEVEL) * 100}%` }}></div>
+                                    </div>
+                                </>
+                            ) : (
+                                <p>{t('gameUI.keepExploring')}</p>
+                            )}
+                        </div>
+                    );
+                })}
+            </div>
+            <button className="secondary-button" onClick={onBack} style={{ marginTop: '2rem' }}>{t('gameUI.back')}</button>
+        </div>
+    );
+};
+const PerksScreen = ({ unlockedPerks, onBack }) => {
+    const { t, tNested } = useTranslation();
+    return (
+        <div className="screen-container">
+            <h1>{t('screens.perks.title')}</h1>
+            <p style={{ textAlign: 'center', color: 'var(--light-text)', maxWidth: '600px', marginBottom: '2rem' }}>
+                {t('screens.perks.description')}
+            </p>
+            <div className="screen-grid">
+                {speciesData.map(species => {
+                    const perk = species.masteryPerk;
+                    const isUnlocked = unlockedPerks.includes(perk.id);
+                    const perkName = tNested(`perks.${perk.id}.name`) || perk.name;
+                    const perkDescription = tNested(`perks.${perk.id}.description`) || perk.description;
+                    const speciesName = tNested(`species.${species.id}.name`) || species.name;
+                    return (
+                        <div key={perk.id} className={`card ${isUnlocked ? 'unlocked' : 'locked'}`}>
+                            <div className="emoji">{isUnlocked ? species.emoji : '🔒'}</div>
+                            <h3>{perkName}</h3>
+                            <p className="description">{perkDescription}</p>
+                            {!isUnlocked && <p>{t('gameUI.masterToUnlock')} {speciesName} {t('gameUI.to unlock')}</p>}
+                        </div>
+                    );
+                })}
+            </div>
+            <button className="secondary-button" onClick={onBack} style={{ marginTop: '2rem' }}>{t('gameUI.back')}</button>
+        </div>
+    );
+};
+const ResultModal = ({ message, onClose }) => {
+    const { t } = useTranslation();
+    return (
+        <div className="modal-overlay" onClick={onClose}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <h2>{message}</h2>
+                <button className="explore-button" onClick={onClose} style={{marginTop: '1rem'}}>{t('gameUI.ok')}</button>
+            </div>
+        </div>
+    );
+};
+const EncounterModal = ({ encounter, isRadiant, onLog, onRelease }) => {
+    const { t, tNested } = useTranslation();
+    const speciesName = tNested(`species.${encounter.id}.name`) || encounter.name;
+    return (
+        <div className="modal-overlay">
+            <div className="modal-content">
+                <div className="emoji" style={{ filter: isRadiant ? 'drop-shadow(0 0 1rem #fde047)' : 'none' }}>{encounter.emoji}</div>
+                <h2>A {isRadiant && 'Radiant '}{speciesName} {t('gameUI.appeared')}</h2>
+                <p>{t('gameUI.whatWillYouDo')}</p>
+                <div className="button-group">
+                    <button className="explore-button" onClick={onLog}>{t('gameUI.logIt')}</button>
+                    <button className="danger-button" onClick={onRelease}>{t('gameUI.letItGo')}</button>
+                </div>
+            </div>
+        </div>
+    );
+};
 const QuizModal = ({ species, onResult }) => { const quizItem = useMemo(() => species.quizPool[Math.floor(Math.random() * species.quizPool.length)], [species]); const shuffledAnswers = useMemo(() => [quizItem.correctAnswer, ...quizItem.wrongAnswers].sort(() => Math.random() - 0.5), [quizItem]); return ( <div className="modal-overlay"> <div className="modal-content"> <div className="emoji">{species.emoji}</div> <h2>{quizItem.question}</h2> <div className="quiz-options"> {shuffledAnswers.map(answer => ( <button key={answer} className="quiz-option-btn" onClick={() => onResult(answer === quizItem.correctAnswer)}> {answer} </button> ))} </div> </div> </div> ); };
 const ARStarfield = ({ numStars, isVisible }) => { const stars = useMemo(() => Array.from({ length: numStars }).map((_, i) => { const size = Math.random() * 2 + 1; const style = { width: `${size}px`, height: `${size}px`, top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 5}s`, }; return <div key={i} className="star" style={style}></div>; }), [numStars]); return <div className="ar-starfield" style={{ opacity: isVisible ? 1 : 0 }}>{stars}</div>; };
 const Constellation = ({ constellation }) => { if (!constellation) return null; return ( <div className="constellation" style={{ top: `${constellation.y}px`, left: `${constellation.x}px` }}> <div className="constellation-emoji">{constellation.species.emoji}</div> </div> ); };
@@ -83,6 +199,7 @@ const LightingOverlay = ({ time }) => { return <div className={`visual-overlay $
 
 // ===================== MAIN APP =====================
 export default function App() {
+    const { t, tNested } = useTranslation();
     const [currentScreen, setCurrentScreen] = useState('explore');
     const [playerState, setPlayerState] = useState({ gameTime: 'day', weather: 'clear', unlockedPerks: [] });
     const [ecoLog, setEcoLog] = useState({});
@@ -118,7 +235,9 @@ export default function App() {
                 const perkId = species.masteryPerk.id;
                 if (!playerState.unlockedPerks.includes(perkId)) {
                     setTimeout(() => {
-                        setResultMessage(`Mastery! You learned '${species.masteryPerk.name}'.`);
+                        const { t, tNested } = useTranslation();
+                        const perkName = tNested(`perks.${species.masteryPerk.id}.name`) || species.masteryPerk.name;
+                        setResultMessage(`${t('gameUI.mastery')} ${t('gameUI.youLearned')} '${perkName}'.`);
                         setModalState(s => ({ ...s, result: true }));
                         setPlayerState(p => ({...p, unlockedPerks: [...p.unlockedPerks, perkId]}));
                     }, 500);
@@ -207,7 +326,7 @@ export default function App() {
             if (isFocusing) {
                 setIsFocusing(false);
                 setHotspot(null);
-                setLastEncounterMessage("No dominant bio-signatures found.");
+                setLastEncounterMessage(t('gameUI.noBioSignatures'));
             }
         }, FOCUS_TIMEOUT);
         const currentScannerWindow = scannerWindowRef.current;
@@ -218,11 +337,51 @@ export default function App() {
         };
     }, [isFocusing, hotspot, playerState.unlockedPerks]);
 
-    const handleGameResult = (wasSuccessful) => { setResultMessage(""); if (wasSuccessful) { const xpGain = isRadiantEncounter ? XP_PER_ENCOUNTER * 5 : XP_PER_ENCOUNTER; grantXp(activeEncounter.id, xpGain); if (!resultMessage.includes("Mastery!")) { setResultMessage(`Success! ${activeEncounter.name} has been logged.`); setModalState({ encounter: false, quiz: false, result: true }); } } else { setResultMessage(`Oh no! The ${activeEncounter.name} fled...`); setModalState({ encounter: false, quiz: false, result: true }); } };
+    const handleGameResult = (wasSuccessful) => {
+        const { t, tNested } = useTranslation();
+        setResultMessage("");
+        if (wasSuccessful) {
+            const xpGain = isRadiantEncounter ? XP_PER_ENCOUNTER * 5 : XP_PER_ENCOUNTER;
+            grantXp(activeEncounter.id, xpGain);
+            if (!resultMessage.includes("Mastery!")) {
+                const speciesName = tNested(`species.${activeEncounter.id}.name`) || activeEncounter.name;
+                setResultMessage(`${t('gameUI.success')} ${speciesName} ${t('gameUI.hasBeenLogged')}`);
+                setModalState({ encounter: false, quiz: false, result: true });
+            }
+        } else {
+            const speciesName = tNested(`species.${activeEncounter.id}.name`) || activeEncounter.name;
+            setResultMessage(`${t('gameUI.ohNo')} ${speciesName} ${t('gameUI.fled')}`);
+            setModalState({ encounter: false, quiz: false, result: true });
+        }
+    };
 
     return (
         <>
             <div className="app-container">
+                <div className="header">
+                    <div className="header-left">
+                        <div className="logo-section">
+                            <div className="logo-icon">🌿</div>
+                            <div className="logo-text">
+                                <h1>{t('appTitle')}</h1>
+                                <h2>{t('subtitle')}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="header-right">
+                        <div className="status-indicators">
+                            <div className="status-item">
+                                <span className="status-icon">🌍</span>
+                                <span className="status-text">Itatiaia NP</span>
+                            </div>
+                            <div className="status-item">
+                                <span className="status-icon">🔬</span>
+                                <span className="status-text">Research Active</span>
+                            </div>
+                        </div>
+                        <LanguageSwitcher />
+                    </div>
+                </div>
                 <div className={`bio-scanner-window ${isFocusing ? 'focus-active' : ''}`} ref={scannerWindowRef}>
                     <div className={`image-layer ${playerState.gameTime === 'day' ? 'animated-background' : ''}`} style={{ backgroundImage: `url(${IMAGE_ASSETS.day})`, opacity: playerState.gameTime === 'day' ? 1 : 0 }}></div>
                     <div className={`image-layer ${playerState.gameTime === 'night' ? 'animated-background' : ''}`} style={{ backgroundImage: `url(${IMAGE_ASSETS.night})`, opacity: playerState.gameTime === 'night' ? 1 : 0 }}></div>
@@ -238,12 +397,12 @@ export default function App() {
                                 <div className="radar-grid"></div>
                                 <div className="radar-sweep"></div>
                             </div>
-                            <p className="exploration-text">Scanning Biome...</p>
+                            <p className="exploration-text">{t('discoveringText')}</p>
                         </div>
                     )}
                     <div className="game-status">
-                        <p>Time: {playerState.gameTime.charAt(0).toUpperCase() + playerState.gameTime.slice(1)}</p>
-                        <p>Weather: {playerState.weather.charAt(0).toUpperCase() + playerState.weather.slice(1)}</p>
+                        <p>{t('gameUI.time')}: {playerState.gameTime.charAt(0).toUpperCase() + playerState.gameTime.slice(1)}</p>
+                        <p>{t('gameUI.weather')}: {playerState.weather.charAt(0).toUpperCase() + playerState.weather.slice(1)}</p>
                     </div>
                 </div>
                 <div className="control-panel">
@@ -251,12 +410,12 @@ export default function App() {
                         <>
                             <div className="button-group">
                                 <button className="explore-button" onClick={handleAnalyzeBiome} disabled={isScanning || isFocusing}>
-                                    {isScanning ? 'Scanning...' : isFocusing ? 'Focusing...' : 'Analyze Biome'}
+                                    {isScanning ? t('gameUI.scanningBiome') : isFocusing ? t('gameUI.focusing') : t('exploreButton')}
                                 </button>
                             </div>
                             <div className="button-group">
-                                <button className="secondary-button" onClick={() => setCurrentScreen('ecoLog')}>View Eco-Log</button>
-                                <button className="secondary-button" onClick={() => setCurrentScreen('perks')}>View Perks</button>
+                                <button className="secondary-button" onClick={() => setCurrentScreen('ecoLog')}>{t('gameUI.viewEcoLog')}</button>
+                                <button className="secondary-button" onClick={() => setCurrentScreen('perks')}>{t('gameUI.viewPerks')}</button>
                             </div>
                             {lastEncounterMessage && <p style={{ color: 'var(--light-text)', marginTop: '1rem' }}>{lastEncounterMessage}</p>}
                         </>

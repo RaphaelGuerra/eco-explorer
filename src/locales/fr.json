@@ -1,0 +1,123 @@
+{
+  "pageTitle": "Éco-Explorateur: Sanctuaire Naturel d'Itatiaia",
+  "appTitle": "Éco-Explorateur",
+  "subtitle": "Sanctuaire Naturel d'Itatiaia",
+  "exploreButton": "Explorer",
+  "discoveringText": "Découverte...",
+  "foundClueText": "Indice trouvé !",
+  "clueTypes": {
+    "animal": "Trace d'Animal",
+    "plant": "Plante Rare",
+    "water": "Source d'Eau",
+    "mineral": "Dépôt Minéral",
+    "bird": "Nid d'Oiseau",
+    "insect": "Colonie d'Insectes"
+  },
+  "clueDescriptions": {
+    "animal": "Vous avez trouvé des traces d'animaux fraîches ! Cela pourrait mener à une observation de la faune.",
+    "plant": "Une espèce de plante rare ! Cette découverte aide à cartographier l'écosystème.",
+    "water": "Une source d'eau naturelle ! Essentielle pour la faune du sanctuaire.",
+    "mineral": "Formation minérale intéressante ! La géologie ici est fascinante.",
+    "bird": "Un nid d'oiseau ! Écoutez les sons des espèces d'oiseaux locales.",
+    "insect": "Une colonie d'insectes ! Ces minuscules créatures sont vitales pour l'écosystème."
+  },
+  "stats": {
+    "cluesFound": "Indices Trouvés",
+    "explorations": "Explorations",
+    "discoveryRate": "Taux de Découverte"
+  },
+  "footer": {
+    "description": "Un jeu éducatif d'exploration naturelle dans le Parc National d'Itatiaia au Brésil",
+    "madeWith": "Fait avec ❤️ pour les amoureux de la nature"
+  },
+  "gameUI": {
+    "viewEcoLog": "Voir Eco-Log",
+    "viewPerks": "Voir Perks",
+    "back": "Retour",
+    "ok": "OK",
+    "logIt": "Enregistrer",
+    "letItGo": "Laisser Partir",
+    "appeared": "est apparu !",
+    "whatWillYouDo": "Que ferez-vous ?",
+    "success": "Succès !",
+    "hasBeenLogged": "a été enregistré.",
+    "ohNo": "Oh non !",
+    "fled": "s'est enfui...",
+    "mastery": "Maîtrise !",
+    "youLearned": "Vous avez appris",
+    "noBioSignatures": "Aucune bio-signature dominante trouvée.",
+    "scanningBiome": "Scan du Biome...",
+    "focusing": "Focus...",
+    "analyzeBiome": "Analyser le Biome",
+    "time": "Temps",
+    "weather": "Météo",
+    "level": "Niveau",
+    "rarity": "Rareté",
+    "undiscovered": "Non Découvert",
+    "keepExploring": "Continuez à explorer pour trouver cette espèce.",
+    "masterToUnlock": "Maîtrisez le",
+    "to unlock": "pour débloquer."
+  },
+  "species": {
+    "onca_pintada": {
+      "name": "Jaguar",
+      "description": "Le plus grand félin des Amériques"
+    },
+    "mico_leao_dourado": {
+      "name": "Tamarin-lion doré",
+      "description": "Primate en danger endémique du Brésil"
+    },
+    "tucano_toco": {
+      "name": "Toucan toco",
+      "description": "Oiseau emblématique au bec coloré"
+    },
+    "capivara": {
+      "name": "Capybara",
+      "description": "Plus grand rongeur du monde"
+    },
+    "sagui": {
+      "name": "Ouistiti",
+      "description": "Petit primate arboricole"
+    },
+    "beija_flor": {
+      "name": "Colibri",
+      "description": "Mangeur de nectar volant rapidement"
+    }
+  },
+  "perks": {
+    "predator-instinct": {
+      "name": "Instinct de Prédateur",
+      "description": "Augmente le taux de rencontre avec les espèces rares."
+    },
+    "canopy-vision": {
+      "name": "Vision de la Canopée",
+      "description": "Augmente la chance de trouver des espèces arboricoles."
+    },
+    "fruit-finder": {
+      "name": "Chercheur de Fruits",
+      "description": "Augmente la chance de trouver des espèces frugivores."
+    },
+    "water-sense": {
+      "name": "Sens de l'Eau",
+      "description": "Augmente la chance de trouver des espèces dépendantes de l'eau."
+    },
+    "tree-climber": {
+      "name": "Grimpeur d'Arbres",
+      "description": "Augmente la chance de trouver des espèces arboricoles."
+    },
+    "nectar-seeker": {
+      "name": "Chercheur de Nectar",
+      "description": "Augmente la chance de trouver des espèces dépendantes des fleurs."
+    }
+  },
+  "screens": {
+    "ecoLog": {
+      "title": "Eco-Log",
+      "description": "Ce catalogue suit toutes les espèces que vous avez découvertes. Maximisez leur recherche pour débloquer des perks."
+    },
+    "perks": {
+      "title": "Perks de Maîtrise",
+      "description": "Ces compétences passives sont gagnées en maîtrisant la recherche d'une espèce. Elles fournissent des avantages permanents."
+    }
+  }
+} 

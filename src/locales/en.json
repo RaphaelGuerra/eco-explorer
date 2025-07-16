@@ -1,0 +1,123 @@
+{
+  "pageTitle": "Eco-Explorer: Itatiaia Nature Sanctuary",
+  "appTitle": "Eco-Explorer",
+  "subtitle": "Itatiaia Nature Sanctuary",
+  "exploreButton": "Explore",
+  "discoveringText": "Discovering...",
+  "foundClueText": "Found a clue!",
+  "clueTypes": {
+    "animal": "Animal Track",
+    "plant": "Rare Plant",
+    "water": "Water Source",
+    "mineral": "Mineral Deposit",
+    "bird": "Bird Nest",
+    "insect": "Insect Colony"
+  },
+  "clueDescriptions": {
+    "animal": "You found fresh animal tracks! This could lead to a wildlife sighting.",
+    "plant": "A rare plant species! This discovery helps map the ecosystem.",
+    "water": "A natural water source! Essential for wildlife in the sanctuary.",
+    "mineral": "Interesting mineral formation! The geology here is fascinating.",
+    "bird": "A bird's nest! Listen for the sounds of local bird species.",
+    "insect": "An insect colony! These tiny creatures are vital to the ecosystem."
+  },
+  "stats": {
+    "cluesFound": "Clues Found",
+    "explorations": "Explorations",
+    "discoveryRate": "Discovery Rate"
+  },
+  "footer": {
+    "description": "An educational nature exploration game set in Brazil's Itatiaia National Park",
+    "madeWith": "Made with ❤️ for nature lovers"
+  },
+  "gameUI": {
+    "viewEcoLog": "View Eco-Log",
+    "viewPerks": "View Perks",
+    "back": "Back",
+    "ok": "OK",
+    "logIt": "Log It",
+    "letItGo": "Let It Go",
+    "appeared": "appeared!",
+    "whatWillYouDo": "What will you do?",
+    "success": "Success!",
+    "hasBeenLogged": "has been logged.",
+    "ohNo": "Oh no!",
+    "fled": "fled...",
+    "mastery": "Mastery!",
+    "youLearned": "You learned",
+    "noBioSignatures": "No dominant bio-signatures found.",
+    "scanningBiome": "Scanning Biome...",
+    "focusing": "Focusing...",
+    "analyzeBiome": "Analyze Biome",
+    "time": "Time",
+    "weather": "Weather",
+    "level": "Level",
+    "rarity": "Rarity",
+    "undiscovered": "Undiscovered",
+    "keepExploring": "Keep exploring to find this species.",
+    "masterToUnlock": "Master the",
+    "to unlock": "to unlock."
+  },
+  "species": {
+    "onca_pintada": {
+      "name": "Jaguar",
+      "description": "The largest feline in the Americas"
+    },
+    "mico_leao_dourado": {
+      "name": "Golden Lion Tamarin",
+      "description": "Endangered primate endemic to Brazil"
+    },
+    "tucano_toco": {
+      "name": "Toco Toucan",
+      "description": "Iconic bird with colorful beak"
+    },
+    "capivara": {
+      "name": "Capybara",
+      "description": "World's largest rodent"
+    },
+    "sagui": {
+      "name": "Marmoset",
+      "description": "Small tree-dwelling primate"
+    },
+    "beija_flor": {
+      "name": "Hummingbird",
+      "description": "Fast-flying nectar feeder"
+    }
+  },
+  "perks": {
+    "predator-instinct": {
+      "name": "Predator Instinct",
+      "description": "Increases encounter rate with rare species."
+    },
+    "canopy-vision": {
+      "name": "Canopy Vision",
+      "description": "Increases chance of finding tree-dwelling species."
+    },
+    "fruit-finder": {
+      "name": "Fruit Finder",
+      "description": "Increases chance of finding fruit-eating species."
+    },
+    "water-sense": {
+      "name": "Water Sense",
+      "description": "Increases chance of finding water-dependent species."
+    },
+    "tree-climber": {
+      "name": "Tree Climber",
+      "description": "Increases chance of finding arboreal species."
+    },
+    "nectar-seeker": {
+      "name": "Nectar Seeker",
+      "description": "Increases chance of finding flower-dependent species."
+    }
+  },
+  "screens": {
+    "ecoLog": {
+      "title": "Eco-Log",
+      "description": "This catalog tracks all the species you have discovered. Max out their research to unlock perks."
+    },
+    "perks": {
+      "title": "Mastery Perks",
+      "description": "These passive skills are earned by mastering a species' research. They provide permanent advantages."
+    }
+  }
+} 

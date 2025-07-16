@@ -1,0 +1,123 @@
+{
+  "pageTitle": "Eco-Explorador: Santuario Natural de Itatiaia",
+  "appTitle": "Eco-Explorador",
+  "subtitle": "Santuario Natural de Itatiaia",
+  "exploreButton": "Explorar",
+  "discoveringText": "Descubriendo...",
+  "foundClueText": "¡Pista encontrada!",
+  "clueTypes": {
+    "animal": "Huella de Animal",
+    "plant": "Planta Rara",
+    "water": "Fuente de Agua",
+    "mineral": "Depósito Mineral",
+    "bird": "Nido de Ave",
+    "insect": "Colonia de Insectos"
+  },
+  "clueDescriptions": {
+    "animal": "¡Encontraste huellas frescas de animales! Esto podría llevar a un avistamiento de vida silvestre.",
+    "plant": "¡Una especie de planta rara! Este descubrimiento ayuda a mapear el ecosistema.",
+    "water": "¡Una fuente de agua natural! Esencial para la vida silvestre en el santuario.",
+    "mineral": "¡Formación mineral interesante! La geología aquí es fascinante.",
+    "bird": "¡Un nido de ave! Escucha los sonidos de las especies de aves locales.",
+    "insect": "¡Una colonia de insectos! Estas pequeñas criaturas son vitales para el ecosistema."
+  },
+  "stats": {
+    "cluesFound": "Pistas Encontradas",
+    "explorations": "Exploraciones",
+    "discoveryRate": "Tasa de Descubrimiento"
+  },
+  "footer": {
+    "description": "Un juego educativo de exploración natural en el Parque Nacional de Itatiaia en Brasil",
+    "madeWith": "Hecho con ❤️ para amantes de la naturaleza"
+  },
+  "gameUI": {
+    "viewEcoLog": "Ver Eco-Log",
+    "viewPerks": "Ver Perks",
+    "back": "Atrás",
+    "ok": "OK",
+    "logIt": "Registrar",
+    "letItGo": "Dejar Ir",
+    "appeared": "¡apareció!",
+    "whatWillYouDo": "¿Qué harás?",
+    "success": "¡Éxito!",
+    "hasBeenLogged": "ha sido registrado.",
+    "ohNo": "¡Oh no!",
+    "fled": "huyó...",
+    "mastery": "¡Maestría!",
+    "youLearned": "Aprendiste",
+    "noBioSignatures": "No se encontraron bio-firmas dominantes.",
+    "scanningBiome": "Escaneando Bioma...",
+    "focusing": "Enfocando...",
+    "analyzeBiome": "Analizar Bioma",
+    "time": "Tiempo",
+    "weather": "Clima",
+    "level": "Nivel",
+    "rarity": "Rareza",
+    "undiscovered": "No Descubierto",
+    "keepExploring": "Sigue explorando para encontrar esta especie.",
+    "masterToUnlock": "Domina el",
+    "to unlock": "para desbloquear."
+  },
+  "species": {
+    "onca_pintada": {
+      "name": "Jaguar",
+      "description": "El felino más grande de las Américas"
+    },
+    "mico_leao_dourado": {
+      "name": "Tití León Dorado",
+      "description": "Primate en peligro endémico de Brasil"
+    },
+    "tucano_toco": {
+      "name": "Tucán Toco",
+      "description": "Ave icónica con pico colorido"
+    },
+    "capivara": {
+      "name": "Capibara",
+      "description": "Roedor más grande del mundo"
+    },
+    "sagui": {
+      "name": "Tití",
+      "description": "Pequeño primate arborícola"
+    },
+    "beija_flor": {
+      "name": "Colibrí",
+      "description": "Alimentador de néctar de vuelo rápido"
+    }
+  },
+  "perks": {
+    "predator-instinct": {
+      "name": "Instinto de Depredador",
+      "description": "Aumenta la tasa de encuentro con especies raras."
+    },
+    "canopy-vision": {
+      "name": "Visión del Dosel",
+      "description": "Aumenta la probabilidad de encontrar especies arbóreas."
+    },
+    "fruit-finder": {
+      "name": "Buscador de Frutas",
+      "description": "Aumenta la probabilidad de encontrar especies frugívoras."
+    },
+    "water-sense": {
+      "name": "Sentido del Agua",
+      "description": "Aumenta la probabilidad de encontrar especies dependientes del agua."
+    },
+    "tree-climber": {
+      "name": "Trepa Árboles",
+      "description": "Aumenta la probabilidad de encontrar especies arbóreas."
+    },
+    "nectar-seeker": {
+      "name": "Buscador de Néctar",
+      "description": "Aumenta la probabilidad de encontrar especies dependientes de flores."
+    }
+  },
+  "screens": {
+    "ecoLog": {
+      "title": "Eco-Log",
+      "description": "Este catálogo rastrea todas las especies que has descubierto. Maximiza su investigación para desbloquear perks."
+    },
+    "perks": {
+      "title": "Perks de Maestría",
+      "description": "Estas habilidades pasivas se obtienen dominando la investigación de una especie. Proporcionan ventajas permanentes."
+    }
+  }
+} 

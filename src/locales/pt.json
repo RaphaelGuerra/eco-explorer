@@ -1,0 +1,123 @@
+{
+  "pageTitle": "Eco-Explorador: Santuário Natural de Itatiaia",
+  "appTitle": "Eco-Explorador",
+  "subtitle": "Santuário Natural de Itatiaia",
+  "exploreButton": "Explorar",
+  "discoveringText": "Descobrindo...",
+  "foundClueText": "Pista encontrada!",
+  "clueTypes": {
+    "animal": "Pegada de Animal",
+    "plant": "Planta Rara",
+    "water": "Fonte de Água",
+    "mineral": "Depósito Mineral",
+    "bird": "Ninho de Pássaro",
+    "insect": "Colônia de Insetos"
+  },
+  "clueDescriptions": {
+    "animal": "Você encontrou pegadas frescas de animais! Isso pode levar a um avistamento de vida selvagem.",
+    "plant": "Uma espécie de planta rara! Esta descoberta ajuda a mapear o ecossistema.",
+    "water": "Uma fonte de água natural! Essencial para a vida selvagem no santuário.",
+    "mineral": "Formação mineral interessante! A geologia aqui é fascinante.",
+    "bird": "Um ninho de pássaro! Ouça os sons das espécies de pássaros locais.",
+    "insect": "Uma colônia de insetos! Essas pequenas criaturas são vitais para o ecossistema."
+  },
+  "stats": {
+    "cluesFound": "Pistas Encontradas",
+    "explorations": "Explorações",
+    "discoveryRate": "Taxa de Descoberta"
+  },
+  "footer": {
+    "description": "Um jogo educativo de exploração natural no Parque Nacional de Itatiaia no Brasil",
+    "madeWith": "Feito com ❤️ para amantes da natureza"
+  },
+  "gameUI": {
+    "viewEcoLog": "Ver Eco-Log",
+    "viewPerks": "Ver Perks",
+    "back": "Voltar",
+    "ok": "OK",
+    "logIt": "Registrar",
+    "letItGo": "Deixar Ir",
+    "appeared": "apareceu!",
+    "whatWillYouDo": "O que você fará?",
+    "success": "Sucesso!",
+    "hasBeenLogged": "foi registrado.",
+    "ohNo": "Oh não!",
+    "fled": "fugiu...",
+    "mastery": "Maestria!",
+    "youLearned": "Você aprendeu",
+    "noBioSignatures": "Nenhuma bioassinatura dominante encontrada.",
+    "scanningBiome": "Escaneando Bioma...",
+    "focusing": "Focando...",
+    "analyzeBiome": "Analisar Bioma",
+    "time": "Tempo",
+    "weather": "Clima",
+    "level": "Nível",
+    "rarity": "Raridade",
+    "undiscovered": "Não Descoberto",
+    "keepExploring": "Continue explorando para encontrar esta espécie.",
+    "masterToUnlock": "Domine o",
+    "to unlock": "para desbloquear."
+  },
+  "species": {
+    "onca_pintada": {
+      "name": "Onça-pintada",
+      "description": "O maior felino das Américas"
+    },
+    "mico_leao_dourado": {
+      "name": "Mico-leão-dourado",
+      "description": "Primata ameaçado endêmico do Brasil"
+    },
+    "tucano_toco": {
+      "name": "Tucano-toco",
+      "description": "Ave icônica com bico colorido"
+    },
+    "capivara": {
+      "name": "Capivara",
+      "description": "Maior roedor do mundo"
+    },
+    "sagui": {
+      "name": "Sagui",
+      "description": "Pequeno primata arborícola"
+    },
+    "beija_flor": {
+      "name": "Beija-flor",
+      "description": "Alimentador de néctar de voo rápido"
+    }
+  },
+  "perks": {
+    "predator-instinct": {
+      "name": "Instinto Predador",
+      "description": "Aumenta a taxa de encontro com espécies raras."
+    },
+    "canopy-vision": {
+      "name": "Visão do Dossel",
+      "description": "Aumenta a chance de encontrar espécies arborícolas."
+    },
+    "fruit-finder": {
+      "name": "Localizador de Frutas",
+      "description": "Aumenta a chance de encontrar espécies frugívoras."
+    },
+    "water-sense": {
+      "name": "Senso Aquático",
+      "description": "Aumenta a chance de encontrar espécies dependentes de água."
+    },
+    "tree-climber": {
+      "name": "Escalador de Árvores",
+      "description": "Aumenta a chance de encontrar espécies arbóreas."
+    },
+    "nectar-seeker": {
+      "name": "Buscador de Néctar",
+      "description": "Aumenta a chance de encontrar espécies dependentes de flores."
+    }
+  },
+  "screens": {
+    "ecoLog": {
+      "title": "Eco-Log",
+      "description": "Este catálogo rastreia todas as espécies que você descobriu. Maximize sua pesquisa para desbloquear perks."
+    },
+    "perks": {
+      "title": "Perks de Maestria",
+      "description": "Essas habilidades passivas são conquistadas dominando a pesquisa de uma espécie. Elas fornecem vantagens permanentes."
+    }
+  }
+} 
