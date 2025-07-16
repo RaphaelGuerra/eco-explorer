@@ -190,7 +190,44 @@ const EncounterModal = ({ encounter, isRadiant, onLog, onRelease }) => {
         </div>
     );
 };
-const QuizModal = ({ species, onResult }) => { const quizItem = useMemo(() => species.quizPool[Math.floor(Math.random() * species.quizPool.length)], [species]); const shuffledAnswers = useMemo(() => [quizItem.correctAnswer, ...quizItem.wrongAnswers].sort(() => Math.random() - 0.5), [quizItem]); return ( <div className="modal-overlay"> <div className="modal-content"> <div className="emoji">{species.emoji}</div> <h2>{quizItem.question}</h2> <div className="quiz-options"> {shuffledAnswers.map(answer => ( <button key={answer} className="quiz-option-btn" onClick={() => onResult(answer === quizItem.correctAnswer)}> {answer} </button> ))} </div> </div> </div> ); };
+const QuizModal = ({ species, onResult }) => {
+    const { t, tNested } = useTranslation();
+    const quizItem = useMemo(() => {
+        // Get translated quiz pool for this species
+        const translatedQuizPool = tNested(`quizzes.${species.id}`) || species.quizPool;
+        return translatedQuizPool[Math.floor(Math.random() * translatedQuizPool.length)];
+    }, [species, tNested]);
+    
+    const shuffledAnswers = useMemo(() => {
+        const answers = [quizItem.correctAnswer, ...quizItem.wrongAnswers];
+        return answers.sort(() => Math.random() - 0.5);
+    }, [quizItem]);
+    
+    const handleAnswerClick = (answer) => {
+        const isCorrect = answer === quizItem.correctAnswer;
+        onResult(isCorrect);
+    };
+    
+    return (
+        <div className="modal-overlay">
+            <div className="modal-content">
+                <div className="emoji">{species.emoji}</div>
+                <h2>{quizItem.question}</h2>
+                <div className="quiz-options">
+                    {shuffledAnswers.map(answer => (
+                        <button 
+                            key={answer} 
+                            className="quiz-option-btn" 
+                            onClick={() => handleAnswerClick(answer)}
+                        >
+                            {answer}
+                        </button>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
 const ARStarfield = ({ numStars, isVisible }) => { const stars = useMemo(() => Array.from({ length: numStars }).map((_, i) => { const size = Math.random() * 2 + 1; const style = { width: `${size}px`, height: `${size}px`, top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 5}s`, }; return <div key={i} className="star" style={style}></div>; }), [numStars]); return <div className="ar-starfield" style={{ opacity: isVisible ? 1 : 0 }}>{stars}</div>; };
 const Constellation = ({ constellation }) => { if (!constellation) return null; return ( <div className="constellation" style={{ top: `${constellation.y}px`, left: `${constellation.x}px` }}> <div className="constellation-emoji">{constellation.species.emoji}</div> </div> ); };
 const HotspotVisualizer = ({ hotspot }) => { if (!hotspot) return null; const style = { top: `${hotspot.y - HOTSPOT_RADIUS}px`, left: `${hotspot.x - HOTSPOT_RADIUS}px`, width: `${HOTSPOT_RADIUS * 2}px`, height: `${HOTSPOT_RADIUS * 2}px`, }; return <div className="hotspot-visualizer" style={style}></div>; };

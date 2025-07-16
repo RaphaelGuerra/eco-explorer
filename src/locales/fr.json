@@ -119,5 +119,259 @@
       "title": "Perks de Maîtrise",
       "description": "Ces compétences passives sont gagnées en maîtrisant la recherche d'une espèce. Elles fournissent des avantages permanents."
     }
+  },
+  "quizzes": {
+    "onca_pintada": [
+      {
+        "question": "Quel est le plus grand félin des Amériques ?",
+        "correctAnswer": "Jaguar",
+        "wrongAnswers": ["Lion", "Tigre", "Cougar"]
+      },
+      {
+        "question": "Comment le jaguar chasse-t-il ses proies ?",
+        "correctAnswer": "Morsure au crâne",
+        "wrongAnswers": ["Étranglement", "Poursuite longue", "Pièges"]
+      },
+      {
+        "question": "Quel est l'habitat préféré du jaguar ?",
+        "correctAnswer": "Forêt dense",
+        "wrongAnswers": ["Désert", "Prairie", "Montagne"]
+      },
+      {
+        "question": "Le jaguar est un animal...",
+        "correctAnswer": "Solitaire",
+        "wrongAnswers": ["Social", "Migrateur", "Aquatique"]
+      },
+      {
+        "question": "Quelle est la principale menace pour les jaguars ?",
+        "correctAnswer": "Perte d'habitat",
+        "wrongAnswers": ["Surchasse", "Maladies", "Changement climatique"]
+      },
+      {
+        "question": "Comment le jaguar marque-t-il son territoire ?",
+        "correctAnswer": "En griffant les arbres",
+        "wrongAnswers": ["En construisant des nids", "En faisant des sons", "En plantant des arbres"]
+      },
+      {
+        "question": "Quelle est la vitesse maximale du jaguar ?",
+        "correctAnswer": "80 km/h",
+        "wrongAnswers": ["120 km/h", "60 km/h", "100 km/h"]
+      },
+      {
+        "question": "Le jaguar est considéré comme une...",
+        "correctAnswer": "Espèce phare",
+        "wrongAnswers": ["Espèce invasive", "Espèce commune", "Espèce domestique"]
+      }
+    ],
+    "mico_leao_dourado": [
+      {
+        "question": "Où vit le tamarin-lion doré ?",
+        "correctAnswer": "Forêt Atlantique",
+        "wrongAnswers": ["Amazonie", "Cerrado", "Caatinga"]
+      },
+      {
+        "question": "Quelle est la couleur caractéristique du tamarin-lion doré ?",
+        "correctAnswer": "Doré",
+        "wrongAnswers": ["Argenté", "Brun", "Noir"]
+      },
+      {
+        "question": "Le tamarin-lion doré est...",
+        "correctAnswer": "Endémique du Brésil",
+        "wrongAnswers": ["Trouvé dans toute l'Amérique", "Originaire d'Afrique", "Espèce invasive"]
+      },
+      {
+        "question": "Quel est le régime alimentaire du tamarin-lion doré ?",
+        "correctAnswer": "Fruits et insectes",
+        "wrongAnswers": ["Seulement des feuilles", "Seulement de la viande", "Seulement des graines"]
+      },
+      {
+        "question": "Comment le tamarin-lion doré communique-t-il ?",
+        "correctAnswer": "Vocalisations",
+        "wrongAnswers": ["Gestes", "Changements de couleur", "Télépathie"]
+      },
+      {
+        "question": "Quel est le statut de conservation du tamarin-lion doré ?",
+        "correctAnswer": "En danger",
+        "wrongAnswers": ["Éteint", "Sûr", "Vulnérable"]
+      },
+      {
+        "question": "Le tamarin-lion doré vit en...",
+        "correctAnswer": "Groupes familiaux",
+        "wrongAnswers": ["Isolation", "Grands groupes", "Couples"]
+      },
+      {
+        "question": "Quelle est la principale menace pour le tamarin-lion doré ?",
+        "correctAnswer": "Fragmentation forestière",
+        "wrongAnswers": ["Chasse", "Pollution", "Changement climatique"]
+      }
+    ],
+    "tucano_toco": [
+      {
+        "question": "Quelle est la caractéristique la plus frappante du toucan ?",
+        "correctAnswer": "Bec coloré",
+        "wrongAnswers": ["Grandes ailes", "Longues pattes", "Grands yeux"]
+      },
+      {
+        "question": "Que mange le toucan ?",
+        "correctAnswer": "Fruits et insectes",
+        "wrongAnswers": ["Seulement de la viande", "Seulement des graines", "Seulement du nectar"]
+      },
+      {
+        "question": "Comment le toucan utilise-t-il son bec ?",
+        "correctAnswer": "Pour réguler la température",
+        "wrongAnswers": ["Seulement pour manger", "Pour voler", "Pour nager"]
+      },
+      {
+        "question": "Le toucan est un oiseau...",
+        "correctAnswer": "Arboricole",
+        "wrongAnswers": ["Aquatique", "Terrestre", "Souterrain"]
+      },
+      {
+        "question": "Quel est le son caractéristique du toucan ?",
+        "correctAnswer": "Croassement grave",
+        "wrongAnswers": ["Chant mélodieux", "Silence", "Sifflement"]
+      },
+      {
+        "question": "Le toucan construit ses nids dans...",
+        "correctAnswer": "Cavités d'arbres",
+        "wrongAnswers": ["Sur le sol", "Dans les buissons", "Dans les rochers"]
+      },
+      {
+        "question": "Combien d'œufs le toucan pond-il généralement ?",
+        "correctAnswer": "2-4 œufs",
+        "wrongAnswers": ["1 œuf", "6-8 œufs", "10-12 œufs"]
+      },
+      {
+        "question": "Le toucan est important pour...",
+        "correctAnswer": "La dispersion des graines",
+        "wrongAnswers": ["La pollinisation", "Le contrôle des ravageurs", "Le nettoyage du sol"]
+      }
+    ],
+    "capivara": [
+      {
+        "question": "Quel est le plus grand rongeur du monde ?",
+        "correctAnswer": "Capybara",
+        "wrongAnswers": ["Castor", "Porc-épic", "Rat"]
+      },
+      {
+        "question": "Où le capybara aime-t-il vivre ?",
+        "correctAnswer": "Près de l'eau",
+        "wrongAnswers": ["Dans le désert", "Dans les montagnes", "Dans l'océan"]
+      },
+      {
+        "question": "Le capybara est un animal...",
+        "correctAnswer": "Semi-aquatique",
+        "wrongAnswers": ["Terrestre", "Volant", "Souterrain"]
+      },
+      {
+        "question": "Comment le capybara se rafraîchit-il ?",
+        "correctAnswer": "En nageant",
+        "wrongAnswers": ["En suant", "En respirant vite", "En tremblant"]
+      },
+      {
+        "question": "Quel est le régime alimentaire du capybara ?",
+        "correctAnswer": "Plantes aquatiques",
+        "wrongAnswers": ["Viande", "Insectes", "Graines"]
+      },
+      {
+        "question": "Le capybara vit en...",
+        "correctAnswer": "Groupes familiaux",
+        "wrongAnswers": ["Isolation", "Grands groupes", "Couples"]
+      },
+      {
+        "question": "Quel est le prédateur naturel du capybara ?",
+        "correctAnswer": "Jaguar",
+        "wrongAnswers": ["Aigle", "Serpent", "Poisson"]
+      },
+      {
+        "question": "Le capybara est connu pour être...",
+        "correctAnswer": "Très social",
+        "wrongAnswers": ["Agressif", "Timide", "Solitaire"]
+      }
+    ],
+    "sagui": [
+      {
+        "question": "Le ouistiti est un type de...",
+        "correctAnswer": "Primate",
+        "wrongAnswers": ["Rongeur", "Oiseau", "Reptile"]
+      },
+      {
+        "question": "Quelle est la taille du ouistiti ?",
+        "correctAnswer": "Très petit",
+        "wrongAnswers": ["Grand", "Moyen", "Énorme"]
+      },
+      {
+        "question": "Le ouistiti se nourrit principalement de...",
+        "correctAnswer": "Gomme d'arbres",
+        "wrongAnswers": ["Viande", "Feuilles", "Graines"]
+      },
+      {
+        "question": "Comment le ouistiti se déplace-t-il ?",
+        "correctAnswer": "En sautant entre les branches",
+        "wrongAnswers": ["En courant au sol", "En nageant", "En volant"]
+      },
+      {
+        "question": "Le ouistiti vit en...",
+        "correctAnswer": "Petits groupes",
+        "wrongAnswers": ["Isolation", "Grands groupes", "Couples"]
+      },
+      {
+        "question": "Quelle est la caractéristique du ouistiti ?",
+        "correctAnswer": "Griffes acérées",
+        "wrongAnswers": ["Ailes", "Écailles", "Cornes"]
+      },
+      {
+        "question": "Le ouistiti se trouve dans...",
+        "correctAnswer": "Forêt Atlantique",
+        "wrongAnswers": ["Désert", "Toundra", "Océan"]
+      },
+      {
+        "question": "Le ouistiti est important pour...",
+        "correctAnswer": "La pollinisation",
+        "wrongAnswers": ["Le contrôle des ravageurs", "La dispersion des graines", "Le nettoyage du sol"]
+      }
+    ],
+    "beija_flor": [
+      {
+        "question": "Comment le colibri vole-t-il ?",
+        "correctAnswer": "Battement d'ailes très rapide",
+        "wrongAnswers": ["Planant", "Avec le vent", "Avec un moteur"]
+      },
+      {
+        "question": "Que mange le colibri ?",
+        "correctAnswer": "Nectar des fleurs",
+        "wrongAnswers": ["Graines", "Insectes", "Viande"]
+      },
+      {
+        "question": "Le colibri peut voler...",
+        "correctAnswer": "En arrière",
+        "wrongAnswers": ["Seulement en avant", "Seulement vers le haut", "Seulement vers le bas"]
+      },
+      {
+        "question": "Quelle est la vitesse du battement d'ailes du colibri ?",
+        "correctAnswer": "80 fois par seconde",
+        "wrongAnswers": ["20 fois par seconde", "120 fois par seconde", "40 fois par seconde"]
+      },
+      {
+        "question": "Le colibri est important pour...",
+        "correctAnswer": "La pollinisation",
+        "wrongAnswers": ["Le contrôle des ravageurs", "La dispersion des graines", "Le nettoyage du sol"]
+      },
+      {
+        "question": "Le colibri construit ses nids avec...",
+        "correctAnswer": "Toiles d'araignée",
+        "wrongAnswers": ["Brindilles", "Boue", "Pierres"]
+      },
+      {
+        "question": "Combien d'œufs le colibri pond-il ?",
+        "correctAnswer": "1-2 œufs",
+        "wrongAnswers": ["3-4 œufs", "5-6 œufs", "7-8 œufs"]
+      },
+      {
+        "question": "Le colibri se trouve dans...",
+        "correctAnswer": "Amériques",
+        "wrongAnswers": ["Europe", "Asie", "Afrique"]
+      }
+    ]
   }
 } 

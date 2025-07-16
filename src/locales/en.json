@@ -119,5 +119,259 @@
       "title": "Mastery Perks",
       "description": "These passive skills are earned by mastering a species' research. They provide permanent advantages."
     }
+  },
+  "quizzes": {
+    "onca_pintada": [
+      {
+        "question": "What is the largest feline in the Americas?",
+        "correctAnswer": "Jaguar",
+        "wrongAnswers": ["Lion", "Tiger", "Cougar"]
+      },
+      {
+        "question": "How does the jaguar hunt its prey?",
+        "correctAnswer": "Skull bite",
+        "wrongAnswers": ["Strangulation", "Long chase", "Traps"]
+      },
+      {
+        "question": "What is the jaguar's preferred habitat?",
+        "correctAnswer": "Dense forest",
+        "wrongAnswers": ["Desert", "Grassland", "Mountain"]
+      },
+      {
+        "question": "The jaguar is a...",
+        "correctAnswer": "Solitary animal",
+        "wrongAnswers": ["Social animal", "Migratory", "Aquatic"]
+      },
+      {
+        "question": "What is the main threat to jaguars?",
+        "correctAnswer": "Habitat loss",
+        "wrongAnswers": ["Overhunting", "Diseases", "Climate change"]
+      },
+      {
+        "question": "How does the jaguar mark its territory?",
+        "correctAnswer": "Scratching trees",
+        "wrongAnswers": ["Building nests", "Making sounds", "Planting trees"]
+      },
+      {
+        "question": "What is the jaguar's maximum speed?",
+        "correctAnswer": "80 km/h",
+        "wrongAnswers": ["120 km/h", "60 km/h", "100 km/h"]
+      },
+      {
+        "question": "The jaguar is considered a...",
+        "correctAnswer": "Flagship species",
+        "wrongAnswers": ["Invasive species", "Common species", "Domestic species"]
+      }
+    ],
+    "mico_leao_dourado": [
+      {
+        "question": "Where does the golden lion tamarin live?",
+        "correctAnswer": "Atlantic Forest",
+        "wrongAnswers": ["Amazon", "Cerrado", "Caatinga"]
+      },
+      {
+        "question": "What is the characteristic color of the golden lion tamarin?",
+        "correctAnswer": "Golden",
+        "wrongAnswers": ["Silver", "Brown", "Black"]
+      },
+      {
+        "question": "The golden lion tamarin is...",
+        "correctAnswer": "Endemic to Brazil",
+        "wrongAnswers": ["Found throughout America", "Native to Africa", "Invasive species"]
+      },
+      {
+        "question": "What is the golden lion tamarin's diet?",
+        "correctAnswer": "Fruits and insects",
+        "wrongAnswers": ["Only leaves", "Only meat", "Only seeds"]
+      },
+      {
+        "question": "How does the golden lion tamarin communicate?",
+        "correctAnswer": "Vocalizations",
+        "wrongAnswers": ["Gestures", "Color changes", "Telepathy"]
+      },
+      {
+        "question": "What is the conservation status of the golden lion tamarin?",
+        "correctAnswer": "Endangered",
+        "wrongAnswers": ["Extinct", "Safe", "Vulnerable"]
+      },
+      {
+        "question": "The golden lion tamarin lives in...",
+        "correctAnswer": "Family groups",
+        "wrongAnswers": ["Isolation", "Large bands", "Pairs"]
+      },
+      {
+        "question": "What is the main threat to the golden lion tamarin?",
+        "correctAnswer": "Forest fragmentation",
+        "wrongAnswers": ["Hunting", "Pollution", "Climate change"]
+      }
+    ],
+    "tucano_toco": [
+      {
+        "question": "What is the most striking feature of the toucan?",
+        "correctAnswer": "Colorful beak",
+        "wrongAnswers": ["Large wings", "Long legs", "Big eyes"]
+      },
+      {
+        "question": "What does the toucan eat?",
+        "correctAnswer": "Fruits and insects",
+        "wrongAnswers": ["Only meat", "Only seeds", "Only nectar"]
+      },
+      {
+        "question": "How does the toucan use its beak?",
+        "correctAnswer": "To regulate temperature",
+        "wrongAnswers": ["Only for eating", "For flying", "For swimming"]
+      },
+      {
+        "question": "The toucan is a...",
+        "correctAnswer": "Arboreal bird",
+        "wrongAnswers": ["Aquatic", "Terrestrial", "Subterranean"]
+      },
+      {
+        "question": "What is the characteristic sound of the toucan?",
+        "correctAnswer": "Deep croak",
+        "wrongAnswers": ["Melodious song", "Silence", "Whistle"]
+      },
+      {
+        "question": "The toucan builds nests in...",
+        "correctAnswer": "Tree hollows",
+        "wrongAnswers": ["On the ground", "In bushes", "In rocks"]
+      },
+      {
+        "question": "How many eggs does the toucan usually lay?",
+        "correctAnswer": "2-4 eggs",
+        "wrongAnswers": ["1 egg", "6-8 eggs", "10-12 eggs"]
+      },
+      {
+        "question": "The toucan is important for...",
+        "correctAnswer": "Seed dispersal",
+        "wrongAnswers": ["Pollination", "Pest control", "Soil cleaning"]
+      }
+    ],
+    "capivara": [
+      {
+        "question": "What is the largest rodent in the world?",
+        "correctAnswer": "Capybara",
+        "wrongAnswers": ["Beaver", "Porcupine", "Rat"]
+      },
+      {
+        "question": "Where does the capybara like to live?",
+        "correctAnswer": "Near water",
+        "wrongAnswers": ["In the desert", "In the mountains", "In the ocean"]
+      },
+      {
+        "question": "The capybara is a...",
+        "correctAnswer": "Semi-aquatic animal",
+        "wrongAnswers": ["Terrestrial", "Flying", "Subterranean"]
+      },
+      {
+        "question": "How does the capybara cool down?",
+        "correctAnswer": "Swimming",
+        "wrongAnswers": ["Sweating", "Fast breathing", "Shivering"]
+      },
+      {
+        "question": "What is the capybara's diet?",
+        "correctAnswer": "Aquatic plants",
+        "wrongAnswers": ["Meat", "Insects", "Seeds"]
+      },
+      {
+        "question": "The capybara lives in...",
+        "correctAnswer": "Family groups",
+        "wrongAnswers": ["Isolation", "Large bands", "Pairs"]
+      },
+      {
+        "question": "What is the capybara's natural predator?",
+        "correctAnswer": "Jaguar",
+        "wrongAnswers": ["Eagle", "Snake", "Fish"]
+      },
+      {
+        "question": "The capybara is known for being...",
+        "correctAnswer": "Very social",
+        "wrongAnswers": ["Aggressive", "Shy", "Solitary"]
+      }
+    ],
+    "sagui": [
+      {
+        "question": "The marmoset is a type of...",
+        "correctAnswer": "Primate",
+        "wrongAnswers": ["Rodent", "Bird", "Reptile"]
+      },
+      {
+        "question": "What is the size of the marmoset?",
+        "correctAnswer": "Very small",
+        "wrongAnswers": ["Large", "Medium", "Huge"]
+      },
+      {
+        "question": "The marmoset feeds mainly on...",
+        "correctAnswer": "Tree gum",
+        "wrongAnswers": ["Meat", "Leaves", "Seeds"]
+      },
+      {
+        "question": "How does the marmoset move?",
+        "correctAnswer": "Jumping between branches",
+        "wrongAnswers": ["Running on the ground", "Swimming", "Flying"]
+      },
+      {
+        "question": "The marmoset lives in...",
+        "correctAnswer": "Small groups",
+        "wrongAnswers": ["Isolation", "Large bands", "Pairs"]
+      },
+      {
+        "question": "What is the marmoset's characteristic?",
+        "correctAnswer": "Sharp claws",
+        "wrongAnswers": ["Wings", "Scales", "Horns"]
+      },
+      {
+        "question": "The marmoset is found in...",
+        "correctAnswer": "Atlantic Forest",
+        "wrongAnswers": ["Desert", "Tundra", "Ocean"]
+      },
+      {
+        "question": "The marmoset is important for...",
+        "correctAnswer": "Pollination",
+        "wrongAnswers": ["Pest control", "Seed dispersal", "Soil cleaning"]
+      }
+    ],
+    "beija_flor": [
+      {
+        "question": "How does the hummingbird fly?",
+        "correctAnswer": "Beats wings very fast",
+        "wrongAnswers": ["Gliding", "With wind", "With engine"]
+      },
+      {
+        "question": "What does the hummingbird eat?",
+        "correctAnswer": "Flower nectar",
+        "wrongAnswers": ["Seeds", "Insects", "Meat"]
+      },
+      {
+        "question": "The hummingbird can fly...",
+        "correctAnswer": "Backwards",
+        "wrongAnswers": ["Only forward", "Only up", "Only down"]
+      },
+      {
+        "question": "What is the speed of the hummingbird's wing beat?",
+        "correctAnswer": "80 times per second",
+        "wrongAnswers": ["20 times per second", "120 times per second", "40 times per second"]
+      },
+      {
+        "question": "The hummingbird is important for...",
+        "correctAnswer": "Pollination",
+        "wrongAnswers": ["Pest control", "Seed dispersal", "Soil cleaning"]
+      },
+      {
+        "question": "The hummingbird builds nests with...",
+        "correctAnswer": "Spider webs",
+        "wrongAnswers": ["Twigs", "Mud", "Stones"]
+      },
+      {
+        "question": "How many eggs does the hummingbird lay?",
+        "correctAnswer": "1-2 eggs",
+        "wrongAnswers": ["3-4 eggs", "5-6 eggs", "7-8 eggs"]
+      },
+      {
+        "question": "The hummingbird is found in...",
+        "correctAnswer": "Americas",
+        "wrongAnswers": ["Europe", "Asia", "Africa"]
+      }
+    ]
   }
 } 

@@ -119,5 +119,259 @@
       "title": "Perks de Maestría",
       "description": "Estas habilidades pasivas se obtienen dominando la investigación de una especie. Proporcionan ventajas permanentes."
     }
+  },
+  "quizzes": {
+    "onca_pintada": [
+      {
+        "question": "¿Cuál es el felino más grande de las Américas?",
+        "correctAnswer": "Jaguar",
+        "wrongAnswers": ["León", "Tigre", "Puma"]
+      },
+      {
+        "question": "¿Cómo caza el jaguar a sus presas?",
+        "correctAnswer": "Mordida en el cráneo",
+        "wrongAnswers": ["Estrangulamiento", "Persecución larga", "Trampas"]
+      },
+      {
+        "question": "¿Cuál es el hábitat preferido del jaguar?",
+        "correctAnswer": "Bosque denso",
+        "wrongAnswers": ["Desierto", "Pradera", "Montaña"]
+      },
+      {
+        "question": "El jaguar es un animal...",
+        "correctAnswer": "Solitary",
+        "wrongAnswers": ["Social", "Migratorio", "Acuático"]
+      },
+      {
+        "question": "¿Cuál es la principal amenaza para los jaguares?",
+        "correctAnswer": "Pérdida de hábitat",
+        "wrongAnswers": ["Caza excesiva", "Enfermedades", "Cambio climático"]
+      },
+      {
+        "question": "¿Cómo marca el jaguar su territorio?",
+        "correctAnswer": "Arañando árboles",
+        "wrongAnswers": ["Construyendo nidos", "Haciendo sonidos", "Plantando árboles"]
+      },
+      {
+        "question": "¿Cuál es la velocidad máxima del jaguar?",
+        "correctAnswer": "80 km/h",
+        "wrongAnswers": ["120 km/h", "60 km/h", "100 km/h"]
+      },
+      {
+        "question": "El jaguar es considerado una...",
+        "correctAnswer": "Especie bandera",
+        "wrongAnswers": ["Especie invasora", "Especie común", "Especie doméstica"]
+      }
+    ],
+    "mico_leao_dourado": [
+      {
+        "question": "¿Dónde vive el tití león dorado?",
+        "correctAnswer": "Bosque Atlántico",
+        "wrongAnswers": ["Amazonía", "Cerrado", "Caatinga"]
+      },
+      {
+        "question": "¿Cuál es el color característico del tití león dorado?",
+        "correctAnswer": "Dorado",
+        "wrongAnswers": ["Plateado", "Marrón", "Negro"]
+      },
+      {
+        "question": "El tití león dorado es...",
+        "correctAnswer": "Endémico de Brasil",
+        "wrongAnswers": ["Encontrado en toda América", "Originario de África", "Especie invasora"]
+      },
+      {
+        "question": "¿Cuál es la dieta del tití león dorado?",
+        "correctAnswer": "Frutas e insectos",
+        "wrongAnswers": ["Solo hojas", "Solo carne", "Solo semillas"]
+      },
+      {
+        "question": "¿Cómo se comunica el tití león dorado?",
+        "correctAnswer": "Vocalizaciones",
+        "wrongAnswers": ["Gestos", "Cambios de color", "Telepatía"]
+      },
+      {
+        "question": "¿Cuál es el estado de conservación del tití león dorado?",
+        "correctAnswer": "En peligro",
+        "wrongAnswers": ["Extinto", "Seguro", "Vulnerable"]
+      },
+      {
+        "question": "El tití león dorado vive en...",
+        "correctAnswer": "Grupos familiares",
+        "wrongAnswers": ["Aislamiento", "Grandes bandas", "Parejas"]
+      },
+      {
+        "question": "¿Cuál es la principal amenaza para el tití león dorado?",
+        "correctAnswer": "Fragmentación forestal",
+        "wrongAnswers": ["Caza", "Contaminación", "Cambio climático"]
+      }
+    ],
+    "tucano_toco": [
+      {
+        "question": "¿Cuál es la característica más llamativa del tucán?",
+        "correctAnswer": "Pico colorido",
+        "wrongAnswers": ["Alas grandes", "Patas largas", "Ojos grandes"]
+      },
+      {
+        "question": "¿Qué come el tucán?",
+        "correctAnswer": "Frutas e insectos",
+        "wrongAnswers": ["Solo carne", "Solo semillas", "Solo néctar"]
+      },
+      {
+        "question": "¿Cómo usa el tucán su pico?",
+        "correctAnswer": "Para regular temperatura",
+        "wrongAnswers": ["Solo para comer", "Para volar", "Para nadar"]
+      },
+      {
+        "question": "El tucán es un pájaro...",
+        "correctAnswer": "Arborícola",
+        "wrongAnswers": ["Acuático", "Terrestre", "Subterráneo"]
+      },
+      {
+        "question": "¿Cuál es el sonido característico del tucán?",
+        "correctAnswer": "Croar grave",
+        "wrongAnswers": ["Canto melodioso", "Silencio", "Silbido"]
+      },
+      {
+        "question": "El tucán construye nidos en...",
+        "correctAnswer": "Huecos de árboles",
+        "wrongAnswers": ["En el suelo", "En arbustos", "En rocas"]
+      },
+      {
+        "question": "¿Cuántos huevos pone generalmente el tucán?",
+        "correctAnswer": "2-4 huevos",
+        "wrongAnswers": ["1 huevo", "6-8 huevos", "10-12 huevos"]
+      },
+      {
+        "question": "El tucán es importante para...",
+        "correctAnswer": "Dispersión de semillas",
+        "wrongAnswers": ["Polinización", "Control de plagas", "Limpieza del suelo"]
+      }
+    ],
+    "capivara": [
+      {
+        "question": "¿Cuál es el roedor más grande del mundo?",
+        "correctAnswer": "Capibara",
+        "wrongAnswers": ["Castor", "Puercoespín", "Rata"]
+      },
+      {
+        "question": "¿Dónde le gusta vivir a la capibara?",
+        "correctAnswer": "Cerca del agua",
+        "wrongAnswers": ["En el desierto", "En las montañas", "En el océano"]
+      },
+      {
+        "question": "La capibara es un animal...",
+        "correctAnswer": "Semi-acuático",
+        "wrongAnswers": ["Terrestre", "Volador", "Subterráneo"]
+      },
+      {
+        "question": "¿Cómo se refresca la capibara?",
+        "correctAnswer": "Nadando",
+        "wrongAnswers": ["Sudando", "Respirando rápido", "Temblando"]
+      },
+      {
+        "question": "¿Cuál es la dieta de la capibara?",
+        "correctAnswer": "Plantas acuáticas",
+        "wrongAnswers": ["Carne", "Insectos", "Semillas"]
+      },
+      {
+        "question": "La capibara vive en...",
+        "correctAnswer": "Grupos familiares",
+        "wrongAnswers": ["Aislamiento", "Grandes bandas", "Parejas"]
+      },
+      {
+        "question": "¿Cuál es el depredador natural de la capibara?",
+        "correctAnswer": "Jaguar",
+        "wrongAnswers": ["Águila", "Serpiente", "Pez"]
+      },
+      {
+        "question": "La capibara es conocida por ser...",
+        "correctAnswer": "Muy social",
+        "wrongAnswers": ["Agressiva", "Tímida", "Solitary"]
+      }
+    ],
+    "sagui": [
+      {
+        "question": "El tití es un tipo de...",
+        "correctAnswer": "Primate",
+        "wrongAnswers": ["Roedor", "Ave", "Reptil"]
+      },
+      {
+        "question": "¿Cuál es el tamaño del tití?",
+        "correctAnswer": "Muy pequeño",
+        "wrongAnswers": ["Grande", "Mediano", "Enorme"]
+      },
+      {
+        "question": "El tití se alimenta principalmente de...",
+        "correctAnswer": "Goma de árboles",
+        "wrongAnswers": ["Carne", "Hojas", "Semillas"]
+      },
+      {
+        "question": "¿Cómo se mueve el tití?",
+        "correctAnswer": "Saltando entre ramas",
+        "wrongAnswers": ["Corriendo en el suelo", "Nadando", "Volando"]
+      },
+      {
+        "question": "El tití vive en...",
+        "correctAnswer": "Pequeños grupos",
+        "wrongAnswers": ["Aislamiento", "Grandes bandas", "Parejas"]
+      },
+      {
+        "question": "¿Cuál es la característica del tití?",
+        "correctAnswer": "Garras afiladas",
+        "wrongAnswers": ["Alas", "Escamas", "Cuernos"]
+      },
+      {
+        "question": "El tití se encuentra en...",
+        "correctAnswer": "Bosque Atlántico",
+        "wrongAnswers": ["Desierto", "Tundra", "Océano"]
+      },
+      {
+        "question": "El tití es importante para...",
+        "correctAnswer": "Polinización",
+        "wrongAnswers": ["Control de plagas", "Dispersión de semillas", "Limpieza del suelo"]
+      }
+    ],
+    "beija_flor": [
+      {
+        "question": "¿Cómo vuela el colibrí?",
+        "correctAnswer": "Bate las alas muy rápido",
+        "wrongAnswers": ["Planear", "Con viento", "Con motor"]
+      },
+      {
+        "question": "¿Qué come el colibrí?",
+        "correctAnswer": "Néctar de flores",
+        "wrongAnswers": ["Semillas", "Insectos", "Carne"]
+      },
+      {
+        "question": "El colibrí puede volar...",
+        "correctAnswer": "Hacia atrás",
+        "wrongAnswers": ["Solo hacia adelante", "Solo hacia arriba", "Solo hacia abajo"]
+      },
+      {
+        "question": "¿Cuál es la velocidad del aleteo del colibrí?",
+        "correctAnswer": "80 veces por segundo",
+        "wrongAnswers": ["20 veces por segundo", "120 veces por segundo", "40 veces por segundo"]
+      },
+      {
+        "question": "El colibrí es importante para...",
+        "correctAnswer": "Polinización",
+        "wrongAnswers": ["Control de plagas", "Dispersión de semillas", "Limpieza del suelo"]
+      },
+      {
+        "question": "El colibrí construye nidos con...",
+        "correctAnswer": "Telas de araña",
+        "wrongAnswers": ["Ramas", "Barro", "Piedras"]
+      },
+      {
+        "question": "¿Cuántos huevos pone el colibrí?",
+        "correctAnswer": "1-2 huevos",
+        "wrongAnswers": ["3-4 huevos", "5-6 huevos", "7-8 huevos"]
+      },
+      {
+        "question": "El colibrí se encuentra en...",
+        "correctAnswer": "Américas",
+        "wrongAnswers": ["Europa", "Asia", "África"]
+      }
+    ]
   }
 } 

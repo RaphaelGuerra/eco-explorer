@@ -119,5 +119,259 @@
       "title": "Perks de Maestria",
       "description": "Essas habilidades passivas são conquistadas dominando a pesquisa de uma espécie. Elas fornecem vantagens permanentes."
     }
+  },
+  "quizzes": {
+    "onca_pintada": [
+      {
+        "question": "Qual é o maior felino das Américas?",
+        "correctAnswer": "Onça-pintada",
+        "wrongAnswers": ["Leão", "Tigre", "Puma"]
+      },
+      {
+        "question": "Como a onça-pintada caça suas presas?",
+        "correctAnswer": "Mordida no crânio",
+        "wrongAnswers": ["Estrangulamento", "Perseguição longa", "Armadilhas"]
+      },
+      {
+        "question": "Qual é o habitat preferido da onça-pintada?",
+        "correctAnswer": "Floresta densa",
+        "wrongAnswers": ["Deserto", "Pradaria", "Montanha"]
+      },
+      {
+        "question": "A onça-pintada é um animal...",
+        "correctAnswer": "Solitary",
+        "wrongAnswers": ["Social", "Migratório", "Aquático"]
+      },
+      {
+        "question": "Qual é a principal ameaça à onça-pintada?",
+        "correctAnswer": "Perda de habitat",
+        "wrongAnswers": ["Caça excessiva", "Doenças", "Mudanças climáticas"]
+      },
+      {
+        "question": "Como a onça-pintada marca seu território?",
+        "correctAnswer": "Arranhando árvores",
+        "wrongAnswers": ["Construindo ninhos", "Fazendo sons", "Plantando árvores"]
+      },
+      {
+        "question": "Qual é a velocidade máxima da onça-pintada?",
+        "correctAnswer": "80 km/h",
+        "wrongAnswers": ["120 km/h", "60 km/h", "100 km/h"]
+      },
+      {
+        "question": "A onça-pintada é considerada...",
+        "correctAnswer": "Espécie bandeira",
+        "wrongAnswers": ["Espécie invasora", "Espécie comum", "Espécie doméstica"]
+      }
+    ],
+    "mico_leao_dourado": [
+      {
+        "question": "Onde vive o mico-leão-dourado?",
+        "correctAnswer": "Mata Atlântica",
+        "wrongAnswers": ["Amazônia", "Cerrado", "Caatinga"]
+      },
+      {
+        "question": "Qual é a cor característica do mico-leão-dourado?",
+        "correctAnswer": "Dourado",
+        "wrongAnswers": ["Prateado", "Marrom", "Preto"]
+      },
+      {
+        "question": "O mico-leão-dourado é...",
+        "correctAnswer": "Endêmico do Brasil",
+        "wrongAnswers": ["Encontrado em toda América", "Originário da África", "Espécie invasora"]
+      },
+      {
+        "question": "Qual é a dieta do mico-leão-dourado?",
+        "correctAnswer": "Frutas e insetos",
+        "wrongAnswers": ["Apenas folhas", "Apenas carne", "Apenas sementes"]
+      },
+      {
+        "question": "Como o mico-leão-dourado se comunica?",
+        "correctAnswer": "Vocalizações",
+        "wrongAnswers": ["Gestos", "Mudanças de cor", "Telepatia"]
+      },
+      {
+        "question": "Qual é o status de conservação do mico-leão-dourado?",
+        "correctAnswer": "Em perigo",
+        "wrongAnswers": ["Extinto", "Seguro", "Vulnerável"]
+      },
+      {
+        "question": "O mico-leão-dourado vive em...",
+        "correctAnswer": "Grupos familiares",
+        "wrongAnswers": ["Isolamento", "Grandes bandos", "Casais"]
+      },
+      {
+        "question": "Qual é a principal ameaça ao mico-leão-dourado?",
+        "correctAnswer": "Fragmentação florestal",
+        "wrongAnswers": ["Caça", "Poluição", "Mudanças climáticas"]
+      }
+    ],
+    "tucano_toco": [
+      {
+        "question": "Qual é a característica mais marcante do tucano?",
+        "correctAnswer": "Bico colorido",
+        "wrongAnswers": ["Asas grandes", "Pernas longas", "Olhos grandes"]
+      },
+      {
+        "question": "O que o tucano come?",
+        "correctAnswer": "Frutas e insetos",
+        "wrongAnswers": ["Apenas carne", "Apenas sementes", "Apenas néctar"]
+      },
+      {
+        "question": "Como o tucano usa seu bico?",
+        "correctAnswer": "Para regular temperatura",
+        "wrongAnswers": ["Apenas para comer", "Para voar", "Para nadar"]
+      },
+      {
+        "question": "O tucano é um pássaro...",
+        "correctAnswer": "Arborícola",
+        "wrongAnswers": ["Aquático", "Terrestre", "Subterrâneo"]
+      },
+      {
+        "question": "Qual é o som característico do tucano?",
+        "correctAnswer": "Croak grave",
+        "wrongAnswers": ["Canto melodioso", "Silêncio", "Assobio"]
+      },
+      {
+        "question": "O tucano constrói ninhos em...",
+        "correctAnswer": "Ocos de árvores",
+        "wrongAnswers": ["No chão", "Em arbustos", "Em rochas"]
+      },
+      {
+        "question": "Quantos ovos o tucano geralmente põe?",
+        "correctAnswer": "2-4 ovos",
+        "wrongAnswers": ["1 ovo", "6-8 ovos", "10-12 ovos"]
+      },
+      {
+        "question": "O tucano é importante para...",
+        "correctAnswer": "Dispersão de sementes",
+        "wrongAnswers": ["Polinização", "Controle de pragas", "Limpeza do solo"]
+      }
+    ],
+    "capivara": [
+      {
+        "question": "Qual é o maior roedor do mundo?",
+        "correctAnswer": "Capivara",
+        "wrongAnswers": ["Castor", "Porco-espinho", "Rato"]
+      },
+      {
+        "question": "Onde a capivara gosta de viver?",
+        "correctAnswer": "Próximo à água",
+        "wrongAnswers": ["No deserto", "Nas montanhas", "No oceano"]
+      },
+      {
+        "question": "A capivara é um animal...",
+        "correctAnswer": "Semi-aquático",
+        "wrongAnswers": ["Terrestre", "Voador", "Subterrâneo"]
+      },
+      {
+        "question": "Como a capivara se refresca?",
+        "correctAnswer": "Nadando",
+        "wrongAnswers": ["Suando", "Respirando rápido", "Tremendo"]
+      },
+      {
+        "question": "Qual é a dieta da capivara?",
+        "correctAnswer": "Plantas aquáticas",
+        "wrongAnswers": ["Carne", "Insetos", "Sementes"]
+      },
+      {
+        "question": "A capivara vive em...",
+        "correctAnswer": "Grupos familiares",
+        "wrongAnswers": ["Isolamento", "Grandes bandos", "Casais"]
+      },
+      {
+        "question": "Qual é o predador natural da capivara?",
+        "correctAnswer": "Onça-pintada",
+        "wrongAnswers": ["Águia", "Cobra", "Peixe"]
+      },
+      {
+        "question": "A capivara é conhecida por ser...",
+        "correctAnswer": "Muito social",
+        "wrongAnswers": ["Agressiva", "Timida", "Solitary"]
+      }
+    ],
+    "sagui": [
+      {
+        "question": "O sagui é um tipo de...",
+        "correctAnswer": "Primata",
+        "wrongAnswers": ["Roedor", "Ave", "Réptil"]
+      },
+      {
+        "question": "Qual é o tamanho do sagui?",
+        "correctAnswer": "Muito pequeno",
+        "wrongAnswers": ["Grande", "Médio", "Enorme"]
+      },
+      {
+        "question": "O sagui se alimenta principalmente de...",
+        "correctAnswer": "Goma de árvores",
+        "wrongAnswers": ["Carne", "Folhas", "Sementes"]
+      },
+      {
+        "question": "Como o sagui se move?",
+        "correctAnswer": "Saltando entre galhos",
+        "wrongAnswers": ["Correndo no chão", "Nadando", "Voando"]
+      },
+      {
+        "question": "O sagui vive em...",
+        "correctAnswer": "Grupos pequenos",
+        "wrongAnswers": ["Isolamento", "Grandes bandos", "Casais"]
+      },
+      {
+        "question": "Qual é a característica do sagui?",
+        "correctAnswer": "Garras afiadas",
+        "wrongAnswers": ["Asas", "Escamas", "Chifres"]
+      },
+      {
+        "question": "O sagui é encontrado em...",
+        "correctAnswer": "Mata Atlântica",
+        "wrongAnswers": ["Deserto", "Tundra", "Oceano"]
+      },
+      {
+        "question": "O sagui é importante para...",
+        "correctAnswer": "Polinização",
+        "wrongAnswers": ["Controle de pragas", "Dispersão de sementes", "Limpeza do solo"]
+      }
+    ],
+    "beija_flor": [
+      {
+        "question": "Como o beija-flor voa?",
+        "correctAnswer": "Bate as asas muito rápido",
+        "wrongAnswers": ["Planando", "Com vento", "Com motor"]
+      },
+      {
+        "question": "O que o beija-flor come?",
+        "correctAnswer": "Néctar das flores",
+        "wrongAnswers": ["Sementes", "Insetos", "Carne"]
+      },
+      {
+        "question": "O beija-flor pode voar...",
+        "correctAnswer": "Para trás",
+        "wrongAnswers": ["Apenas para frente", "Apenas para cima", "Apenas para baixo"]
+      },
+      {
+        "question": "Qual é a velocidade do batimento das asas do beija-flor?",
+        "correctAnswer": "80 vezes por segundo",
+        "wrongAnswers": ["20 vezes por segundo", "120 vezes por segundo", "40 vezes por segundo"]
+      },
+      {
+        "question": "O beija-flor é importante para...",
+        "correctAnswer": "Polinização",
+        "wrongAnswers": ["Controle de pragas", "Dispersão de sementes", "Limpeza do solo"]
+      },
+      {
+        "question": "O beija-flor constrói ninhos com...",
+        "correctAnswer": "Teias de aranha",
+        "wrongAnswers": ["Gravetos", "Barro", "Pedras"]
+      },
+      {
+        "question": "Quantos ovos o beija-flor põe?",
+        "correctAnswer": "1-2 ovos",
+        "wrongAnswers": ["3-4 ovos", "5-6 ovos", "7-8 ovos"]
+      },
+      {
+        "question": "O beija-flor é encontrado em...",
+        "correctAnswer": "Américas",
+        "wrongAnswers": ["Europa", "Ásia", "África"]
+      }
+    ]
   }
 } 
