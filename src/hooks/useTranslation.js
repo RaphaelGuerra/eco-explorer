@@ -25,7 +25,7 @@ export function useTranslation() {
         return () => {
             i18n.removeListener(handleLanguageChange);
         };
-    }, []);
+    }, [currentLanguage]);
 
     const t = (key) => i18n.t(key);
     const tNested = (key) => i18n.tNested(key);
