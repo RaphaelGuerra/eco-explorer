@@ -191,7 +191,7 @@ const EncounterModal = ({ encounter, isRadiant, onLog, onRelease }) => {
     );
 };
 const QuizModal = ({ species, onResult }) => {
-    const { t, tNested } = useTranslation();
+    const { tNested } = useTranslation();
     const quizItem = useMemo(() => {
         // Get translated quiz pool for this species
         const translatedQuizPool = tNested(`quizzes.${species.id}`) || species.quizPool;
@@ -272,7 +272,6 @@ export default function App() {
                 const perkId = species.masteryPerk.id;
                 if (!playerState.unlockedPerks.includes(perkId)) {
                     setTimeout(() => {
-                        const { t, tNested } = useTranslation();
                         const perkName = tNested(`perks.${species.masteryPerk.id}.name`) || species.masteryPerk.name;
                         setResultMessage(`${t('gameUI.mastery')} ${t('gameUI.youLearned')} '${perkName}'.`);
                         setModalState(s => ({ ...s, result: true }));
@@ -282,7 +281,7 @@ export default function App() {
             }
             return { ...prevLog, [speciesId]: { researchLevel: newLevel, researchXp: newXp } };
         });
-    }, [playerState.unlockedPerks]);
+    }, [playerState.unlockedPerks, t, tNested]);
 
     const closeAllModals = () => {
         setModalState({ encounter: false, quiz: false, result: false });
@@ -372,10 +371,9 @@ export default function App() {
             currentScannerWindow?.removeEventListener('mousemove', handleMouseMove);
             clearTimeout(focusTimeout);
         };
-    }, [isFocusing, hotspot, playerState.unlockedPerks]);
+    }, [isFocusing, hotspot, playerState.unlockedPerks, t]);
 
     const handleGameResult = (wasSuccessful) => {
-        const { t, tNested } = useTranslation();
         setResultMessage("");
         if (wasSuccessful) {
             const xpGain = isRadiantEncounter ? XP_PER_ENCOUNTER * 5 : XP_PER_ENCOUNTER;
