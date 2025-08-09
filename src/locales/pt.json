@@ -38,6 +38,7 @@
     "logIt": "Registrar",
     "letItGo": "Deixar Ir",
     "appeared": "apareceu!",
+    "radiant": "Radiante",
     "whatWillYouDo": "O que você fará?",
     "success": "Sucesso!",
     "hasBeenLogged": "foi registrado.",
@@ -51,6 +52,8 @@
     "analyzeBiome": "Analisar Bioma",
     "time": "Tempo",
     "weather": "Clima",
+    "timeValues": { "day": "Dia", "night": "Noite" },
+    "weatherValues": { "clear": "Céu limpo", "rainy": "Chuvoso" },
     "level": "Nível",
     "rarity": "Raridade",
     "undiscovered": "Não Descoberto",
@@ -58,6 +61,8 @@
     "masterToUnlock": "Domine o",
     "to unlock": "para desbloquear."
   },
+  "rarity": { "common": "Comum", "uncommon": "Incomum", "rare": "Raro" },
+  "status": { "location": "Parque Nacional de Itatiaia", "researchActive": "Pesquisa Ativa" },
   "species": {
     "onca_pintada": {
       "name": "Onça-pintada",

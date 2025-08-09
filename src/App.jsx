@@ -117,7 +117,7 @@ const EcoLogComponent = ({ ecoLog, onBack }) => {
                             {isDiscovered ? (
                                 <>
                                     <p>{t('gameUI.level')}: {entry.researchLevel} / {MAX_RESEARCH_LEVEL}</p>
-                                    <p>{t('gameUI.rarity')}: {species.rarity}</p>
+                                    <p>{t('gameUI.rarity')}: {t(`rarity.${species.rarity}`)}</p>
                                     <div className="xp-bar-container" title={`XP: ${entry.researchXp} / ${XP_PER_LEVEL}`}>
                                         <div className="xp-bar-fill" style={{ width: `${(entry.researchXp / XP_PER_LEVEL) * 100}%` }}></div>
                                     </div>
@@ -176,11 +176,12 @@ const ResultModal = ({ message, onClose }) => {
 const EncounterModal = ({ encounter, isRadiant, onLog, onRelease }) => {
     const { t, tNested } = useTranslation();
     const speciesName = tNested(`species.${encounter.id}.name`) || encounter.name;
+    const radiantPrefix = isRadiant ? `${t('gameUI.radiant')} ` : '';
     return (
         <div className="modal-overlay">
             <div className="modal-content">
                 <div className="emoji" style={{ filter: isRadiant ? 'drop-shadow(0 0 1rem #fde047)' : 'none' }}>{encounter.emoji}</div>
-                <h2>A {isRadiant && 'Radiant '}{speciesName} {t('gameUI.appeared')}</h2>
+                <h2>A {radiantPrefix}{speciesName} {t('gameUI.appeared')}</h2>
                 <p>{t('gameUI.whatWillYouDo')}</p>
                 <div className="button-group">
                     <button className="explore-button" onClick={onLog}>{t('gameUI.logIt')}</button>
@@ -407,11 +408,11 @@ export default function App() {
                         <div className="status-indicators">
                             <div className="status-item">
                                 <span className="status-icon">🌍</span>
-                                <span className="status-text">Itatiaia NP</span>
+                                <span className="status-text">{t('status.location')}</span>
                             </div>
                             <div className="status-item">
                                 <span className="status-icon">🔬</span>
-                                <span className="status-text">Research Active</span>
+                                <span className="status-text">{t('status.researchActive')}</span>
                             </div>
                         </div>
                         <LanguageSwitcher />
@@ -436,8 +437,8 @@ export default function App() {
                         </div>
                     )}
                     <div className="game-status">
-                        <p>{t('gameUI.time')}: {playerState.gameTime.charAt(0).toUpperCase() + playerState.gameTime.slice(1)}</p>
-                        <p>{t('gameUI.weather')}: {playerState.weather.charAt(0).toUpperCase() + playerState.weather.slice(1)}</p>
+                        <p>{t('gameUI.time')}: {t(`gameUI.timeValues.${playerState.gameTime}`)}</p>
+                        <p>{t('gameUI.weather')}: {t(`gameUI.weatherValues.${playerState.weather}`)}</p>
                     </div>
                 </div>
                 <div className="control-panel">

@@ -38,6 +38,7 @@
     "logIt": "Enregistrer",
     "letItGo": "Laisser Partir",
     "appeared": "est apparu !",
+    "radiant": "Radieux",
     "whatWillYouDo": "Que ferez-vous ?",
     "success": "Succès !",
     "hasBeenLogged": "a été enregistré.",
@@ -51,6 +52,8 @@
     "analyzeBiome": "Analyser le Biome",
     "time": "Temps",
     "weather": "Météo",
+    "timeValues": { "day": "Jour", "night": "Nuit" },
+    "weatherValues": { "clear": "Dégagé", "rainy": "Pluvieux" },
     "level": "Niveau",
     "rarity": "Rareté",
     "undiscovered": "Non Découvert",
@@ -58,6 +61,8 @@
     "masterToUnlock": "Maîtrisez le",
     "to unlock": "pour débloquer."
   },
+  "rarity": { "common": "Commun", "uncommon": "Peu commun", "rare": "Rare" },
+  "status": { "location": "PN d'Itatiaia", "researchActive": "Recherche active" },
   "species": {
     "onca_pintada": {
       "name": "Jaguar",

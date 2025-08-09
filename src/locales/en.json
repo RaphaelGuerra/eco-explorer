@@ -38,6 +38,7 @@
     "logIt": "Log It",
     "letItGo": "Let It Go",
     "appeared": "appeared!",
+    "radiant": "Radiant",
     "whatWillYouDo": "What will you do?",
     "success": "Success!",
     "hasBeenLogged": "has been logged.",
@@ -51,6 +52,8 @@
     "analyzeBiome": "Analyze Biome",
     "time": "Time",
     "weather": "Weather",
+    "timeValues": { "day": "Day", "night": "Night" },
+    "weatherValues": { "clear": "Clear", "rainy": "Rainy" },
     "level": "Level",
     "rarity": "Rarity",
     "undiscovered": "Undiscovered",
@@ -58,6 +61,8 @@
     "masterToUnlock": "Master the",
     "to unlock": "to unlock."
   },
+  "rarity": { "common": "Common", "uncommon": "Uncommon", "rare": "Rare" },
+  "status": { "location": "Itatiaia NP", "researchActive": "Research Active" },
   "species": {
     "onca_pintada": {
       "name": "Jaguar",

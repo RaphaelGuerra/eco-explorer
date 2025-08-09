@@ -38,6 +38,7 @@
     "logIt": "Registrar",
     "letItGo": "Dejar Ir",
     "appeared": "¡apareció!",
+    "radiant": "Radiante",
     "whatWillYouDo": "¿Qué harás?",
     "success": "¡Éxito!",
     "hasBeenLogged": "ha sido registrado.",
@@ -51,6 +52,8 @@
     "analyzeBiome": "Analizar Bioma",
     "time": "Tiempo",
     "weather": "Clima",
+    "timeValues": { "day": "Día", "night": "Noche" },
+    "weatherValues": { "clear": "Despejado", "rainy": "Lluvioso" },
     "level": "Nivel",
     "rarity": "Rareza",
     "undiscovered": "No Descubierto",
@@ -58,6 +61,8 @@
     "masterToUnlock": "Domina el",
     "to unlock": "para desbloquear."
   },
+  "rarity": { "common": "Común", "uncommon": "Poco común", "rare": "Raro" },
+  "status": { "location": "PN Itatiaia", "researchActive": "Investigación Activa" },
   "species": {
     "onca_pintada": {
       "name": "Jaguar",
