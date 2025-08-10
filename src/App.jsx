@@ -4,6 +4,8 @@ import { useTranslation } from './hooks/useTranslation';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import HintChip from './components/HintChip';
 import ObjectiveRibbon from './components/ObjectiveRibbon';
+import ConfettiBurst from './components/ConfettiBurst';
+import sfx from './utils/sfx';
 
 // ===================== DATA STRUCTURES & GAME CONSTANTS =====================
 const MAX_RESEARCH_LEVEL = 2;
@@ -325,6 +327,7 @@ export default function App() {
 
     const handleAnalyzeBiome = useCallback(() => {
         if (isScanning || isFocusing || !scannerWindowRef.current) return;
+        sfx.play('scan');
         setIsScanning(true);
         setLastEncounterMessage(null);
         setConstellation(null);
@@ -397,6 +400,7 @@ export default function App() {
             const mouseY = e.clientY - rect.top;
             const distance = Math.sqrt(Math.pow(mouseX - hotspot.x, 2) + Math.pow(mouseY - hotspot.y, 2));
             if (distance < HOTSPOT_RADIUS) {
+                sfx.play('focus');
                 setConstellation({ x: hotspot.x, y: hotspot.y, species: hotspot.species });
                 setActiveEncounter(hotspot.species);
                 const hasKeenEye = playerState.unlockedPerks.includes('keen-eye');
@@ -430,6 +434,7 @@ export default function App() {
         if (wasSuccessful) {
             const xpGain = isRadiantEncounter ? XP_PER_ENCOUNTER * 5 : XP_PER_ENCOUNTER;
             grantXp(activeEncounter.id, xpGain);
+            sfx.play('success');
             // Reset pity on success; increment rare pity if common/uncommon
             setPlayerState(p => ({
                 ...p,
@@ -535,7 +540,12 @@ export default function App() {
                 {currentScreen === 'ecoLog' && <EcoLogComponent ecoLog={ecoLog} onBack={() => setCurrentScreen('explore')} />}
                 {currentScreen === 'perks' && <PerksScreen unlockedPerks={playerState.unlockedPerks} onBack={() => setCurrentScreen('explore')} />}
                 {activeEncounter && modalState.quiz && ( <QuizModal species={activeEncounter} onResult={handleGameResult} /> )}
-                {modalState.result && ( <ResultModal message={resultMessage} onClose={closeAllModals} /> )}
+                {modalState.result && (
+                  <>
+                    <ConfettiBurst trigger={/Success|Mastery/.test(resultMessage)} />
+                    <ResultModal message={resultMessage} onClose={closeAllModals} />
+                  </>
+                )}
             </div>
         </>
     );
