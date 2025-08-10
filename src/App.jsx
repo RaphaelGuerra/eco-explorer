@@ -125,7 +125,7 @@ const EcoLogComponent = ({ ecoLog, onBack }) => {
                     const isDiscovered = !!entry;
                     const speciesName = tNested(`species.${species.id}.name`) || species.name;
                     return (
-                        <div key={species.id} className={`card ${isDiscovered ? 'discovered' : 'undiscovered'}`}>
+                        <div key={species.id} className={`card ${isDiscovered ? 'discovered' : 'undiscovered'}`} data-speciesid={species.id}>
                             <div className="emoji">{isDiscovered ? species.emoji : '❓'}</div>
                             <h3>{isDiscovered ? speciesName : tNested('gameUI.undiscovered')}</h3>
                             {isDiscovered ? (
@@ -135,6 +135,7 @@ const EcoLogComponent = ({ ecoLog, onBack }) => {
                                     <p>{tNested('gameUI.time')}: {tNested(`gameUI.timeValues.${tNested(`species.${species.id}.bestTime`)}`)}</p>
                                     <p>{tNested('gameUI.weather')}: {tNested(`gameUI.weatherValues.${tNested(`species.${species.id}.bestWeather`)}`)}</p>
                                     <p style={{ fontStyle: 'italic' }}>{tNested(`species.${species.id}.funFact`)}</p>
+                                    <ShareCardButton speciesId={species.id} label={tNested('share.card')} />
                                     <div className="xp-bar-container" title={`XP: ${entry.researchXp} / ${XP_PER_LEVEL}`}>
                                         <div className="xp-bar-fill" style={{ width: `${(entry.researchXp / XP_PER_LEVEL) * 100}%` }}></div>
                                     </div>
@@ -150,6 +151,19 @@ const EcoLogComponent = ({ ecoLog, onBack }) => {
         </div>
     );
 };
+
+function ShareCardButton({ speciesId, label }) {
+    const handleShare = async () => {
+        const card = document.querySelector(`.card[data-speciesid="${speciesId}"]`);
+        if (!card) return;
+        const { captureElementToPng, downloadDataUrl } = await import('./utils/cardShare.js');
+        const dataUrl = await captureElementToPng(card);
+        downloadDataUrl(`eco-${speciesId}.png`, dataUrl);
+    };
+    return (
+        <button className="secondary-button" onClick={handleShare} style={{ marginTop: '0.5rem' }}>{label}</button>
+    );
+}
 const PerksScreen = ({ unlockedPerks, onBack }) => {
     const { tNested } = useTranslation();
     return (

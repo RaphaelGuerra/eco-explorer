@@ -158,6 +158,7 @@
       "description": "Ces compétences passives sont gagnées en maîtrisant la recherche d'une espèce. Elles fournissent des avantages permanents."
     }
   },
+  "share": { "card": "Partager la carte" },
   "quizzes": {
     "onca_pintada": [
       {
