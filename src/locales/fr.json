@@ -76,27 +76,45 @@
   "species": {
     "onca_pintada": {
       "name": "Jaguar",
-      "description": "Le plus grand félin des Amériques"
+      "description": "Le plus grand félin des Amériques",
+      "funFact": "Sa morsure peut écraser des carapaces de tortues.",
+      "bestTime": "night",
+      "bestWeather": "clear"
     },
     "mico_leao_dourado": {
       "name": "Tamarin-lion doré",
-      "description": "Primate en danger endémique du Brésil"
+      "description": "Primate en danger endémique du Brésil",
+      "funFact": "Vit en groupes familiaux avec soins coopératifs.",
+      "bestTime": "day",
+      "bestWeather": "clear"
     },
     "tucano_toco": {
       "name": "Toucan toco",
-      "description": "Oiseau emblématique au bec coloré"
+      "description": "Oiseau emblématique au bec coloré",
+      "funFact": "Utilise son grand bec pour réguler sa température.",
+      "bestTime": "day",
+      "bestWeather": "clear"
     },
     "capivara": {
       "name": "Capybara",
-      "description": "Plus grand rongeur du monde"
+      "description": "Plus grand rongeur du monde",
+      "funFact": "Excellents nageurs, ils peuvent retenir leur souffle plusieurs minutes.",
+      "bestTime": "day",
+      "bestWeather": "rainy"
     },
     "sagui": {
       "name": "Ouistiti",
-      "description": "Petit primate arboricole"
+      "description": "Petit primate arboricole",
+      "funFact": "Utilise des ongles en forme de griffes pour s'accrocher aux arbres.",
+      "bestTime": "day",
+      "bestWeather": "clear"
     },
     "beija_flor": {
       "name": "Colibri",
-      "description": "Mangeur de nectar volant rapidement"
+      "description": "Mangeur de nectar volant rapidement",
+      "funFact": "Peut faire du surplace et même voler en arrière grâce à des battements rapides.",
+      "bestTime": "day",
+      "bestWeather": "clear"
     }
   },
   "perks": {
