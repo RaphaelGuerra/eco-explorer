@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import './App.css';
 import { useTranslation } from './hooks/useTranslation';
 import LanguageSwitcher from './components/LanguageSwitcher';
+import AssistantPanel from './components/AssistantPanel';
 
 // ===================== DATA STRUCTURES & GAME CONSTANTS =====================
 const MAX_RESEARCH_LEVEL = 2;
@@ -457,6 +458,24 @@ export default function App() {
                         </>
                     ) : ( <div/> )}
                 </div>
+                <AssistantPanel
+                  gameState={{
+                    playerState,
+                    ecoLog,
+                    isScanning,
+                    isFocusing,
+                    hotEncounterSpeciesId: activeEncounter?.id || null,
+                  }}
+                  onAction={(action) => {
+                    if (action.type === 'startScan') {
+                      handleAnalyzeBiome();
+                    } else if (action.type === 'openEcoLog') {
+                      setCurrentScreen('ecoLog');
+                    } else if (action.type === 'openPerks') {
+                      setCurrentScreen('perks');
+                    }
+                  }}
+                />
                 {currentScreen === 'ecoLog' && <EcoLogComponent ecoLog={ecoLog} onBack={() => setCurrentScreen('explore')} />}
                 {currentScreen === 'perks' && <PerksScreen unlockedPerks={playerState.unlockedPerks} onBack={() => setCurrentScreen('explore')} />}
                 {activeEncounter && modalState.quiz && ( <QuizModal species={activeEncounter} onResult={handleGameResult} /> )}

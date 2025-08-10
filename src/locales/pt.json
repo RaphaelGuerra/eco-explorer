@@ -63,6 +63,20 @@
   },
   "rarity": { "common": "Comum", "uncommon": "Incomum", "rare": "Raro" },
   "status": { "location": "Parque Nacional de Itatiaia", "researchActive": "Pesquisa Ativa" },
+  "assistant": {
+    "title": "Assistente de Campo",
+    "welcome": "Olá, Explorador! Precisa de dica ou missão?",
+    "openTooltip": "Abrir assistente",
+    "placeholder": "Pergunte sobre espécies, perks ou dicas...",
+    "send": "Enviar",
+    "languageSwitched": "Idioma atualizado.",
+    "actions": {
+      "startScan": "Iniciar varredura",
+      "openEcoLog": "Abrir Eco-Log",
+      "openPerks": "Abrir Perks",
+      "switchLanguage": "Trocar idioma"
+    }
+  },
   "species": {
     "onca_pintada": {
       "name": "Onça-pintada",

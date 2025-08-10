@@ -63,6 +63,20 @@
   },
   "rarity": { "common": "Commun", "uncommon": "Peu commun", "rare": "Rare" },
   "status": { "location": "PN d'Itatiaia", "researchActive": "Recherche active" },
+  "assistant": {
+    "title": "Assistant de Terrain",
+    "welcome": "Bonjour Explorateur ! Besoin d'un indice ou d'une mission ?",
+    "openTooltip": "Ouvrir l'assistant",
+    "placeholder": "Demandez sur les espèces, perks ou conseils...",
+    "send": "Envoyer",
+    "languageSwitched": "Langue mise à jour.",
+    "actions": {
+      "startScan": "Démarrer le scan",
+      "openEcoLog": "Ouvrir l'Eco-Log",
+      "openPerks": "Ouvrir les Perks",
+      "switchLanguage": "Changer de langue"
+    }
+  },
   "species": {
     "onca_pintada": {
       "name": "Jaguar",
