@@ -313,7 +313,8 @@ export default function App() {
             if (gameTime === 'night' && hasBiolightAttractor) encounterChance += 0.1;
             if (Math.random() > encounterChance) {
                 setHotspot(null);
-                setIsFocusing(true);
+                setIsFocusing(false);
+                setLastEncounterMessage(tNested('gameUI.noBioSignatures'));
                 return;
             }
             const hasNightVision = unlockedPerks.includes('night-vision');
@@ -325,10 +326,20 @@ export default function App() {
                 const rainResistBonus = hasRainResistance && weather === 'rainy' && s.encounterRules.weather.includes('clear');
                 return timeMatch || weatherMatch || nightVisionBonus || rainResistBonus;
             });
-            if (speciesPool.length === 0) { setHotspot(null); setIsFocusing(true); return; }
+            if (speciesPool.length === 0) {
+                setHotspot(null);
+                setIsFocusing(false);
+                setLastEncounterMessage(tNested('gameUI.noBioSignatures'));
+                return;
+            }
             const rareMultiplier = 1 + Math.min(playerState.pityRare * RARE_PITY_STEP, RARE_PITY_MAX);
             const encounteredSpecies = selectByRarity(speciesPool, rareMultiplier);
-            if (!encounteredSpecies) { setHotspot(null); setIsFocusing(true); return; }
+            if (!encounteredSpecies) {
+                setHotspot(null);
+                setIsFocusing(false);
+                setLastEncounterMessage(tNested('gameUI.noBioSignatures'));
+                return;
+            }
             const rect = scannerWindowRef.current?.getBoundingClientRect();
             if (rect) {
                 const habitat = encounteredSpecies.habitat;
@@ -343,10 +354,13 @@ export default function App() {
                     y: y,
                     species: encounteredSpecies,
                 });
+                setIsFocusing(true);
+            } else {
+                setIsFocusing(false);
+                setLastEncounterMessage(tNested('gameUI.noBioSignatures'));
             }
-            setIsFocusing(true);
         }, SCAN_DURATION);
-    }, [isScanning, isFocusing, playerState]);
+    }, [isScanning, isFocusing, playerState, tNested]);
 
     useEffect(() => {
         if (!isFocusing) return;
