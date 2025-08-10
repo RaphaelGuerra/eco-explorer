@@ -12,18 +12,18 @@
 - Genshin/HSR: “pity” mechanics for rare outcomes reduce frustration
 
 ## Low-hanging fruit (1–2 days total)
-- Micro-feedback polish
+- [ ] Micro-feedback polish
   - Subtle SFX: scan start, focus found, success, mastery
   - Confetti/particle burst on success/mastery; pulse glow on Radiant
-- “Pity” counters
+- [x] “Pity” counters
   - Rare encounter pity and Radiant pity increase chance after misses; reset on hit
-- Daily streak and login nudge
+- [ ] Daily streak and login nudge
   - +5% encounter at 3+ days; small UI badge
-- Hint chips + Objective ribbon
+- [ ] Hint chips + Objective ribbon
   - Contextual hint above Scan; rotating objective with progress bar
-- Eco‑Dex card improvements
+- [ ] Eco‑Dex card improvements
   - Rarity icon, best time/weather, one “fun fact,” progress to next perk
-- Shareable log card
+- [ ] Shareable log card
   - Download a small PNG of a species card for social
 
 ## Phase plan
@@ -65,9 +65,9 @@
 - D1 retention (+5–10% after streaks go live)
 
 ## Build order
-1. Pity counters + tests
-2. HintChip + ObjectiveRibbon (daily: “Log 2 sky species”)
-3. Eco‑Dex facts (i18n)
-4. PhotoMiniGame and swap-in map
-5. SFX and particles (toggle)
-6. Daily streak counter UI
+1. [x] Pity counters + tests (pity implemented; tests pending)
+2. [ ] HintChip + ObjectiveRibbon (daily: “Log 2 sky species”)
+3. [ ] Eco‑Dex facts (i18n)
+4. [ ] PhotoMiniGame and swap-in map
+5. [ ] SFX and particles (toggle)
+6. [ ] Daily streak counter UI
