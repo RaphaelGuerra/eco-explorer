@@ -158,6 +158,7 @@
       "description": "Essas habilidades passivas são conquistadas dominando a pesquisa de uma espécie. Elas fornecem vantagens permanentes."
     }
   },
+  "share": { "card": "Compartilhar card" },
   "quizzes": {
     "onca_pintada": [
       {

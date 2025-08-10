@@ -158,6 +158,7 @@
       "description": "These passive skills are earned by mastering a species' research. They provide permanent advantages."
     }
   },
+  "share": { "card": "Share card" },
   "quizzes": {
     "onca_pintada": [
       {

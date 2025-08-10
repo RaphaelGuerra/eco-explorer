@@ -158,6 +158,7 @@
       "description": "Estas habilidades pasivas se obtienen dominando la investigación de una especie. Proporcionan ventajas permanentes."
     }
   },
+  "share": { "card": "Compartir tarjeta" },
   "quizzes": {
     "onca_pintada": [
       {
