@@ -62,7 +62,7 @@
     "to unlock": "para desbloquear."
   },
   "rarity": { "common": "Común", "uncommon": "Poco común", "rare": "Raro" },
-  "status": { "location": "PN Itatiaia", "researchActive": "Investigación Activa" },
+  "status": { "location": "PN Itatiaia", "researchActive": "Investigación Activa", "streak": "Racha", "days": "días" },
   "hints": {
     "noBio": "Sin biofirmas fuertes aquí. Intenta escanear de nuevo.",
     "tryRain": "La lluvia puede atraer especies diferentes.",

@@ -253,7 +253,7 @@ const LightingOverlay = ({ time }) => { return <div className={`visual-overlay $
 export default function App() {
     const { t, tNested } = useTranslation();
     const [currentScreen, setCurrentScreen] = useState('explore');
-    const [playerState, setPlayerState] = useState({ gameTime: 'day', weather: 'clear', unlockedPerks: [], pityRare: 0, pityRadiant: 0 });
+    const [playerState, setPlayerState] = useState({ gameTime: 'day', weather: 'clear', unlockedPerks: [], pityRare: 0, pityRadiant: 0, streakDays: 1, lastLoginDate: null });
     const [ecoLog, setEcoLog] = useState({});
     const [modalState, setModalState] = useState({ encounter: false, quiz: false, result: false });
     const [activeEncounter, setActiveEncounter] = useState(null);
@@ -267,11 +267,29 @@ export default function App() {
     const scannerWindowRef = useRef(null);
 
     useEffect(() => {
+        // Daily streak initialization
+        try {
+            const today = new Date().toDateString();
+            const saved = localStorage.getItem('ee-last-login');
+            if (!saved) {
+                localStorage.setItem('ee-last-login', today);
+                setPlayerState(p => ({ ...p, streakDays: 1, lastLoginDate: today }));
+            } else if (saved !== today) {
+                const prev = new Date(saved);
+                const diffDays = Math.round((new Date(today) - prev) / (1000*60*60*24));
+                const nextStreak = diffDays === 1 ? (playerState.streakDays || 0) + 1 : 1;
+                localStorage.setItem('ee-last-login', today);
+                setPlayerState(p => ({ ...p, streakDays: nextStreak, lastLoginDate: today }));
+            }
+        } catch {
+            // ignore storage errors
+        }
+
         const gameLoop = setInterval(() => {
             setPlayerState(p => ({ ...p, gameTime: p.gameTime === 'day' ? 'night' : 'day', weather: Math.random() > 0.7 ? 'rainy' : 'clear' }));
         }, 30000);
         return () => clearInterval(gameLoop);
-    }, []);
+    }, [playerState.streakDays]);
 
     const grantXp = useCallback((speciesId, amount) => {
         setEcoLog(prevLog => {
@@ -315,6 +333,9 @@ export default function App() {
             const { unlockedPerks, gameTime, weather } = playerState;
             const hasBiolightAttractor = unlockedPerks.includes('biolight-attractor');
             let encounterChance = BASE_ENCOUNTER_CHANCE;
+            if ((playerState.streakDays || 0) >= 3) {
+                encounterChance += 0.05; // +5% bonus for streak
+            }
             if (gameTime === 'night' && hasBiolightAttractor) encounterChance += 0.1;
             if (Math.random() > encounterChance) {
                 setHotspot(null);
@@ -455,6 +476,10 @@ export default function App() {
                             <div className="status-item">
                                 <span className="status-icon">🔬</span>
                             <span className="status-text">{tNested('status.researchActive')}</span>
+                            </div>
+                            <div className="status-item">
+                                <span className="status-icon">🔥</span>
+                                <span className="status-text">{tNested('status.streak')}: {(playerState.streakDays||1)} {tNested('status.days')}</span>
                             </div>
                         </div>
                         <LanguageSwitcher />
