@@ -269,3 +269,13 @@ danger-button:hover { background-color: var(--danger-hover); }
 @keyframes form-constellation { from { opacity: 0; transform: translate(-50%, -50%) scale(0.2); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
 .hotspot-visualizer { position: absolute; z-index: 5; border: 2px dashed rgba(52, 211, 153, 0.8); border-radius: 50%; animation: pulse-hotspot 2s infinite; pointer-events: none; }
 @keyframes pulse-hotspot { 0% { transform: scale(0.95); opacity: 0.7; } 70% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.7; } }
+
+/* Confetti burst */
+.confetti-burst { position: fixed; inset: 0; pointer-events: none; z-index: 200; display: grid; place-items: center; opacity: 0; transition: opacity 0.2s ease; }
+.confetti-burst.show { opacity: 1; }
+.confetti-burst .c { display: inline-block; width: 8px; height: 8px; margin: 2px; background: var(--accent-color); transform: translateY(-20px); animation: confetti 0.8s ease-out forwards; }
+.confetti-burst .c1 { background: #fde047; }
+.confetti-burst .c2 { background: #60a5fa; }
+.confetti-burst .c3 { background: #f472b6; }
+.confetti-burst .c4 { background: #34d399; }
+@keyframes confetti { to { transform: translateY(40px) rotate(180deg); opacity: 0; } }
