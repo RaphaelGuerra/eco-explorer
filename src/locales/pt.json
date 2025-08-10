@@ -62,7 +62,7 @@
     "to unlock": "para desbloquear."
   },
   "rarity": { "common": "Comum", "uncommon": "Incomum", "rare": "Raro" },
-  "status": { "location": "Parque Nacional de Itatiaia", "researchActive": "Pesquisa Ativa" },
+  "status": { "location": "Parque Nacional de Itatiaia", "researchActive": "Pesquisa Ativa", "streak": "Sequência", "days": "dias" },
   "hints": {
     "noBio": "Sem bioassinaturas fortes aqui. Tente escanear novamente.",
     "tryRain": "A chuva pode atrair espécies diferentes.",
