@@ -19,9 +19,9 @@
   - Rare encounter pity and Radiant pity increase chance after misses; reset on hit
 - [ ] Daily streak and login nudge
   - +5% encounter at 3+ days; small UI badge
-- [ ] Hint chips + Objective ribbon
+- [x] Hint chips + Objective ribbon
   - Contextual hint above Scan; rotating objective with progress bar
-- [ ] Eco‑Dex card improvements
+- [x] Eco‑Dex card improvements
   - Rarity icon, best time/weather, one “fun fact,” progress to next perk
 - [ ] Shareable log card
   - Download a small PNG of a species card for social

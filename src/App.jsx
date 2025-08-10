@@ -129,6 +129,9 @@ const EcoLogComponent = ({ ecoLog, onBack }) => {
                                 <>
                                     <p>{tNested('gameUI.level')}: {entry.researchLevel} / {MAX_RESEARCH_LEVEL}</p>
                                     <p>{tNested('gameUI.rarity')}: {tNested(`rarity.${species.rarity}`)}</p>
+                                    <p>{tNested('gameUI.time')}: {tNested(`gameUI.timeValues.${tNested(`species.${species.id}.bestTime`)}`)}</p>
+                                    <p>{tNested('gameUI.weather')}: {tNested(`gameUI.weatherValues.${tNested(`species.${species.id}.bestWeather`)}`)}</p>
+                                    <p style={{ fontStyle: 'italic' }}>{tNested(`species.${species.id}.funFact`)}</p>
                                     <div className="xp-bar-container" title={`XP: ${entry.researchXp} / ${XP_PER_LEVEL}`}>
                                         <div className="xp-bar-fill" style={{ width: `${(entry.researchXp / XP_PER_LEVEL) * 100}%` }}></div>
                                     </div>
