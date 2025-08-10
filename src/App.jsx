@@ -12,6 +12,10 @@ const FOCUS_TIMEOUT = 7000;
 const BASE_ENCOUNTER_CHANCE = 0.80;
 const BASE_RADIANT_CHANCE = 0.05;
 const RARITY_WEIGHTS = { common: 10, uncommon: 5, rare: 1 };
+const RARE_PITY_STEP = 0.25;
+const RARE_PITY_MAX = 2.0; // up to +200% weight for rare
+const RADIANT_PITY_STEP = 0.01; // +1% per non-radiant encounter
+const RADIANT_PITY_MAX = 0.15; // cap +15%
 const HOTSPOT_RADIUS = 75;
 const IMAGE_ASSETS = {
     day: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop',
@@ -86,12 +90,17 @@ const speciesData = [
 ];
 
 // ===================== COMPONENTS =====================
-const selectByRarity = (speciesPool) => {
+const selectByRarity = (speciesPool, rareMultiplier = 1) => {
     if (speciesPool.length === 0) return null;
-    const totalWeight = speciesPool.reduce((sum, s) => sum + (RARITY_WEIGHTS[s.rarity] || 1), 0);
+    const totalWeight = speciesPool.reduce((sum, s) => {
+        const base = RARITY_WEIGHTS[s.rarity] || 1;
+        const adjusted = s.rarity === 'rare' ? base * rareMultiplier : base;
+        return sum + adjusted;
+    }, 0);
     let random = Math.random() * totalWeight;
     for (const s of speciesPool) {
-        const weight = RARITY_WEIGHTS[s.rarity] || 1;
+        const base = RARITY_WEIGHTS[s.rarity] || 1;
+        const weight = s.rarity === 'rare' ? base * rareMultiplier : base;
         if (random < weight) return s;
         random -= weight;
     }
@@ -239,7 +248,7 @@ const LightingOverlay = ({ time }) => { return <div className={`visual-overlay $
 export default function App() {
     const { t, tNested } = useTranslation();
     const [currentScreen, setCurrentScreen] = useState('explore');
-    const [playerState, setPlayerState] = useState({ gameTime: 'day', weather: 'clear', unlockedPerks: [] });
+    const [playerState, setPlayerState] = useState({ gameTime: 'day', weather: 'clear', unlockedPerks: [], pityRare: 0, pityRadiant: 0 });
     const [ecoLog, setEcoLog] = useState({});
     const [modalState, setModalState] = useState({ encounter: false, quiz: false, result: false });
     const [activeEncounter, setActiveEncounter] = useState(null);
@@ -317,7 +326,8 @@ export default function App() {
                 return timeMatch || weatherMatch || nightVisionBonus || rainResistBonus;
             });
             if (speciesPool.length === 0) { setHotspot(null); setIsFocusing(true); return; }
-            const encounteredSpecies = selectByRarity(speciesPool);
+            const rareMultiplier = 1 + Math.min(playerState.pityRare * RARE_PITY_STEP, RARE_PITY_MAX);
+            const encounteredSpecies = selectByRarity(speciesPool, rareMultiplier);
             if (!encounteredSpecies) { setHotspot(null); setIsFocusing(true); return; }
             const rect = scannerWindowRef.current?.getBoundingClientRect();
             if (rect) {
@@ -350,7 +360,8 @@ export default function App() {
                 setConstellation({ x: hotspot.x, y: hotspot.y, species: hotspot.species });
                 setActiveEncounter(hotspot.species);
                 const hasKeenEye = playerState.unlockedPerks.includes('keen-eye');
-                const radiantChance = hasKeenEye ? BASE_RADIANT_CHANCE * 1.5 : BASE_RADIANT_CHANCE;
+                const pityBonus = Math.min(playerState.pityRadiant * RADIANT_PITY_STEP, RADIANT_PITY_MAX);
+                const radiantChance = (hasKeenEye ? BASE_RADIANT_CHANCE * 1.5 : BASE_RADIANT_CHANCE) + pityBonus;
                 setIsRadiantEncounter(Math.random() < radiantChance);
                 setIsFocusing(false);
                 setHotspot(null);
@@ -372,19 +383,31 @@ export default function App() {
             currentScannerWindow?.removeEventListener('mousemove', handleMouseMove);
             clearTimeout(focusTimeout);
         };
-    }, [isFocusing, hotspot, playerState.unlockedPerks, tNested]);
+    }, [isFocusing, hotspot, playerState.unlockedPerks, playerState.pityRadiant, tNested]);
 
     const handleGameResult = (wasSuccessful) => {
         setResultMessage("");
         if (wasSuccessful) {
             const xpGain = isRadiantEncounter ? XP_PER_ENCOUNTER * 5 : XP_PER_ENCOUNTER;
             grantXp(activeEncounter.id, xpGain);
+            // Reset pity on success; increment rare pity if common/uncommon
+            setPlayerState(p => ({
+                ...p,
+                pityRare: activeEncounter.rarity === 'rare' ? 0 : p.pityRare + 1,
+                pityRadiant: isRadiantEncounter ? 0 : p.pityRadiant + 1,
+            }));
             if (!resultMessage.includes("Mastery!")) {
                 const speciesName = tNested(`species.${activeEncounter.id}.name`) || activeEncounter.name;
                 setResultMessage(`${tNested('gameUI.success')} ${speciesName} ${tNested('gameUI.hasBeenLogged')}`);
                 setModalState({ encounter: false, quiz: false, result: true });
             }
         } else {
+            // On failure, increase pity for both rare and radiant slightly
+            setPlayerState(p => ({
+                ...p,
+                pityRare: p.pityRare + 1,
+                pityRadiant: p.pityRadiant + 1,
+            }));
             const speciesName = tNested(`species.${activeEncounter.id}.name`) || activeEncounter.name;
             setResultMessage(`${tNested('gameUI.ohNo')} ${speciesName} ${tNested('gameUI.fled')}`);
             setModalState({ encounter: false, quiz: false, result: true });
