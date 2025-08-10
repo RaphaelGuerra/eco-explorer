@@ -73,6 +73,11 @@
   "objective": {
     "logSky": "Objective: Log 2 sky species today"
   },
+  "minigame": {
+    "photoTitle": "Photo Opportunity",
+    "photoHint": "Click the ring as it passes the target!",
+    "timeLeft": "Time left"
+  },
   "species": {
     "onca_pintada": {
       "name": "Jaguar",

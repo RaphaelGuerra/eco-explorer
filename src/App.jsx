@@ -6,6 +6,7 @@ import HintChip from './components/HintChip';
 import ObjectiveRibbon from './components/ObjectiveRibbon';
 import ConfettiBurst from './components/ConfettiBurst';
 import sfx from './utils/sfx';
+import PhotoMiniGame from './components/PhotoMiniGame';
 
 // ===================== DATA STRUCTURES & GAME CONSTANTS =====================
 const MAX_RESEARCH_LEVEL = 2;
@@ -539,7 +540,11 @@ export default function App() {
                 </div>
                 {currentScreen === 'ecoLog' && <EcoLogComponent ecoLog={ecoLog} onBack={() => setCurrentScreen('explore')} />}
                 {currentScreen === 'perks' && <PerksScreen unlockedPerks={playerState.unlockedPerks} onBack={() => setCurrentScreen('explore')} />}
-                {activeEncounter && modalState.quiz && ( <QuizModal species={activeEncounter} onResult={handleGameResult} /> )}
+                {activeEncounter && modalState.quiz && (
+                  Math.random() < 0.5
+                    ? <PhotoMiniGame species={activeEncounter} onResult={handleGameResult} />
+                    : <QuizModal species={activeEncounter} onResult={handleGameResult} />
+                )}
                 {modalState.result && (
                   <>
                     <ConfettiBurst trigger={/Success|Mastery/.test(resultMessage)} />

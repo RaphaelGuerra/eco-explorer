@@ -73,6 +73,11 @@
   "objective": {
     "logSky": "Objetivo: Registrar 2 espécies do céu hoje"
   },
+  "minigame": {
+    "photoTitle": "Oportunidade de Foto",
+    "photoHint": "Clique no anel quando passar pelo alvo!",
+    "timeLeft": "Tempo restante"
+  },
   "species": {
     "onca_pintada": {
       "name": "Onça-pintada",
