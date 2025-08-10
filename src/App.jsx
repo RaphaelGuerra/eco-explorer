@@ -98,12 +98,12 @@ const selectByRarity = (speciesPool) => {
     return speciesPool[speciesPool.length - 1];
 };
 const EcoLogComponent = ({ ecoLog, onBack }) => {
-    const { t, tNested } = useTranslation();
+    const { tNested } = useTranslation();
     return (
         <div className="screen-container">
-            <h1>{t('screens.ecoLog.title')}</h1>
+            <h1>{tNested('screens.ecoLog.title')}</h1>
             <p style={{ textAlign: 'center', color: 'var(--light-text)', maxWidth: '600px', marginBottom: '2rem' }}>
-                {t('screens.ecoLog.description')}
+                {tNested('screens.ecoLog.description')}
             </p>
             <div className="screen-grid">
                 {speciesData.map(species => {
@@ -113,33 +113,33 @@ const EcoLogComponent = ({ ecoLog, onBack }) => {
                     return (
                         <div key={species.id} className={`card ${isDiscovered ? 'discovered' : 'undiscovered'}`}>
                             <div className="emoji">{isDiscovered ? species.emoji : '❓'}</div>
-                            <h3>{isDiscovered ? speciesName : t('gameUI.undiscovered')}</h3>
+                            <h3>{isDiscovered ? speciesName : tNested('gameUI.undiscovered')}</h3>
                             {isDiscovered ? (
                                 <>
-                                    <p>{t('gameUI.level')}: {entry.researchLevel} / {MAX_RESEARCH_LEVEL}</p>
-                                    <p>{t('gameUI.rarity')}: {species.rarity}</p>
+                                    <p>{tNested('gameUI.level')}: {entry.researchLevel} / {MAX_RESEARCH_LEVEL}</p>
+                                    <p>{tNested('gameUI.rarity')}: {tNested(`rarity.${species.rarity}`)}</p>
                                     <div className="xp-bar-container" title={`XP: ${entry.researchXp} / ${XP_PER_LEVEL}`}>
                                         <div className="xp-bar-fill" style={{ width: `${(entry.researchXp / XP_PER_LEVEL) * 100}%` }}></div>
                                     </div>
                                 </>
                             ) : (
-                                <p>{t('gameUI.keepExploring')}</p>
+                                <p>{tNested('gameUI.keepExploring')}</p>
                             )}
                         </div>
                     );
                 })}
             </div>
-            <button className="secondary-button" onClick={onBack} style={{ marginTop: '2rem' }}>{t('gameUI.back')}</button>
+            <button className="secondary-button" onClick={onBack} style={{ marginTop: '2rem' }}>{tNested('gameUI.back')}</button>
         </div>
     );
 };
 const PerksScreen = ({ unlockedPerks, onBack }) => {
-    const { t, tNested } = useTranslation();
+    const { tNested } = useTranslation();
     return (
         <div className="screen-container">
-            <h1>{t('screens.perks.title')}</h1>
+            <h1>{tNested('screens.perks.title')}</h1>
             <p style={{ textAlign: 'center', color: 'var(--light-text)', maxWidth: '600px', marginBottom: '2rem' }}>
-                {t('screens.perks.description')}
+                {tNested('screens.perks.description')}
             </p>
             <div className="screen-grid">
                 {speciesData.map(species => {
@@ -153,38 +153,39 @@ const PerksScreen = ({ unlockedPerks, onBack }) => {
                             <div className="emoji">{isUnlocked ? species.emoji : '🔒'}</div>
                             <h3>{perkName}</h3>
                             <p className="description">{perkDescription}</p>
-                            {!isUnlocked && <p>{t('gameUI.masterToUnlock')} {speciesName} {t('gameUI.to unlock')}</p>}
+                            {!isUnlocked && <p>{tNested('gameUI.masterToUnlock')} {speciesName} {tNested('gameUI.to unlock')}</p>}
                         </div>
                     );
                 })}
             </div>
-            <button className="secondary-button" onClick={onBack} style={{ marginTop: '2rem' }}>{t('gameUI.back')}</button>
+            <button className="secondary-button" onClick={onBack} style={{ marginTop: '2rem' }}>{tNested('gameUI.back')}</button>
         </div>
     );
 };
 const ResultModal = ({ message, onClose }) => {
-    const { t } = useTranslation();
+    const { tNested } = useTranslation();
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <h2>{message}</h2>
-                <button className="explore-button" onClick={onClose} style={{marginTop: '1rem'}}>{t('gameUI.ok')}</button>
+                <button className="explore-button" onClick={onClose} style={{marginTop: '1rem'}}>{tNested('gameUI.ok')}</button>
             </div>
         </div>
     );
 };
 const EncounterModal = ({ encounter, isRadiant, onLog, onRelease }) => {
-    const { t, tNested } = useTranslation();
+    const { tNested } = useTranslation();
     const speciesName = tNested(`species.${encounter.id}.name`) || encounter.name;
+    const radiantPrefix = isRadiant ? `${tNested('gameUI.radiant')} ` : '';
     return (
         <div className="modal-overlay">
             <div className="modal-content">
                 <div className="emoji" style={{ filter: isRadiant ? 'drop-shadow(0 0 1rem #fde047)' : 'none' }}>{encounter.emoji}</div>
-                <h2>A {isRadiant && 'Radiant '}{speciesName} {t('gameUI.appeared')}</h2>
-                <p>{t('gameUI.whatWillYouDo')}</p>
+                <h2>A {radiantPrefix}{speciesName} {tNested('gameUI.appeared')}</h2>
+                <p>{tNested('gameUI.whatWillYouDo')}</p>
                 <div className="button-group">
-                    <button className="explore-button" onClick={onLog}>{t('gameUI.logIt')}</button>
-                    <button className="danger-button" onClick={onRelease}>{t('gameUI.letItGo')}</button>
+                    <button className="explore-button" onClick={onLog}>{tNested('gameUI.logIt')}</button>
+                    <button className="danger-button" onClick={onRelease}>{tNested('gameUI.letItGo')}</button>
                 </div>
             </div>
         </div>
@@ -273,7 +274,7 @@ export default function App() {
                 if (!playerState.unlockedPerks.includes(perkId)) {
                     setTimeout(() => {
                         const perkName = tNested(`perks.${species.masteryPerk.id}.name`) || species.masteryPerk.name;
-                        setResultMessage(`${t('gameUI.mastery')} ${t('gameUI.youLearned')} '${perkName}'.`);
+                        setResultMessage(`${tNested('gameUI.mastery')} ${tNested('gameUI.youLearned')} '${perkName}'.`);
                         setModalState(s => ({ ...s, result: true }));
                         setPlayerState(p => ({...p, unlockedPerks: [...p.unlockedPerks, perkId]}));
                     }, 500);
@@ -281,7 +282,7 @@ export default function App() {
             }
             return { ...prevLog, [speciesId]: { researchLevel: newLevel, researchXp: newXp } };
         });
-    }, [playerState.unlockedPerks, t, tNested]);
+    }, [playerState.unlockedPerks, tNested]);
 
     const closeAllModals = () => {
         setModalState({ encounter: false, quiz: false, result: false });
@@ -362,7 +363,7 @@ export default function App() {
             if (isFocusing) {
                 setIsFocusing(false);
                 setHotspot(null);
-                setLastEncounterMessage(t('gameUI.noBioSignatures'));
+                setLastEncounterMessage(tNested('gameUI.noBioSignatures'));
             }
         }, FOCUS_TIMEOUT);
         const currentScannerWindow = scannerWindowRef.current;
@@ -371,7 +372,7 @@ export default function App() {
             currentScannerWindow?.removeEventListener('mousemove', handleMouseMove);
             clearTimeout(focusTimeout);
         };
-    }, [isFocusing, hotspot, playerState.unlockedPerks, t]);
+    }, [isFocusing, hotspot, playerState.unlockedPerks, tNested]);
 
     const handleGameResult = (wasSuccessful) => {
         setResultMessage("");
@@ -380,12 +381,12 @@ export default function App() {
             grantXp(activeEncounter.id, xpGain);
             if (!resultMessage.includes("Mastery!")) {
                 const speciesName = tNested(`species.${activeEncounter.id}.name`) || activeEncounter.name;
-                setResultMessage(`${t('gameUI.success')} ${speciesName} ${t('gameUI.hasBeenLogged')}`);
+                setResultMessage(`${tNested('gameUI.success')} ${speciesName} ${tNested('gameUI.hasBeenLogged')}`);
                 setModalState({ encounter: false, quiz: false, result: true });
             }
         } else {
             const speciesName = tNested(`species.${activeEncounter.id}.name`) || activeEncounter.name;
-            setResultMessage(`${t('gameUI.ohNo')} ${speciesName} ${t('gameUI.fled')}`);
+            setResultMessage(`${tNested('gameUI.ohNo')} ${speciesName} ${tNested('gameUI.fled')}`);
             setModalState({ encounter: false, quiz: false, result: true });
         }
     };
@@ -407,11 +408,11 @@ export default function App() {
                         <div className="status-indicators">
                             <div className="status-item">
                                 <span className="status-icon">🌍</span>
-                                <span className="status-text">Itatiaia NP</span>
+                            <span className="status-text">{tNested('status.location')}</span>
                             </div>
                             <div className="status-item">
                                 <span className="status-icon">🔬</span>
-                                <span className="status-text">Research Active</span>
+                            <span className="status-text">{tNested('status.researchActive')}</span>
                             </div>
                         </div>
                         <LanguageSwitcher />
@@ -436,8 +437,8 @@ export default function App() {
                         </div>
                     )}
                     <div className="game-status">
-                        <p>{t('gameUI.time')}: {playerState.gameTime.charAt(0).toUpperCase() + playerState.gameTime.slice(1)}</p>
-                        <p>{t('gameUI.weather')}: {playerState.weather.charAt(0).toUpperCase() + playerState.weather.slice(1)}</p>
+                        <p>{tNested('gameUI.time')}: {tNested(`gameUI.timeValues.${playerState.gameTime}`)}</p>
+                        <p>{tNested('gameUI.weather')}: {tNested(`gameUI.weatherValues.${playerState.weather}`)}</p>
                     </div>
                 </div>
                 <div className="control-panel">
@@ -445,12 +446,12 @@ export default function App() {
                         <>
                             <div className="button-group">
                                 <button className="explore-button" onClick={handleAnalyzeBiome} disabled={isScanning || isFocusing}>
-                                    {isScanning ? t('gameUI.scanningBiome') : isFocusing ? t('gameUI.focusing') : t('exploreButton')}
+                                    {isScanning ? tNested('gameUI.scanningBiome') : isFocusing ? tNested('gameUI.focusing') : t('exploreButton')}
                                 </button>
                             </div>
                             <div className="button-group">
-                                <button className="secondary-button" onClick={() => setCurrentScreen('ecoLog')}>{t('gameUI.viewEcoLog')}</button>
-                                <button className="secondary-button" onClick={() => setCurrentScreen('perks')}>{t('gameUI.viewPerks')}</button>
+                                <button className="secondary-button" onClick={() => setCurrentScreen('ecoLog')}>{tNested('gameUI.viewEcoLog')}</button>
+                                <button className="secondary-button" onClick={() => setCurrentScreen('perks')}>{tNested('gameUI.viewPerks')}</button>
                             </div>
                             {lastEncounterMessage && <p style={{ color: 'var(--light-text)', marginTop: '1rem' }}>{lastEncounterMessage}</p>}
                         </>
