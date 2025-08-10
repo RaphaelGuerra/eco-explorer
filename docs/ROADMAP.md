@@ -23,7 +23,7 @@
   - Contextual hint above Scan; rotating objective with progress bar
 - [x] Eco‑Dex card improvements
   - Rarity icon, best time/weather, one “fun fact,” progress to next perk
-- [ ] Shareable log card
+- [x] Shareable log card
   - Download a small PNG of a species card for social
 
 ## Phase plan
