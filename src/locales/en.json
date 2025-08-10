@@ -63,30 +63,58 @@
   },
   "rarity": { "common": "Common", "uncommon": "Uncommon", "rare": "Rare" },
   "status": { "location": "Itatiaia NP", "researchActive": "Research Active" },
+  "hints": {
+    "noBio": "No strong bio-signatures here. Try scanning again.",
+    "tryRain": "Rain may attract different species.",
+    "tryNight": "Night reveals sky species.",
+    "tryClear": "Clear weather favors ground sightings.",
+    "pityBuilding": "Your senses sharpen with each try."
+  },
+  "objective": {
+    "logSky": "Objective: Log 2 sky species today"
+  },
   "species": {
     "onca_pintada": {
       "name": "Jaguar",
-      "description": "The largest feline in the Americas"
+      "description": "The largest feline in the Americas",
+      "funFact": "Its bite is powerful enough to crush turtle shells.",
+      "bestTime": "night",
+      "bestWeather": "clear"
     },
     "mico_leao_dourado": {
       "name": "Golden Lion Tamarin",
-      "description": "Endangered primate endemic to Brazil"
+      "description": "Endangered primate endemic to Brazil",
+      "funFact": "Lives in family groups with cooperative care.",
+      "bestTime": "day",
+      "bestWeather": "clear"
     },
     "tucano_toco": {
       "name": "Toco Toucan",
-      "description": "Iconic bird with colorful beak"
+      "description": "Iconic bird with colorful beak",
+      "funFact": "Uses its large bill to regulate body temperature.",
+      "bestTime": "day",
+      "bestWeather": "clear"
     },
     "capivara": {
       "name": "Capybara",
-      "description": "World's largest rodent"
+      "description": "World's largest rodent",
+      "funFact": "Excellent swimmers that can hold breath for minutes.",
+      "bestTime": "day",
+      "bestWeather": "rainy"
     },
     "sagui": {
       "name": "Marmoset",
-      "description": "Small tree-dwelling primate"
+      "description": "Small tree-dwelling primate",
+      "funFact": "Uses claw-like nails to cling to trees.",
+      "bestTime": "day",
+      "bestWeather": "clear"
     },
     "beija_flor": {
       "name": "Hummingbird",
-      "description": "Fast-flying nectar feeder"
+      "description": "Fast-flying nectar feeder",
+      "funFact": "Can hover and even fly backwards with rapid wingbeats.",
+      "bestTime": "day",
+      "bestWeather": "clear"
     }
   },
   "perks": {

@@ -63,30 +63,58 @@
   },
   "rarity": { "common": "Comum", "uncommon": "Incomum", "rare": "Raro" },
   "status": { "location": "Parque Nacional de Itatiaia", "researchActive": "Pesquisa Ativa" },
+  "hints": {
+    "noBio": "Sem bioassinaturas fortes aqui. Tente escanear novamente.",
+    "tryRain": "A chuva pode atrair espécies diferentes.",
+    "tryNight": "A noite revela espécies do céu.",
+    "tryClear": "Tempo claro favorece avistamentos no solo.",
+    "pityBuilding": "Suas percepções aumentam a cada tentativa."
+  },
+  "objective": {
+    "logSky": "Objetivo: Registrar 2 espécies do céu hoje"
+  },
   "species": {
     "onca_pintada": {
       "name": "Onça-pintada",
-      "description": "O maior felino das Américas"
+      "description": "O maior felino das Américas",
+      "funFact": "Sua mordida é forte o suficiente para esmagar carapaças de tartarugas.",
+      "bestTime": "night",
+      "bestWeather": "clear"
     },
     "mico_leao_dourado": {
       "name": "Mico-leão-dourado",
-      "description": "Primata ameaçado endêmico do Brasil"
+      "description": "Primata ameaçado endêmico do Brasil",
+      "funFact": "Vive em grupos familiares com cuidado cooperativo.",
+      "bestTime": "day",
+      "bestWeather": "clear"
     },
     "tucano_toco": {
       "name": "Tucano-toco",
-      "description": "Ave icônica com bico colorido"
+      "description": "Ave icônica com bico colorido",
+      "funFact": "Usa o bico grande para regular a temperatura corporal.",
+      "bestTime": "day",
+      "bestWeather": "clear"
     },
     "capivara": {
       "name": "Capivara",
-      "description": "Maior roedor do mundo"
+      "description": "Maior roedor do mundo",
+      "funFact": "Excelente nadadora, pode prender a respiração por minutos.",
+      "bestTime": "day",
+      "bestWeather": "rainy"
     },
     "sagui": {
       "name": "Sagui",
-      "description": "Pequeno primata arborícola"
+      "description": "Pequeno primata arborícola",
+      "funFact": "Usa unhas em forma de garras para se prender às árvores.",
+      "bestTime": "day",
+      "bestWeather": "clear"
     },
     "beija_flor": {
       "name": "Beija-flor",
-      "description": "Alimentador de néctar de voo rápido"
+      "description": "Alimentador de néctar de voo rápido",
+      "funFact": "Pode pairar e até voar para trás com batimentos rápidos.",
+      "bestTime": "day",
+      "bestWeather": "clear"
     }
   },
   "perks": {
