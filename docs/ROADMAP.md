@@ -17,7 +17,7 @@
   - Confetti/particle burst on success/mastery; pulse glow on Radiant
 - [x] “Pity” counters
   - Rare encounter pity and Radiant pity increase chance after misses; reset on hit
-- [ ] Daily streak and login nudge
+- [x] Daily streak and login nudge
   - +5% encounter at 3+ days; small UI badge
 - [x] Hint chips + Objective ribbon
   - Contextual hint above Scan; rotating objective with progress bar
@@ -67,7 +67,7 @@
 ## Build order
 1. [x] Pity counters + tests (pity implemented; tests pending)
 2. [ ] HintChip + ObjectiveRibbon (daily: “Log 2 sky species”)
-3. [ ] Eco‑Dex facts (i18n)
+3. [x] Eco‑Dex facts (i18n)
 4. [ ] PhotoMiniGame and swap-in map
 5. [ ] SFX and particles (toggle)
 6. [ ] Daily streak counter UI
