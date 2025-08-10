@@ -274,7 +274,7 @@ export default function App() {
                 if (!playerState.unlockedPerks.includes(perkId)) {
                     setTimeout(() => {
                         const perkName = tNested(`perks.${species.masteryPerk.id}.name`) || species.masteryPerk.name;
-                        setResultMessage(`${t('gameUI.mastery')} ${t('gameUI.youLearned')} '${perkName}'.`);
+                        setResultMessage(`${tNested('gameUI.mastery')} ${tNested('gameUI.youLearned')} '${perkName}'.`);
                         setModalState(s => ({ ...s, result: true }));
                         setPlayerState(p => ({...p, unlockedPerks: [...p.unlockedPerks, perkId]}));
                     }, 500);
@@ -282,7 +282,7 @@ export default function App() {
             }
             return { ...prevLog, [speciesId]: { researchLevel: newLevel, researchXp: newXp } };
         });
-    }, [playerState.unlockedPerks, t, tNested]);
+    }, [playerState.unlockedPerks, tNested]);
 
     const closeAllModals = () => {
         setModalState({ encounter: false, quiz: false, result: false });
@@ -363,7 +363,7 @@ export default function App() {
             if (isFocusing) {
                 setIsFocusing(false);
                 setHotspot(null);
-                setLastEncounterMessage(t('gameUI.noBioSignatures'));
+                setLastEncounterMessage(tNested('gameUI.noBioSignatures'));
             }
         }, FOCUS_TIMEOUT);
         const currentScannerWindow = scannerWindowRef.current;
@@ -372,7 +372,7 @@ export default function App() {
             currentScannerWindow?.removeEventListener('mousemove', handleMouseMove);
             clearTimeout(focusTimeout);
         };
-    }, [isFocusing, hotspot, playerState.unlockedPerks, t]);
+    }, [isFocusing, hotspot, playerState.unlockedPerks, tNested]);
 
     const handleGameResult = (wasSuccessful) => {
         setResultMessage("");
@@ -381,12 +381,12 @@ export default function App() {
             grantXp(activeEncounter.id, xpGain);
             if (!resultMessage.includes("Mastery!")) {
                 const speciesName = tNested(`species.${activeEncounter.id}.name`) || activeEncounter.name;
-                setResultMessage(`${t('gameUI.success')} ${speciesName} ${t('gameUI.hasBeenLogged')}`);
+                setResultMessage(`${tNested('gameUI.success')} ${speciesName} ${tNested('gameUI.hasBeenLogged')}`);
                 setModalState({ encounter: false, quiz: false, result: true });
             }
         } else {
             const speciesName = tNested(`species.${activeEncounter.id}.name`) || activeEncounter.name;
-            setResultMessage(`${t('gameUI.ohNo')} ${speciesName} ${t('gameUI.fled')}`);
+            setResultMessage(`${tNested('gameUI.ohNo')} ${speciesName} ${tNested('gameUI.fled')}`);
             setModalState({ encounter: false, quiz: false, result: true });
         }
     };
