@@ -73,6 +73,11 @@
   "objective": {
     "logSky": "Objetivo: Registrar 2 especies del cielo hoy"
   },
+  "minigame": {
+    "photoTitle": "Oportunidad de Foto",
+    "photoHint": "¡Haz clic en el anillo cuando pase por el objetivo!",
+    "timeLeft": "Tiempo restante"
+  },
   "species": {
     "onca_pintada": {
       "name": "Jaguar",
