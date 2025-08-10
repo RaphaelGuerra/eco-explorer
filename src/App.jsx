@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import './App.css';
 import { useTranslation } from './hooks/useTranslation';
 import LanguageSwitcher from './components/LanguageSwitcher';
+import HintChip from './components/HintChip';
+import ObjectiveRibbon from './components/ObjectiveRibbon';
 
 // ===================== DATA STRUCTURES & GAME CONSTANTS =====================
 const MAX_RESEARCH_LEVEL = 2;
@@ -481,11 +483,19 @@ export default function App() {
                 <div className="control-panel">
                     {currentScreen === 'explore' ? (
                         <>
+                            <HintChip
+                              gameTime={playerState.gameTime}
+                              weather={playerState.weather}
+                              pityRare={playerState.pityRare}
+                              pityRadiant={playerState.pityRadiant}
+                              lastEncounterMessage={lastEncounterMessage}
+                            />
                             <div className="button-group">
                                 <button className="explore-button" onClick={handleAnalyzeBiome} disabled={isScanning || isFocusing}>
                                     {isScanning ? tNested('gameUI.scanningBiome') : isFocusing ? tNested('gameUI.focusing') : t('exploreButton')}
                                 </button>
                             </div>
+                            <ObjectiveRibbon ecoLog={ecoLog} playerState={playerState} />
                             <div className="button-group">
                                 <button className="secondary-button" onClick={() => setCurrentScreen('ecoLog')}>{tNested('gameUI.viewEcoLog')}</button>
                                 <button className="secondary-button" onClick={() => setCurrentScreen('perks')}>{tNested('gameUI.viewPerks')}</button>

@@ -63,6 +63,16 @@
   },
   "rarity": { "common": "Commun", "uncommon": "Peu commun", "rare": "Rare" },
   "status": { "location": "PN d'Itatiaia", "researchActive": "Recherche active" },
+  "hints": {
+    "noBio": "Aucune bio-signature forte ici. Réessayez un scan.",
+    "tryRain": "La pluie peut attirer des espèces différentes.",
+    "tryNight": "La nuit révèle des espèces du ciel.",
+    "tryClear": "Le temps dégagé favorise les observations au sol.",
+    "pityBuilding": "Vos sens s'affinent à chaque tentative."
+  },
+  "objective": {
+    "logSky": "Objectif : Enregistrer 2 espèces du ciel aujourd'hui"
+  },
   "species": {
     "onca_pintada": {
       "name": "Jaguar",

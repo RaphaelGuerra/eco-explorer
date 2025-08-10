@@ -63,6 +63,16 @@
   },
   "rarity": { "common": "Common", "uncommon": "Uncommon", "rare": "Rare" },
   "status": { "location": "Itatiaia NP", "researchActive": "Research Active" },
+  "hints": {
+    "noBio": "No strong bio-signatures here. Try scanning again.",
+    "tryRain": "Rain may attract different species.",
+    "tryNight": "Night reveals sky species.",
+    "tryClear": "Clear weather favors ground sightings.",
+    "pityBuilding": "Your senses sharpen with each try."
+  },
+  "objective": {
+    "logSky": "Objective: Log 2 sky species today"
+  },
   "species": {
     "onca_pintada": {
       "name": "Jaguar",

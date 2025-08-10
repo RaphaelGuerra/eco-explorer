@@ -63,6 +63,16 @@
   },
   "rarity": { "common": "Comum", "uncommon": "Incomum", "rare": "Raro" },
   "status": { "location": "Parque Nacional de Itatiaia", "researchActive": "Pesquisa Ativa" },
+  "hints": {
+    "noBio": "Sem bioassinaturas fortes aqui. Tente escanear novamente.",
+    "tryRain": "A chuva pode atrair espécies diferentes.",
+    "tryNight": "A noite revela espécies do céu.",
+    "tryClear": "Tempo claro favorece avistamentos no solo.",
+    "pityBuilding": "Suas percepções aumentam a cada tentativa."
+  },
+  "objective": {
+    "logSky": "Objetivo: Registrar 2 espécies do céu hoje"
+  },
   "species": {
     "onca_pintada": {
       "name": "Onça-pintada",
