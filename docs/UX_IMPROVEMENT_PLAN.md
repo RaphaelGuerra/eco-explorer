@@ -19,9 +19,9 @@ This document outlines the implementation strategy for addressing critical user 
 // Replace repetitive bug sounds with ambient nature soundscape
 - Remove individual bug chirps on every encounter
 - Implement layered ambient audio system:
-  * Base layer: Gentle forest ambiance (birds, wind, leaves)
-  * Event layer: Subtle discovery chimes
-  * Success layer: Harmonious nature sounds
+  - Base layer: Gentle forest ambiance (birds, wind, leaves)
+  - Event layer: Subtle discovery chimes
+  - Success layer: Harmonious nature sounds
 ```
 
 **Technical Implementation:**

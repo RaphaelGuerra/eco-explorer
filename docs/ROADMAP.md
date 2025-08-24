@@ -40,7 +40,7 @@
   - Gallery view in Eco-Log
 
 ## Previously Completed Features
-- [x] "Pity" counters - Rare encounter pity and Radiant pity increase chance after misses
+- [x] Pity counters - Rare encounter pity and Radiant pity increase chance after misses
 - [x] Daily streak and login nudge - +5% encounter at 3+ days; small UI badge
 - [x] Hint chips + Objective ribbon - Contextual hint above Scan
 - [x] Eco‑Dex card improvements - Rarity icon, best time/weather, fun facts

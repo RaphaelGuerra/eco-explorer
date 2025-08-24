@@ -253,6 +253,17 @@ class EnhancedSoundManager {
     }
   }
 
+  stopCategory(category) {
+    // Stop all sounds in a specific category
+    this.sounds.forEach((sound, id) => {
+      // Find sounds that belong to this category
+      // Note: In a real implementation, you'd want to store category metadata with each sound
+      if (id.includes(category) || (category === 'discovery' && id.includes('discover'))) {
+        sound.stop()
+      }
+    })
+  }
+
   stopAll() {
     this.sounds.forEach(sound => sound.stop())
     this.ambientLayers.forEach(sound => sound.stop())
@@ -617,7 +628,7 @@ const useGameStore = create(
         
         if (objective && newProgress[objectiveId] >= objective.target) {
           // Trigger reward
-          console.log('Objective completed!', objective)
+          // Objective completed - handle reward logic here
         }
         
         return {
@@ -637,7 +648,7 @@ const useGameStore = create(
       }))
     }),
     {
-      name: 'eco-explorer-storage',
+      name: 'Eco-Explorer-storage',
       partialize: (state) => ({
         playerState: state.playerState,
         objectives: state.objectives,
@@ -646,7 +657,6 @@ const useGameStore = create(
       })
     }
   )
-)
 
 export default useGameStore
 ```
