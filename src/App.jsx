@@ -36,7 +36,7 @@ const speciesData = [
         { question: 'Como a onça-pintada marca seu território?', correctAnswer: 'Arranhando árvores', wrongAnswers: ['Construindo ninhos', 'Fazendo sons', 'Plantando árvores'] },
         { question: 'Qual é a velocidade máxima da onça-pintada?', correctAnswer: '80 km/h', wrongAnswers: ['120 km/h', '60 km/h', '100 km/h'] },
         { question: 'A onça-pintada é considerada...', correctAnswer: 'Espécie bandeira', wrongAnswers: ['Espécie invasora', 'Espécie comum', 'Espécie doméstica'] }
-    ], encounterRules: { time: ['day', 'night'], weather: ['clear'] }, masteryPerk: { id: 'predator-instinct', name: 'Predator Instinct', description: 'Increases encounter rate with rare species.' } },
+    ], encounterRules: { time: ['day', 'night'], weather: ['clear'] }, masteryPerk: { id: 'predator-instinct', name: 'Predator Instinct', description: 'Increases encounter rate with rare species.' }, relationships: { prey: ['capivara', 'paca'], predator_of: true }, behaviors: { hunting: { emoji: '🎯', description: 'Silently stalking prey', xp_bonus: 2.5, time_restricted: true }, resting: { emoji: '😴', description: 'Lying in wait', xp_bonus: 1.0 }, feeding: { emoji: '🍃', description: 'Enjoying a recent catch', xp_bonus: 1.5 } } },
     
     { id: 'mico_leao_dourado', name: 'Mico-leão-dourado', emoji: '🦁', rarity: 'rare', habitat: 'sky', quizPool: [
         { question: 'Onde vive o mico-leão-dourado?', correctAnswer: 'Mata Atlântica', wrongAnswers: ['Amazônia', 'Cerrado', 'Caatinga'] },
@@ -47,7 +47,7 @@ const speciesData = [
         { question: 'Qual é o status de conservação do mico-leão-dourado?', correctAnswer: 'Em perigo', wrongAnswers: ['Extinto', 'Seguro', 'Vulnerável'] },
         { question: 'O mico-leão-dourado vive em...', correctAnswer: 'Grupos familiares', wrongAnswers: ['Isolamento', 'Grandes bandos', 'Casais'] },
         { question: 'Qual é a principal ameaça ao mico-leão-dourado?', correctAnswer: 'Fragmentação florestal', wrongAnswers: ['Caça', 'Poluição', 'Mudanças climáticas'] }
-    ], encounterRules: { time: ['day'], weather: ['clear'] }, masteryPerk: { id: 'canopy-vision', name: 'Canopy Vision', description: 'Increases chance of finding tree-dwelling species.' } },
+    ], encounterRules: { time: ['day'], weather: ['clear'] }, masteryPerk: { id: 'canopy-vision', name: 'Canopy Vision', description: 'Increases chance of finding tree-dwelling species.' }, relationships: { pollinates: ['beija_flor'], social: true }, behaviors: { foraging: { emoji: '🌰', description: 'Searching for food', xp_bonus: 1.2 }, grooming: { emoji: '🧽', description: 'Cleaning each other', xp_bonus: 1.0 }, playing: { emoji: '🎮', description: 'Juvenile play', xp_bonus: 2.0, time_restricted: false } } },
     
     { id: 'tucano_toco', name: 'Tucano-toco', emoji: '🦜', rarity: 'common', habitat: 'sky', quizPool: [
         { question: 'Qual é a característica mais marcante do tucano?', correctAnswer: 'Bico colorido', wrongAnswers: ['Asas grandes', 'Pernas longas', 'Olhos grandes'] },
@@ -58,7 +58,7 @@ const speciesData = [
         { question: 'O tucano constrói ninhos em...', correctAnswer: 'Ocos de árvores', wrongAnswers: ['No chão', 'Em arbustos', 'Em rochas'] },
         { question: 'Quantos ovos o tucano geralmente põe?', correctAnswer: '2-4 ovos', wrongAnswers: ['1 ovo', '6-8 ovos', '10-12 ovos'] },
         { question: 'O tucano é importante para...', correctAnswer: 'Dispersão de sementes', wrongAnswers: ['Polinização', 'Controle de pragas', 'Limpeza do solo'] }
-    ], encounterRules: { time: ['day'], weather: ['clear'] }, masteryPerk: { id: 'fruit-finder', name: 'Fruit Finder', description: 'Increases chance of finding fruit-eating species.' } },
+    ], encounterRules: { time: ['day'], weather: ['clear'] }, masteryPerk: { id: 'fruit-finder', name: 'Fruit Finder', description: 'Increases chance of finding fruit-eating species.' }, relationships: { seed_disperser: true, tree_dependent: true } },
     
     { id: 'capivara', name: 'Capivara', emoji: '🐹', rarity: 'common', habitat: 'ground', quizPool: [
         { question: 'Qual é o maior roedor do mundo?', correctAnswer: 'Capivara', wrongAnswers: ['Castor', 'Porco-espinho', 'Rato'] },
@@ -69,7 +69,7 @@ const speciesData = [
         { question: 'A capivara vive em...', correctAnswer: 'Grupos familiares', wrongAnswers: ['Isolamento', 'Grandes bandos', 'Casais'] },
         { question: 'Qual é o predador natural da capivara?', correctAnswer: 'Onça-pintada', wrongAnswers: ['Águia', 'Cobra', 'Peixe'] },
         { question: 'A capivara é conhecida por ser...', correctAnswer: 'Muito social', wrongAnswers: ['Agressiva', 'Timida', 'Solitary'] }
-    ], encounterRules: { time: ['day'], weather: ['clear', 'rainy'] }, masteryPerk: { id: 'water-sense', name: 'Water Sense', description: 'Increases chance of finding water-dependent species.' } },
+    ], encounterRules: { time: ['day'], weather: ['clear', 'rainy'] }, masteryPerk: { id: 'water-sense', name: 'Water Sense', description: 'Increases chance of finding water-dependent species.' }, relationships: { prey_of: ['onca_pintada'], social: true, water_dependent: true }, behaviors: { grazing: { emoji: '🌱', description: 'Peacefully eating grass', xp_bonus: 1.0 }, bathing: { emoji: '🛁', description: 'Splashing in water', xp_bonus: 1.5, weather_restricted: 'rainy' }, resting: { emoji: '😴', description: 'Lounging in groups', xp_bonus: 1.2 } } },
     
     { id: 'sagui', name: 'Sagui', emoji: '🐒', rarity: 'uncommon', habitat: 'sky', quizPool: [
         { question: 'O sagui é um tipo de...', correctAnswer: 'Primata', wrongAnswers: ['Roedor', 'Ave', 'Réptil'] },
@@ -80,7 +80,7 @@ const speciesData = [
         { question: 'Qual é a característica do sagui?', correctAnswer: 'Garras afiadas', wrongAnswers: ['Asas', 'Escamas', 'Chifres'] },
         { question: 'O sagui é encontrado em...', correctAnswer: 'Mata Atlântica', wrongAnswers: ['Deserto', 'Tundra', 'Oceano'] },
         { question: 'O sagui é importante para...', correctAnswer: 'Polinização', wrongAnswers: ['Controle de pragas', 'Dispersão de sementes', 'Limpeza do solo'] }
-    ], encounterRules: { time: ['day'], weather: ['clear'] }, masteryPerk: { id: 'tree-climber', name: 'Tree Climber', description: 'Increases chance of finding arboreal species.' } },
+    ], encounterRules: { time: ['day'], weather: ['clear'] }, masteryPerk: { id: 'tree-climber', name: 'Tree Climber', description: 'Increases chance of finding arboreal species.' }, relationships: { pollinates: true, tree_dependent: true, social: true } },
     
     { id: 'beija_flor', name: 'Beija-flor', emoji: '🐦', rarity: 'uncommon', habitat: 'sky', quizPool: [
         { question: 'Como o beija-flor voa?', correctAnswer: 'Bate as asas muito rápido', wrongAnswers: ['Planando', 'Com vento', 'Com motor'] },
@@ -91,26 +91,116 @@ const speciesData = [
         { question: 'O beija-flor constrói ninhos com...', correctAnswer: 'Teias de aranha', wrongAnswers: ['Gravetos', 'Barro', 'Pedras'] },
         { question: 'Quantos ovos o beija-flor põe?', correctAnswer: '1-2 ovos', wrongAnswers: ['3-4 ovos', '5-6 ovos', '7-8 ovos'] },
         { question: 'O beija-flor é encontrado em...', correctAnswer: 'Américas', wrongAnswers: ['Europa', 'Ásia', 'África'] }
-    ], encounterRules: { time: ['day'], weather: ['clear'] }, masteryPerk: { id: 'nectar-seeker', name: 'Nectar Seeker', description: 'Increases chance of finding flower-dependent species.' } }
+    ], encounterRules: { time: ['day'], weather: ['clear'] }, masteryPerk: { id: 'nectar-seeker', name: 'Nectar Seeker', description: 'Increases chance of finding flower-dependent species.' }, relationships: { pollinates: true, flower_dependent: true, territorial: true }, behaviors: { feeding: { emoji: '🌸', description: 'Hovering at flowers', xp_bonus: 1.8, time_restricted: true }, hovering: { emoji: '💫', description: 'Hovering in place', xp_bonus: 2.0 }, territorial: { emoji: '⚔️', description: 'Chasing intruders', xp_bonus: 2.5 } } }
 ];
 
 // ===================== COMPONENTS =====================
-const selectByRarity = (speciesPool, rareMultiplier = 1) => {
+const selectByRarity = (speciesPool, rareMultiplier = 1, chainBonus = null) => {
     if (speciesPool.length === 0) return null;
-    const totalWeight = speciesPool.reduce((sum, s) => {
-        const base = RARITY_WEIGHTS[s.rarity] || 1;
-        const adjusted = s.rarity === 'rare' ? base * rareMultiplier : base;
-        return sum + adjusted;
-    }, 0);
+
+    // Apply discovery chain bonuses
+    const adjustedPool = speciesPool.map(species => {
+        let bonus = 1;
+        if (chainBonus && chainBonus.speciesId === species.id) {
+            bonus = chainBonus.multiplier;
+        }
+        return { ...species, selectionWeight: (RARITY_WEIGHTS[species.rarity] || 1) * (species.rarity === 'rare' ? rareMultiplier : 1) * bonus };
+    });
+
+    const totalWeight = adjustedPool.reduce((sum, s) => sum + s.selectionWeight, 0);
     let random = Math.random() * totalWeight;
-    for (const s of speciesPool) {
-        const base = RARITY_WEIGHTS[s.rarity] || 1;
-        const weight = s.rarity === 'rare' ? base * rareMultiplier : base;
-        if (random < weight) return s;
-        random -= weight;
+
+    for (const species of adjustedPool) {
+        if (random < species.selectionWeight) return species;
+        random -= species.selectionWeight;
     }
-    return speciesPool[speciesPool.length - 1];
+    return adjustedPool[adjustedPool.length - 1];
 };
+
+const getDiscoveryChainBonus = (recentDiscoveries, allSpecies) => {
+    if (recentDiscoveries.length === 0) return null;
+
+    const latestDiscovery = recentDiscoveries[recentDiscoveries.length - 1];
+    const discoveredSpecies = allSpecies.find(s => s.id === latestDiscovery);
+
+    if (!discoveredSpecies || !discoveredSpecies.relationships) return null;
+
+    // Predator-prey chain: after discovering prey, increase predator chance
+    if (discoveredSpecies.relationships.prey_of) {
+        const predators = discoveredSpecies.relationships.prey_of;
+        const randomPredator = predators[Math.floor(Math.random() * predators.length)];
+        return {
+            speciesId: randomPredator,
+            multiplier: 2.5,
+            hint: `Fresh tracks suggest a predator is nearby...`
+        };
+    }
+
+    // Pollination chain: after discovering pollinators, increase flower-dependent species
+    if (discoveredSpecies.relationships.pollination_trigger) {
+        const flowerSpecies = allSpecies.filter(s =>
+            s.relationships && s.relationships.flower_dependent
+        );
+        if (flowerSpecies.length > 0) {
+            const randomFlowerSpecies = flowerSpecies[Math.floor(Math.random() * flowerSpecies.length)];
+            return {
+                speciesId: randomFlowerSpecies.id,
+                multiplier: 2.0,
+                hint: `These flowers attract certain pollinators...`
+            };
+        }
+    }
+
+    // Social species chain: after discovering social species, increase similar species
+    if (discoveredSpecies.relationships.social) {
+        const socialSpecies = allSpecies.filter(s =>
+            s.relationships && s.relationships.social && s.id !== discoveredSpecies.id
+        );
+        if (socialSpecies.length > 0) {
+            const randomSocialSpecies = socialSpecies[Math.floor(Math.random() * socialSpecies.length)];
+            return {
+                speciesId: randomSocialSpecies.id,
+                multiplier: 1.8,
+                hint: `Other social creatures may be nearby...`
+            };
+        }
+    }
+
+    return null;
+};
+
+const selectBehavior = (species, gameTime, weather) => {
+    if (!species.behaviors) return null;
+
+    const availableBehaviors = Object.entries(species.behaviors).filter(([behaviorKey, behaviorData]) => {
+        // Check time restrictions
+        if (behaviorData.time_restricted && gameTime === 'night') return false;
+        if (behaviorData.weather_restricted && behaviorData.weather_restricted !== weather) return false;
+        return true;
+    });
+
+    if (availableBehaviors.length === 0) return null;
+
+    // Weight behaviors based on XP bonus and context
+    const weightedBehaviors = availableBehaviors.map(([behaviorKey, behaviorData]) => ({
+        key: behaviorKey,
+        data: behaviorData,
+        weight: behaviorData.xp_bonus * 10 // Higher XP bonus = higher chance
+    }));
+
+    const totalWeight = weightedBehaviors.reduce((sum, b) => sum + b.weight, 0);
+    let random = Math.random() * totalWeight;
+
+    for (const behavior of weightedBehaviors) {
+        if (random < behavior.weight) {
+            return { key: behavior.key, ...behavior.data };
+        }
+        random -= behavior.weight;
+    }
+
+    return { key: availableBehaviors[0][0], ...availableBehaviors[0][1] };
+};
+
 const EcoLogComponent = ({ ecoLog, onBack }) => {
     const { tNested } = useTranslation();
     return (
@@ -204,14 +294,28 @@ const ResultModal = ({ message, onClose }) => {
         </div>
     );
 };
-const EncounterModal = ({ encounter, isRadiant, onLog, onRelease }) => {
+const EncounterModal = ({ encounter, isRadiant, onLog, onRelease, behavior }) => {
     const { tNested } = useTranslation();
     const speciesName = tNested(`species.${encounter.id}.name`) || encounter.name;
     const radiantPrefix = isRadiant ? `${tNested('gameUI.radiant')} ` : '';
+
     return (
         <div className="modal-overlay">
             <div className="modal-content">
-                <div className="emoji" style={{ filter: isRadiant ? 'drop-shadow(0 0 1rem #fde047)' : 'none' }}>{encounter.emoji}</div>
+                <div className="encounter-header">
+                    <div className="emoji" style={{ filter: isRadiant ? 'drop-shadow(0 0 1rem #fde047)' : 'none' }}>
+                        {encounter.emoji}
+                    </div>
+                    {behavior && (
+                        <div className="behavior-indicator">
+                            <span className="behavior-emoji">{behavior.emoji}</span>
+                            <span className="behavior-text">{behavior.description}</span>
+                            {behavior.xp_bonus > 1 && (
+                                <span className="xp-bonus">+{Math.round((behavior.xp_bonus - 1) * 100)}% XP</span>
+                            )}
+                        </div>
+                    )}
+                </div>
                 <h2>A {radiantPrefix}{speciesName} {tNested('gameUI.appeared')}</h2>
                 <p>{tNested('gameUI.whatWillYouDo')}</p>
                 <div className="button-group">
@@ -222,34 +326,45 @@ const EncounterModal = ({ encounter, isRadiant, onLog, onRelease }) => {
         </div>
     );
 };
-const QuizModal = ({ species, onResult }) => {
+const QuizModal = ({ species, onResult, behavior }) => {
     const { tNested } = useTranslation();
     const quizItem = useMemo(() => {
         // Get translated quiz pool for this species
         const translatedQuizPool = tNested(`quizzes.${species.id}`) || species.quizPool;
         return translatedQuizPool[Math.floor(Math.random() * translatedQuizPool.length)];
     }, [species, tNested]);
-    
+
     const shuffledAnswers = useMemo(() => {
         const answers = [quizItem.correctAnswer, ...quizItem.wrongAnswers];
         return answers.sort(() => Math.random() - 0.5);
     }, [quizItem]);
-    
+
     const handleAnswerClick = (answer) => {
         const isCorrect = answer === quizItem.correctAnswer;
         onResult(isCorrect);
     };
-    
+
     return (
         <div className="modal-overlay">
             <div className="modal-content">
-                <div className="emoji">{species.emoji}</div>
+                <div className="quiz-header">
+                    <div className="emoji">{species.emoji}</div>
+                    {behavior && (
+                        <div className="behavior-indicator">
+                            <span className="behavior-emoji">{behavior.emoji}</span>
+                            <span className="behavior-text">{behavior.description}</span>
+                            {behavior.xp_bonus > 1 && (
+                                <span className="xp-bonus">+{Math.round((behavior.xp_bonus - 1) * 100)}% XP</span>
+                            )}
+                        </div>
+                    )}
+                </div>
                 <h2>{quizItem.question}</h2>
                 <div className="quiz-options">
                     {shuffledAnswers.map(answer => (
-                        <button 
-                            key={answer} 
-                            className="quiz-option-btn" 
+                        <button
+                            key={answer}
+                            className="quiz-option-btn"
                             onClick={() => handleAnswerClick(answer)}
                         >
                             {answer}
@@ -281,6 +396,11 @@ export default function App() {
     const [hotspot, setHotspot] = useState(null);
     const [constellation, setConstellation] = useState(null);
     const [resultMessage, setResultMessage] = useState("");
+    const [scanStage, setScanStage] = useState('');
+    const [scanProgress, setScanProgress] = useState(0);
+    const [recentDiscoveries, setRecentDiscoveries] = useState([]);
+    const [discoveryChain, setDiscoveryChain] = useState(null);
+    const [currentBehavior, setCurrentBehavior] = useState(null);
     const scannerWindowRef = useRef(null);
 
     useEffect(() => {
@@ -338,7 +458,15 @@ export default function App() {
         setActiveEncounter(null);
         setIsRadiantEncounter(false);
         setConstellation(null);
+        setCurrentBehavior(null);
     };
+
+    const discoveryStages = [
+        { stage: 'detecting', message: 'Bio-signature detected...', duration: 800, progress: 25 },
+        { stage: 'analyzing', message: 'Analyzing patterns...', duration: 1000, progress: 50 },
+        { stage: 'processing', message: 'Processing environmental data...', duration: 800, progress: 75 },
+        { stage: 'identifying', message: 'Species identification in progress...', duration: 400, progress: 90 }
+    ];
 
     const handleAnalyzeBiome = useCallback(() => {
         if (isScanning || isFocusing || !scannerWindowRef.current) return;
@@ -346,8 +474,24 @@ export default function App() {
         setIsScanning(true);
         setLastEncounterMessage(null);
         setConstellation(null);
+        setScanStage('initializing');
+        setScanProgress(0);
+
+        let currentDelay = 0;
+        discoveryStages.forEach((stage, index) => {
+            setTimeout(() => {
+                setScanStage(stage.stage);
+                setScanProgress(stage.progress);
+                setLastEncounterMessage(stage.message);
+                sfx.play('scan_pulse');
+            }, currentDelay);
+            currentDelay += stage.duration;
+        });
+
         setTimeout(() => {
             setIsScanning(false);
+            setScanStage('');
+            setScanProgress(0);
             const { unlockedPerks, gameTime, weather } = playerState;
             const hasBiolightAttractor = unlockedPerks.includes('biolight-attractor');
             let encounterChance = BASE_ENCOUNTER_CHANCE;
@@ -377,7 +521,17 @@ export default function App() {
                 return;
             }
             const rareMultiplier = 1 + Math.min(playerState.pityRare * RARE_PITY_STEP, RARE_PITY_MAX);
-            const encounteredSpecies = selectByRarity(speciesPool, rareMultiplier);
+            const chainBonus = getDiscoveryChainBonus(recentDiscoveries, speciesData);
+            const encounteredSpecies = selectByRarity(speciesPool, rareMultiplier, chainBonus);
+
+            // Select behavioral state for this encounter
+            const behavior = selectBehavior(encounteredSpecies, playerState.gameTime, playerState.weather);
+            setCurrentBehavior(behavior);
+
+            // Update discovery chain state
+            if (chainBonus) {
+                setDiscoveryChain(chainBonus);
+            }
             if (!encounteredSpecies) {
                 setHotspot(null);
                 setIsFocusing(false);
@@ -399,6 +553,7 @@ export default function App() {
                     species: encounteredSpecies,
                 });
                 setIsFocusing(true);
+                setLastEncounterMessage(tNested('gameUI.speciesLocated'));
             } else {
                 setIsFocusing(false);
                 setLastEncounterMessage(tNested('gameUI.noBioSignatures'));
@@ -447,16 +602,38 @@ export default function App() {
     const handleGameResult = (wasSuccessful) => {
         setResultMessage("");
         if (wasSuccessful) {
-            const xpGain = isRadiantEncounter ? XP_PER_ENCOUNTER * 5 : XP_PER_ENCOUNTER;
+            let xpGain = isRadiantEncounter ? XP_PER_ENCOUNTER * 5 : XP_PER_ENCOUNTER;
+
+            // Apply behavioral XP bonus
+            if (currentBehavior) {
+                xpGain *= currentBehavior.xp_bonus;
+            }
+
             grantXp(activeEncounter.id, xpGain);
             sfx.play('success');
+
+            // Update recent discoveries for chain system
+            setRecentDiscoveries(prev => {
+                const newDiscoveries = [activeEncounter.id, ...prev.slice(0, 4)]; // Keep last 5 discoveries
+                return newDiscoveries;
+            });
+
+            // Check if this completes a discovery chain
+            if (discoveryChain && discoveryChain.speciesId === activeEncounter.id) {
+                setTimeout(() => {
+                    setResultMessage(`🔗 Discovery Chain! You found the ${tNested(`species.${activeEncounter.id}.name`) || activeEncounter.name}!`);
+                    setModalState(s => ({ ...s, result: true }));
+                }, 500);
+                setDiscoveryChain(null);
+            }
+
             // Reset pity on success; increment rare pity if common/uncommon
             setPlayerState(p => ({
                 ...p,
                 pityRare: activeEncounter.rarity === 'rare' ? 0 : p.pityRare + 1,
                 pityRadiant: isRadiantEncounter ? 0 : p.pityRadiant + 1,
             }));
-            if (!resultMessage.includes("Mastery!")) {
+            if (!resultMessage.includes("Mastery!") && !resultMessage.includes("Discovery Chain")) {
                 const speciesName = tNested(`species.${activeEncounter.id}.name`) || activeEncounter.name;
                 setResultMessage(`${tNested('gameUI.success')} ${speciesName} ${tNested('gameUI.hasBeenLogged')}`);
                 setModalState({ encounter: false, quiz: false, result: true });
@@ -519,8 +696,27 @@ export default function App() {
                             <div className="radar">
                                 <div className="radar-grid"></div>
                                 <div className="radar-sweep"></div>
+                                {scanStage && (
+                                    <div className={`scan-stage-indicator ${scanStage}`}>
+                                        <div className="stage-pulse"></div>
+                                        <div className="stage-icon">
+                                            {scanStage === 'detecting' && '🔍'}
+                                            {scanStage === 'analyzing' && '⚡'}
+                                            {scanStage === 'processing' && '🧠'}
+                                            {scanStage === 'identifying' && '🎯'}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
-                            <p className="exploration-text">{t('discoveringText')}</p>
+                            <div className="scan-progress-bar">
+                                <div
+                                    className="scan-progress-fill"
+                                    style={{ width: `${scanProgress}%` }}
+                                ></div>
+                            </div>
+                            <p className="exploration-text">
+                                {scanStage ? lastEncounterMessage : t('discoveringText')}
+                            </p>
                         </div>
                     )}
                     <div className="game-status">
@@ -537,6 +733,7 @@ export default function App() {
                               pityRare={playerState.pityRare}
                               pityRadiant={playerState.pityRadiant}
                               lastEncounterMessage={lastEncounterMessage}
+                              discoveryChain={discoveryChain}
                             />
                             <div className="button-group">
                                 <button className="explore-button" onClick={handleAnalyzeBiome} disabled={isScanning || isFocusing}>
@@ -557,7 +754,7 @@ export default function App() {
                 {activeEncounter && modalState.quiz && (
                   Math.random() < 0.5
                     ? <PhotoMiniGame species={activeEncounter} onResult={handleGameResult} />
-                    : <QuizModal species={activeEncounter} onResult={handleGameResult} />
+                    : <QuizModal species={activeEncounter} onResult={handleGameResult} behavior={currentBehavior} />
                 )}
                 {modalState.result && (
                   <>
