@@ -92,14 +92,14 @@ export default function HintChip({ gameTime, weather, pityRare, pityRadiant, las
 
   const currentHint = environmentalHints[hintIndex] || tNested('hints.tryClear')
 
-  // Fallback to original logic if no environmental hints
-  const fallbackHint = useMemo(() => {
-    if (lastEncounterMessage) return 'hints.noBio'
-    if (weather === 'rainy') return 'hints.tryRain'
-    if (gameTime === 'night') return 'hints.tryNight'
-    if ((pityRare || 0) + (pityRadiant || 0) >= 3) return 'hints.pityBuilding'
-    return 'hints.tryClear'
-  }, [gameTime, weather, pityRare, pityRadiant, lastEncounterMessage])
+  // Fallback to original logic if no environmental hints - keeping for potential future use
+  // const fallbackHint = useMemo(() => {
+  //   if (lastEncounterMessage) return 'hints.noBio'
+  //   if (weather === 'rainy') return 'hints.tryRain'
+  //   if (gameTime === 'night') return 'hints.tryNight'
+  //   if ((pityRare || 0) + (pityRadiant || 0) >= 3) return 'hints.pityBuilding'
+  //   return 'hints.tryClear'
+  // }, [gameTime, weather, pityRare, pityRadiant, lastEncounterMessage])
 
   return (
     <div

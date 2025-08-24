@@ -60,7 +60,7 @@
     "keepExploring": "Keep exploring to find this species.",
     "masterToUnlock": "Master the",
     "to unlock": "to unlock.",
-    "speciesLocated": "Bio-signatures detected! Focus your scanner to identify the species."
+    "speciesLocated": "Bio-signatures detected! Focus your scanner to identify the species.",
     "active": "Active"
   },
   "rarity": { "common": "Common", "uncommon": "Uncommon", "rare": "Rare" },

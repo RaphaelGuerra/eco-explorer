@@ -172,7 +172,7 @@ const getDiscoveryChainBonus = (recentDiscoveries, allSpecies) => {
 const selectBehavior = (species, gameTime, weather) => {
     if (!species.behaviors) return null;
 
-    const availableBehaviors = Object.entries(species.behaviors).filter(([behaviorKey, behaviorData]) => {
+    const availableBehaviors = Object.entries(species.behaviors).filter(([, behaviorData]) => {
         // Check time restrictions
         if (behaviorData.time_restricted && gameTime === 'night') return false;
         if (behaviorData.weather_restricted && behaviorData.weather_restricted !== weather) return false;
@@ -562,22 +562,22 @@ const QuizModal = ({ species, onResult, behavior }) => {
         const translatedQuizPool = tNested(`quizzes.${species.id}`) || species.quizPool;
         return translatedQuizPool[Math.floor(Math.random() * translatedQuizPool.length)];
     }, [species, tNested]);
-
+    
     const shuffledAnswers = useMemo(() => {
         const answers = [quizItem.correctAnswer, ...quizItem.wrongAnswers];
         return answers.sort(() => Math.random() - 0.5);
     }, [quizItem]);
-
+    
     const handleAnswerClick = (answer) => {
         const isCorrect = answer === quizItem.correctAnswer;
         onResult(isCorrect);
     };
-
+    
     return (
         <div className="modal-overlay">
             <div className="modal-content">
                 <div className="quiz-header">
-                    <div className="emoji">{species.emoji}</div>
+                <div className="emoji">{species.emoji}</div>
                     {behavior && (
                         <div className="behavior-indicator">
                             <span className="behavior-emoji">{behavior.emoji}</span>
@@ -591,9 +591,9 @@ const QuizModal = ({ species, onResult, behavior }) => {
                 <h2>{quizItem.question}</h2>
                 <div className="quiz-options">
                     {shuffledAnswers.map(answer => (
-                        <button
-                            key={answer}
-                            className="quiz-option-btn"
+                        <button 
+                            key={answer} 
+                            className="quiz-option-btn" 
                             onClick={() => handleAnswerClick(answer)}
                         >
                             {answer}
@@ -801,10 +801,10 @@ export default function App() {
     }, [playerState.unlockedPerks, tNested]);
 
     const closeAllModals = () => {
-    setModalState({ encounter: false, quiz: false, result: false });
-    setActiveEncounter(null);
-    setIsRadiantEncounter(false);
-    setConstellation(null);
+        setModalState({ encounter: false, quiz: false, result: false });
+        setActiveEncounter(null);
+        setIsRadiantEncounter(false);
+        setConstellation(null);
     setCurrentBehavior(null);
 };
 
@@ -837,12 +837,12 @@ const completeConservationTask = (task) => {
     setModalState({ encounter: false, quiz: false, result: true });
 };
 
-    const discoveryStages = [
+    const discoveryStages = useMemo(() => [
         { stage: 'detecting', message: 'Bio-signature detected...', duration: 800, progress: 25 },
         { stage: 'analyzing', message: 'Analyzing patterns...', duration: 1000, progress: 50 },
         { stage: 'processing', message: 'Processing environmental data...', duration: 800, progress: 75 },
         { stage: 'identifying', message: 'Species identification in progress...', duration: 400, progress: 90 }
-    ];
+    ], []);
 
     const handleAnalyzeBiome = useCallback(() => {
         if (isScanning || isFocusing || !scannerWindowRef.current) return;
@@ -857,7 +857,7 @@ const completeConservationTask = (task) => {
         setScanProgress(0);
 
         let currentDelay = 0;
-        discoveryStages.forEach((stage, index) => {
+        discoveryStages.forEach((stage) => {
             setTimeout(() => {
                 setScanStage(stage.stage);
                 setScanProgress(stage.progress);
@@ -939,7 +939,7 @@ const completeConservationTask = (task) => {
                 setLastEncounterMessage(tNested('gameUI.noBioSignatures'));
             }
         }, SCAN_DURATION);
-    }, [isScanning, isFocusing, playerState, tNested]);
+    }, [isScanning, isFocusing, playerState, tNested, discoveryStages, recentDiscoveries]);
 
     useEffect(() => {
         if (!isFocusing) return;
@@ -1089,7 +1089,7 @@ const completeConservationTask = (task) => {
                                             {scanStage === 'analyzing' && '⚡'}
                                             {scanStage === 'processing' && '🧠'}
                                             {scanStage === 'identifying' && '🎯'}
-                                        </div>
+                            </div>
                                     </div>
                                 )}
                             </div>
