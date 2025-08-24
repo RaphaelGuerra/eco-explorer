@@ -676,6 +676,44 @@ const ConservationTasks = ({ gameTime, weather, activeTasks, conservationTokens,
     );
 };
 
+const AchievementCelebration = ({ achievement, onClose }) => {
+    if (!achievement) return null;
+
+    return (
+        <div className="achievement-celebration-overlay" onClick={onClose}>
+            <div className="achievement-celebration-modal" onClick={(e) => e.stopPropagation()}>
+                <div className="celebration-header">
+                    <div className="achievement-icon-large">{achievement.icon}</div>
+                    <h2 className="achievement-title">{achievement.title}</h2>
+                    <p className="achievement-subtitle">{achievement.subtitle}</p>
+                </div>
+
+                <div className="celebration-content">
+                    <p className="achievement-description">{achievement.description}</p>
+                </div>
+
+                <div className="celebration-particles">
+                    {Array.from({ length: 20 }).map((_, i) => (
+                        <div
+                            key={i}
+                            className="celebration-particle"
+                            style={{
+                                left: `${Math.random() * 100}%`,
+                                animationDelay: `${Math.random() * 2}s`,
+                                animationDuration: `${2 + Math.random() * 3}s`
+                            }}
+                        />
+                    ))}
+                </div>
+
+                <button className="celebration-close-btn" onClick={onClose}>
+                    🎉 Awesome!
+                </button>
+            </div>
+        </div>
+    );
+};
+
 const ARStarfield = ({ numStars, isVisible }) => { const stars = useMemo(() => Array.from({ length: numStars }).map((_, i) => { const size = Math.random() * 2 + 1; const style = { width: `${size}px`, height: `${size}px`, top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 5}s`, }; return <div key={i} className="star" style={style}></div>; }), [numStars]); return <div className="ar-starfield" style={{ opacity: isVisible ? 1 : 0 }}>{stars}</div>; };
 const Constellation = ({ constellation }) => { if (!constellation) return null; return ( <div className="constellation" style={{ top: `${constellation.y}px`, left: `${constellation.x}px` }}> <div className="constellation-emoji">{constellation.species.emoji}</div> </div> ); };
 const HotspotVisualizer = ({ hotspot }) => { if (!hotspot) return null; const style = { top: `${hotspot.y - HOTSPOT_RADIUS}px`, left: `${hotspot.x - HOTSPOT_RADIUS}px`, width: `${HOTSPOT_RADIUS * 2}px`, height: `${HOTSPOT_RADIUS * 2}px`, }; return <div className="hotspot-visualizer" style={style}></div>; };
@@ -725,6 +763,11 @@ export default function App() {
         lastActivity: Date.now(),
         hintLevel: 0,
         currentHint: null
+    });
+    const [achievementState, setAchievementState] = useState({
+        unlockedAchievements: [],
+        showCelebration: false,
+        currentAchievement: null
     });
     const scannerWindowRef = useRef(null);
 
@@ -801,12 +844,98 @@ export default function App() {
     }, [playerState.unlockedPerks, tNested]);
 
     const closeAllModals = () => {
-        setModalState({ encounter: false, quiz: false, result: false });
-        setActiveEncounter(null);
-        setIsRadiantEncounter(false);
-        setConstellation(null);
+    setModalState({ encounter: false, quiz: false, result: false });
+    setActiveEncounter(null);
+    setIsRadiantEncounter(false);
+    setConstellation(null);
     setCurrentBehavior(null);
 };
+
+    const achievements = useMemo(() => ({
+        firstRare: {
+            id: 'firstRare',
+            title: 'Rare Discovery!',
+            subtitle: 'Your first rare species discovery',
+            description: 'You\'ve discovered your first rare species! These elusive creatures are special finds.',
+            icon: '⭐',
+            effect: 'confetti',
+            sound: 'achievement',
+            trigger: (ecoLog) => {
+                const rareDiscoveries = Object.values(ecoLog).filter(entry =>
+                    speciesData.find(s => s.id === Object.keys(ecoLog).find(k => ecoLog[k] === entry))?.rarity === 'rare'
+                );
+                return rareDiscoveries.length === 1 && rareDiscoveries[0].researchLevel >= 1;
+            }
+        },
+        fiveSpecies: {
+            id: 'fiveSpecies',
+            title: 'Growing Collection',
+            subtitle: 'Discovered 5 different species',
+            description: 'Your field journal is growing! You\'ve documented 5 unique species.',
+            icon: '📖',
+            effect: 'book_burst',
+            sound: 'achievement',
+            trigger: (ecoLog) => Object.keys(ecoLog).length >= 5
+        },
+        perfectStreak: {
+            id: 'perfectStreak',
+            title: 'Dedicated Researcher',
+            subtitle: '7-day exploration streak achieved',
+            description: 'Amazing dedication! You\'ve explored for 7 days straight.',
+            icon: '🔥',
+            effect: 'golden_burst',
+            sound: 'achievement',
+            trigger: (ecoLog, playerState) => (playerState.streakDays || 0) >= 7
+        },
+        conservationHero: {
+            id: 'conservationHero',
+            title: 'Habitat Hero',
+            subtitle: 'Completed 10 conservation tasks',
+            description: 'You\'re making a real difference! 10 conservation tasks completed.',
+            icon: '🌍',
+            effect: 'nature_flourish',
+            sound: 'achievement',
+            trigger: (ecoLog, playerState, conservationTokens) => conservationTokens >= 100
+        },
+        masterObserver: {
+            id: 'masterObserver',
+            title: 'Master Observer',
+            subtitle: 'Mastered your first species',
+            description: 'True expertise! You\'ve mastered the complete study of a species.',
+            icon: '🎓',
+            effect: 'wisdom_burst',
+            sound: 'achievement',
+            trigger: (ecoLog) => Object.values(ecoLog).some(entry => entry.researchLevel >= 2)
+        },
+        chainReaction: {
+            id: 'chainReaction',
+            title: 'Discovery Chain',
+            subtitle: 'Triggered a discovery chain reaction',
+            description: 'Your discoveries are interconnected! You found a related species.',
+            icon: '🔗',
+            effect: 'chain_burst',
+            sound: 'achievement',
+            trigger: (ecoLog, playerState, conservationTokens, discoveryChain) => discoveryChain !== null
+        },
+        nightExplorer: {
+            id: 'nightExplorer',
+            title: 'Night Explorer',
+            subtitle: 'Discovered your first nocturnal species',
+            description: 'The night holds mysteries! You\'ve discovered a nocturnal species.',
+            icon: '🌙',
+            effect: 'moon_burst',
+            sound: 'achievement',
+            trigger: (ecoLog) => {
+                // Check if any discovered species is primarily active at night
+                return Object.keys(ecoLog).some(speciesId => {
+                    const species = speciesData.find(s => s.id === speciesId);
+                    return species && species.encounterRules.time.includes('night');
+                });
+            }
+        }
+    }), []);
+
+
 
 const startConservationTask = (task) => {
     const taskWithTimer = {
@@ -994,6 +1123,36 @@ const completeConservationTask = (task) => {
             grantXp(activeEncounter.id, xpGain);
             sfx.play('success');
 
+            // Check for achievements after successful discovery
+            const newAchievements = [];
+
+            Object.values(achievements).forEach(achievement => {
+                if (!achievementState.unlockedAchievements.includes(achievement.id)) {
+                    if (achievement.trigger(ecoLog, playerState, conservationTokens, discoveryChain)) {
+                        newAchievements.push(achievement);
+                    }
+                }
+            });
+
+            if (newAchievements.length > 0) {
+                const achievement = newAchievements[0];
+                setAchievementState(prevState => ({
+                    ...prevState,
+                    unlockedAchievements: [...prevState.unlockedAchievements, achievement.id],
+                    showCelebration: true,
+                    currentAchievement: achievement
+                }));
+
+                // Auto-hide celebration after 5 seconds
+                setTimeout(() => {
+                    setAchievementState(prevState => ({
+                        ...prevState,
+                        showCelebration: false,
+                        currentAchievement: null
+                    }));
+                }, 5000);
+            }
+
             // Update recent discoveries for chain system
             setRecentDiscoveries(prev => {
                 const newDiscoveries = [activeEncounter.id, ...prev.slice(0, 4)]; // Keep last 5 discoveries
@@ -1154,6 +1313,12 @@ const completeConservationTask = (task) => {
                     <ConfettiBurst trigger={/Success|Mastery/.test(resultMessage)} />
                     <ResultModal message={resultMessage} onClose={closeAllModals} />
                   </>
+                )}
+                {achievementState.showCelebration && (
+                  <AchievementCelebration
+                    achievement={achievementState.currentAchievement}
+                    onClose={() => setAchievementState(prev => ({ ...prev, showCelebration: false }))}
+                  />
                 )}
             </div>
         </>

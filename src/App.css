@@ -703,6 +703,152 @@ danger-button:hover { background-color: var(--danger-hover); }
     margin: 0;
 }
 
+/* Achievement Celebration Styles */
+.achievement-celebration-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: celebration-fade-in 0.5s ease-out;
+}
+
+.achievement-celebration-modal {
+    background: linear-gradient(135deg, rgba(52, 211, 153, 0.95), rgba(34, 197, 94, 0.95));
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: celebration-bounce-in 0.6s ease-out;
+}
+
+@keyframes celebration-fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes celebration-bounce-in {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.9;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.celebration-header {
+    margin-bottom: 1.5rem;
+}
+
+.achievement-icon-large {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: achievement-icon-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes achievement-icon-glow {
+    0% {
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        transform: scale(1);
+    }
+    100% {
+        filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.8));
+        transform: scale(1.1);
+    }
+}
+
+.achievement-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.achievement-subtitle {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 1rem 0;
+    font-style: italic;
+}
+
+.celebration-content {
+    margin-bottom: 2rem;
+}
+
+.achievement-description {
+    color: white;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.celebration-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.celebration-particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
+    border-radius: 50%;
+    animation: celebration-particle-float linear infinite;
+    top: 100%;
+}
+
+@keyframes celebration-particle-float {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-120vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.celebration-close-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 10;
+}
+
+.celebration-close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
 /* Enhanced PhotoMiniGame Wildlife Target */
 .wildlife-target {
     position: absolute;
