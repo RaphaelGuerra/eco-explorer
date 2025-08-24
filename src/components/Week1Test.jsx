@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import ConfettiBurst from './ConfettiBurst'
 import ActionZone from './ActionZone'
 import ConservationHub from './ConservationHub'
@@ -13,7 +13,6 @@ export default function Week1Test() {
   const [ecosystemHealth, setEcosystemHealth] = useState(75)
 
   const handleExplore = () => {
-    console.log('Explore button clicked!')
     sfx.play('scan_start')
   }
 
@@ -41,13 +40,11 @@ export default function Week1Test() {
   }
 
   const handleStartTask = (task) => {
-    console.log('Starting task:', task)
     sfx.play('task_complete')
     setConservationTokens(prev => prev + task.reward.tokens)
   }
 
   const testSounds = () => {
-    console.log('Testing sound system...')
     sfx.play('discover_common')
     setTimeout(() => sfx.play('discover_rare'), 1000)
     setTimeout(() => sfx.play('discover_radiant'), 2000)
