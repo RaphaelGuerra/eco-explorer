@@ -1,6 +1,6 @@
 ## Objectives
 - Increase session length and D1/D7 retention with minimal dev effort
-- Keep “eco” identity: learning, logging, conservation
+- Keep "eco" identity: learning, logging, conservation
 - Make feedback loop satisfying without scope creep
 
 ## Market references (takeaways)
@@ -9,22 +9,42 @@
 - Alba: A Wildlife Adventure: wholesome quests, conservation impact meter
 - Wingspan (digital): collection joy and educational facts per card
 - Marvel Snap: daily/weekly missions that always feel completable
-- Genshin/HSR: “pity” mechanics for rare outcomes reduce frustration
+- Genshin/HSR: "pity" mechanics for rare outcomes reduce frustration
 
-## Low-hanging fruit (1–2 days total)
-- [ ] Micro-feedback polish
-  - Subtle SFX: scan start, focus found, success, mastery
-  - Confetti/particle burst on success/mastery; pulse glow on Radiant
-- [x] “Pity” counters
-  - Rare encounter pity and Radiant pity increase chance after misses; reset on hit
-- [x] Daily streak and login nudge
-  - +5% encounter at 3+ days; small UI badge
-- [x] Hint chips + Objective ribbon
-  - Contextual hint above Scan; rotating objective with progress bar
-- [x] Eco‑Dex card improvements
-  - Rarity icon, best time/weather, one “fun fact,” progress to next perk
-- [x] Shareable log card
-  - Download a small PNG of a species card for social
+## URGENT: Critical UX Fixes (Based on User Feedback)
+### Immediate Priority (Week 1)
+- [ ] **Fix Confetti Effect** - Currently broken (shows as single line)
+  - Full-screen particle burst with proper animation
+  - Multiple colors and physics-based motion
+- [ ] **Sound Design Overhaul** - Remove annoying bug sounds
+  - Replace with ambient nature soundscape
+  - Context-aware discovery chimes
+  - Volume normalization (30% ambient, 50% events)
+- [ ] **Layout Restructuring** - Explore button too hidden
+  - Move Explore button below main image
+  - Create prominent action zone
+  - Visual hierarchy improvements
+
+### High Priority (Week 2)
+- [ ] **Conservation Task Gamification**
+  - Add visual progress indicators
+  - Implement mini-games for tasks
+  - Show ecosystem impact in real-time
+- [ ] **Objective System Fix**
+  - Fix counting/tracking issues
+  - Add milestone rewards
+  - Visual progress rings
+- [ ] **Dynamic Image System**
+  - Multiple images per species
+  - Visual classification badges
+  - Gallery view in Eco-Log
+
+## Previously Completed Features
+- [x] "Pity" counters - Rare encounter pity and Radiant pity increase chance after misses
+- [x] Daily streak and login nudge - +5% encounter at 3+ days; small UI badge
+- [x] Hint chips + Objective ribbon - Contextual hint above Scan
+- [x] Eco‑Dex card improvements - Rarity icon, best time/weather, fun facts
+- [x] Shareable log card - Download PNG of species card for social
 
 ## Phase plan
 - Phase 0: Baseline metrics (half‑day)
@@ -66,8 +86,10 @@
 
 ## Build order
 1. [x] Pity counters + tests (pity implemented; tests pending)
-2. [ ] HintChip + ObjectiveRibbon (daily: “Log 2 sky species”)
-3. [x] Eco‑Dex facts (i18n)
-4. [ ] PhotoMiniGame and swap-in map
-5. [ ] SFX and particles (toggle)
-6. [ ] Daily streak counter UI
+2. [ ] **PRIORITY: Fix Confetti & Sound Issues**
+3. [ ] **PRIORITY: Layout Restructuring**
+4. [ ] HintChip + ObjectiveRibbon improvements
+5. [x] Eco‑Dex facts (i18n)
+6. [ ] PhotoMiniGame and swap-in map
+7. [ ] Enhanced SFX and particles (with toggle)
+8. [ ] Daily streak counter UI improvements
