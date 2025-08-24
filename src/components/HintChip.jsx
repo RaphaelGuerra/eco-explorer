@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect } from 'react'
 import { useTranslation } from '../hooks/useTranslation'
 
-export default function HintChip({ gameTime, weather, pityRare, pityRadiant, lastEncounterMessage, discoveryChain }) {
+export default function HintChip({ gameTime, weather, pityRare, pityRadiant, lastEncounterMessage, discoveryChain, smartHint }) {
   const { tNested } = useTranslation()
   const [hintIndex, setHintIndex] = useState(0)
   const [isVisible, setIsVisible] = useState(true)
@@ -53,9 +53,18 @@ export default function HintChip({ gameTime, weather, pityRare, pityRadiant, las
 
     // Add special hints based on game state
     const specialHints = []
+
+    // Smart hint takes highest priority
+    if (smartHint) {
+      return [smartHint.text];
+    }
+
+    // Discovery chain hint
     if (discoveryChain) {
       specialHints.push(discoveryChain.hint)
     }
+
+    // Other game state hints
     if ((pityRare || 0) + (pityRadiant || 0) >= 3) {
       specialHints.push("Rare encounters seem more likely...")
     }
@@ -64,7 +73,7 @@ export default function HintChip({ gameTime, weather, pityRare, pityRadiant, las
     }
 
     return [...timeHints, ...weatherHints, ...specialHints]
-  }, [gameTime, weather, pityRare, pityRadiant, lastEncounterMessage, discoveryChain])
+  }, [gameTime, weather, pityRare, pityRadiant, lastEncounterMessage, discoveryChain, smartHint])
 
   // Rotate through hints every 8 seconds
   useEffect(() => {
@@ -94,7 +103,7 @@ export default function HintChip({ gameTime, weather, pityRare, pityRadiant, las
 
   return (
     <div
-      className={`hint-chip environmental-hint ${isVisible ? 'visible' : 'fading'}`}
+      className={`hint-chip environmental-hint ${smartHint ? 'smart-hint' : ''} ${smartHint?.urgent ? 'urgent' : ''} ${isVisible ? 'visible' : 'fading'}`}
       style={{ marginBottom: '0.5rem', color: 'var(--light-text)' }}
     >
       {currentHint.startsWith('hints.') ? tNested(currentHint) : currentHint}

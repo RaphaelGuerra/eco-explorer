@@ -201,6 +201,235 @@ const selectBehavior = (species, gameTime, weather) => {
     return { key: availableBehaviors[0][0], ...availableBehaviors[0][1] };
 };
 
+const conservationTasks = {
+    remove_litter: {
+        id: 'remove_litter',
+        name: 'Remove Litter',
+        description: 'Clean up human waste from the habitat',
+        icon: '🗑️',
+        duration: 300, // 5 minutes
+        effect: 'increases_encounter_rate',
+        value: 0.1, // +10% encounter rate
+        requirements: { weather: ['clear', 'rainy'] },
+        reward: { tokens: 5, message: 'Habitat cleaned! +5 conservation tokens' }
+    },
+    fill_water: {
+        id: 'fill_water',
+        name: 'Refill Water Source',
+        description: 'Restore a dried water source for wildlife',
+        icon: '💧',
+        duration: 600, // 10 minutes
+        effect: 'water_species_bonus',
+        value: 2.0, // 2x water-dependent species
+        requirements: { weather: ['clear'], time: ['day'] },
+        reward: { tokens: 8, message: 'Water source restored! +8 conservation tokens' }
+    },
+    plant_native: {
+        id: 'plant_native',
+        name: 'Plant Native Trees',
+        description: 'Plant native fruit trees to support local wildlife',
+        icon: '🌱',
+        duration: 900, // 15 minutes
+        effect: 'herbivore_bonus',
+        value: 1.5, // 1.5x herbivore encounters
+        requirements: { weather: ['clear'], time: ['day'] },
+        reward: { tokens: 12, message: 'Trees planted! +12 conservation tokens' }
+    },
+    create_shelter: {
+        id: 'create_shelter',
+        name: 'Build Wildlife Shelter',
+        description: 'Create shelter for small animals',
+        icon: '🏠',
+        duration: 450, // 7.5 minutes
+        effect: 'small_species_bonus',
+        value: 1.8, // 1.8x small species encounters
+        requirements: { weather: ['clear', 'rainy'] },
+        reward: { tokens: 7, message: 'Shelter built! +7 conservation tokens' }
+    },
+    mark_trail: {
+        id: 'mark_trail',
+        name: 'Mark Educational Trail',
+        description: 'Create signs to educate visitors about wildlife',
+        icon: '🚶',
+        duration: 240, // 4 minutes
+        effect: 'rare_species_bonus',
+        value: 1.3, // 1.3x rare species encounters
+        requirements: { time: ['day'] },
+        reward: { tokens: 6, message: 'Educational trail marked! +6 conservation tokens' }
+    }
+};
+
+const getAvailableConservationTasks = (gameTime, weather, activeTasks) => {
+    return Object.values(conservationTasks).filter(task => {
+        // Check if task is already active
+        const isActive = activeTasks.some(t => t.id === task.id);
+        if (isActive) return false;
+
+        // Check requirements
+        if (task.requirements.time && !task.requirements.time.includes(gameTime)) return false;
+        if (task.requirements.weather && !task.requirements.weather.includes(weather)) return false;
+
+        return true;
+    });
+};
+
+const applyConservationEffect = (task, setPlayerState) => {
+    setPlayerState(prevState => {
+        const newBuffs = { ...prevState.conservationBuffs };
+
+        switch (task.effect) {
+            case 'increases_encounter_rate':
+                newBuffs.encounterRate = (newBuffs.encounterRate || 1) + task.value;
+                break;
+            case 'water_species_bonus':
+                newBuffs.waterSpecies = (newBuffs.waterSpecies || 1) * task.value;
+                break;
+            case 'herbivore_bonus':
+                newBuffs.herbivoreSpecies = (newBuffs.herbivoreSpecies || 1) * task.value;
+                break;
+            case 'small_species_bonus':
+                newBuffs.smallSpecies = (newBuffs.smallSpecies || 1) * task.value;
+                break;
+            case 'rare_species_bonus':
+                newBuffs.rareSpecies = (newBuffs.rareSpecies || 1) * task.value;
+                break;
+        }
+
+        return {
+            ...prevState,
+            conservationBuffs: newBuffs
+        };
+    });
+};
+
+const removeConservationEffect = (task, setPlayerState) => {
+    setPlayerState(prevState => {
+        const newBuffs = { ...prevState.conservationBuffs };
+
+        switch (task.effect) {
+            case 'increases_encounter_rate':
+                newBuffs.encounterRate = Math.max(1, (newBuffs.encounterRate || 1) - task.value);
+                break;
+            case 'water_species_bonus':
+                newBuffs.waterSpecies = (newBuffs.waterSpecies || 1) / task.value;
+                break;
+            case 'herbivore_bonus':
+                newBuffs.herbivoreSpecies = (newBuffs.herbivoreSpecies || 1) / task.value;
+                break;
+            case 'small_species_bonus':
+                newBuffs.smallSpecies = (newBuffs.smallSpecies || 1) / task.value;
+                break;
+            case 'rare_species_bonus':
+                newBuffs.rareSpecies = (newBuffs.rareSpecies || 1) / task.value;
+                break;
+        }
+
+        return {
+            ...prevState,
+            conservationBuffs: newBuffs
+        };
+    });
+};
+
+const smartHints = {
+    noEncounters: {
+        threshold: 3,
+        hints: [
+            { level: 1, text: "Try scanning at different times of day", urgent: false },
+            { level: 2, text: "Different weather conditions attract different species", urgent: false },
+            { level: 3, text: "Some species are very rare - try conservation tasks to improve your chances", urgent: true }
+        ]
+    },
+    struggling: {
+        threshold: 2,
+        hints: [
+            { level: 1, text: "Take your time to observe the species carefully", urgent: false },
+            { level: 2, text: "Check the Eco-Dex for patterns and best conditions", urgent: false },
+            { level: 3, text: "Each animal has unique traits - focus on what makes them special", urgent: true }
+        ]
+    },
+    inactive: {
+        threshold: 60, // seconds
+        hints: [
+            { level: 1, text: "New species are waiting to be discovered", urgent: false },
+            { level: 2, text: "Try completing a conservation task to help the ecosystem", urgent: false },
+            { level: 3, text: "Check your objectives for daily goals and rewards", urgent: true }
+        ]
+    },
+    optimalTime: {
+        hints: [
+            { level: 1, text: "This is a great time for sky species - look up!", urgent: false },
+            { level: 2, text: "Ground animals are most active now", urgent: false },
+            { level: 3, text: "Nocturnal species become more active at night", urgent: false }
+        ]
+    }
+};
+
+const getSmartHint = (hintState, gameTime, weather, recentDiscoveries) => {
+    const now = Date.now();
+    const timeSinceActivity = (now - hintState.lastActivity) / 1000;
+
+    // Check for inactivity
+    if (timeSinceActivity > smartHints.inactive.threshold) {
+        const hint = smartHints.inactive.hints[Math.min(hintState.hintLevel, smartHints.inactive.hints.length - 1)];
+        return { ...hint, type: 'inactive' };
+    }
+
+    // Check for failed scans
+    if (hintState.failedScans >= smartHints.noEncounters.threshold) {
+        const hint = smartHints.noEncounters.hints[Math.min(hintState.hintLevel, smartHints.noEncounters.hints.length - 1)];
+        return { ...hint, type: 'noEncounters' };
+    }
+
+    // Check for failed quizzes
+    if (hintState.failedQuizzes >= smartHints.struggling.threshold) {
+        const hint = smartHints.struggling.hints[Math.min(hintState.hintLevel, smartHints.struggling.hints.length - 1)];
+        return { ...hint, type: 'struggling' };
+    }
+
+    // Provide time-specific hints
+    if (recentDiscoveries.length === 0) {
+        const timeHints = smartHints.optimalTime.hints;
+        let hintIndex = 0;
+
+        if (gameTime === 'night') hintIndex = 2;
+        else if (gameTime === 'day') hintIndex = 1;
+
+        const hint = timeHints[hintIndex];
+        return { ...hint, type: 'optimalTime' };
+    }
+
+    return null;
+};
+
+const updateActivity = (setSmartHintState, action) => {
+    setSmartHintState(prevState => {
+        const now = Date.now();
+        let newState = {
+            ...prevState,
+            lastActivity: now
+        };
+
+        switch (action) {
+            case 'scan':
+                newState.failedScans = 0;
+                break;
+            case 'success':
+                newState.failedQuizzes = 0;
+                newState.hintLevel = Math.max(0, prevState.hintLevel - 1);
+                break;
+            case 'failure':
+                newState.failedQuizzes = prevState.failedQuizzes + 1;
+                break;
+            case 'noEncounter':
+                newState.failedScans = prevState.failedScans + 1;
+                break;
+        }
+
+        return newState;
+    });
+};
+
 const EcoLogComponent = ({ ecoLog, onBack }) => {
     const { tNested } = useTranslation();
     return (
@@ -222,8 +451,8 @@ const EcoLogComponent = ({ ecoLog, onBack }) => {
                                 <>
                                     <p>{tNested('gameUI.level')}: {entry.researchLevel} / {MAX_RESEARCH_LEVEL}</p>
                                     <p>{tNested('gameUI.rarity')}: {tNested(`rarity.${species.rarity}`)}</p>
-                                    <p>{tNested('gameUI.time')}: {tNested(`gameUI.timeValues.${tNested(`species.${species.id}.bestTime`)}`)}</p>
-                                    <p>{tNested('gameUI.weather')}: {tNested(`gameUI.weatherValues.${tNested(`species.${species.id}.bestWeather`)}`)}</p>
+                                    <p>{tNested('gameUI.time')}: {species.encounterRules.time.map(t => tNested(`gameUI.timeValues.${t}`)).join(', ')}</p>
+                                    <p>{tNested('gameUI.weather')}: {species.encounterRules.weather.map(w => tNested(`gameUI.weatherValues.${w}`)).join(', ')}</p>
                                     <p style={{ fontStyle: 'italic' }}>{tNested(`species.${species.id}.funFact`)}</p>
                                     <ShareCardButton speciesId={species.id} label={tNested('share.card')} />
                                     <div className="xp-bar-container" title={`XP: ${entry.researchXp} / ${XP_PER_LEVEL}`}>
@@ -375,6 +604,78 @@ const QuizModal = ({ species, onResult, behavior }) => {
         </div>
     );
 };
+const ConservationTasks = ({ gameTime, weather, activeTasks, conservationTokens, onStartTask }) => {
+    const availableTasks = getAvailableConservationTasks(gameTime, weather, activeTasks);
+
+    // Only show if there are active tasks or at least 2 available tasks
+    if (availableTasks.length === 0 && activeTasks.length === 0) return null;
+    if (availableTasks.length < 2 && activeTasks.length === 0) return null;
+
+    return (
+        <div className="conservation-panel">
+            <div className="conservation-header">
+                <span className="conservation-icon">🌍</span>
+                <span className="conservation-title">Conservation Tasks</span>
+                <span className="conservation-tokens">🪙 {conservationTokens}</span>
+            </div>
+
+            {/* Active Tasks */}
+            {activeTasks.length > 0 && (
+                <div className="active-tasks">
+                    <h4>Active Tasks:</h4>
+                    {activeTasks.map(task => {
+                        const remainingTime = Math.max(0, Math.ceil((task.endTime - Date.now()) / 1000));
+                        const progress = ((task.duration - remainingTime) / task.duration) * 100;
+
+                        return (
+                            <div key={task.id} className="task-item active">
+                                <div className="task-info">
+                                    <span className="task-icon">{task.icon}</span>
+                                    <div className="task-details">
+                                        <span className="task-name">{task.name}</span>
+                                        <span className="task-timer">{Math.floor(remainingTime / 60)}:{(remainingTime % 60).toString().padStart(2, '0')}</span>
+                                    </div>
+                                </div>
+                                <div className="task-progress">
+                                    <div
+                                        className="task-progress-fill"
+                                        style={{ width: `${progress}%` }}
+                                    ></div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
+
+            {/* Available Tasks */}
+            {availableTasks.length > 0 && (
+                <div className="available-tasks">
+                    <h4>Available Tasks:</h4>
+                    {availableTasks.map(task => (
+                        <div key={task.id} className="task-item available">
+                            <div className="task-info">
+                                <span className="task-icon">{task.icon}</span>
+                                <div className="task-details">
+                                    <span className="task-name">{task.name}</span>
+                                    <span className="task-description">{task.description}</span>
+                                    <span className="task-reward">+{task.reward.tokens} tokens</span>
+                                </div>
+                            </div>
+                            <button
+                                className="task-start-btn"
+                                onClick={() => onStartTask(task)}
+                            >
+                                Start ({Math.floor(task.duration / 60)}m)
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
+
 const ARStarfield = ({ numStars, isVisible }) => { const stars = useMemo(() => Array.from({ length: numStars }).map((_, i) => { const size = Math.random() * 2 + 1; const style = { width: `${size}px`, height: `${size}px`, top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 5}s`, }; return <div key={i} className="star" style={style}></div>; }), [numStars]); return <div className="ar-starfield" style={{ opacity: isVisible ? 1 : 0 }}>{stars}</div>; };
 const Constellation = ({ constellation }) => { if (!constellation) return null; return ( <div className="constellation" style={{ top: `${constellation.y}px`, left: `${constellation.x}px` }}> <div className="constellation-emoji">{constellation.species.emoji}</div> </div> ); };
 const HotspotVisualizer = ({ hotspot }) => { if (!hotspot) return null; const style = { top: `${hotspot.y - HOTSPOT_RADIUS}px`, left: `${hotspot.x - HOTSPOT_RADIUS}px`, width: `${HOTSPOT_RADIUS * 2}px`, height: `${HOTSPOT_RADIUS * 2}px`, }; return <div className="hotspot-visualizer" style={style}></div>; };
@@ -385,7 +686,22 @@ const LightingOverlay = ({ time }) => { return <div className={`visual-overlay $
 export default function App() {
     const { t, tNested } = useTranslation();
     const [currentScreen, setCurrentScreen] = useState('explore');
-    const [playerState, setPlayerState] = useState({ gameTime: 'day', weather: 'clear', unlockedPerks: [], pityRare: 0, pityRadiant: 0, streakDays: 1, lastLoginDate: null });
+    const [playerState, setPlayerState] = useState({
+        gameTime: 'day',
+        weather: 'clear',
+        unlockedPerks: [],
+        pityRare: 0,
+        pityRadiant: 0,
+        streakDays: 1,
+        lastLoginDate: null,
+        conservationBuffs: {
+            encounterRate: 1,
+            waterSpecies: 1,
+            herbivoreSpecies: 1,
+            smallSpecies: 1,
+            rareSpecies: 1
+        }
+    });
     const [ecoLog, setEcoLog] = useState({});
     const [modalState, setModalState] = useState({ encounter: false, quiz: false, result: false });
     const [activeEncounter, setActiveEncounter] = useState(null);
@@ -401,6 +717,15 @@ export default function App() {
     const [recentDiscoveries, setRecentDiscoveries] = useState([]);
     const [discoveryChain, setDiscoveryChain] = useState(null);
     const [currentBehavior, setCurrentBehavior] = useState(null);
+    const [activeConservationTasks, setActiveConservationTasks] = useState([]);
+    const [conservationTokens, setConservationTokens] = useState(0);
+    const [smartHintState, setSmartHintState] = useState({
+        failedScans: 0,
+        failedQuizzes: 0,
+        lastActivity: Date.now(),
+        hintLevel: 0,
+        currentHint: null
+    });
     const scannerWindowRef = useRef(null);
 
     useEffect(() => {
@@ -428,6 +753,28 @@ export default function App() {
         return () => clearInterval(gameLoop);
     }, [playerState.streakDays]);
 
+    // Smart hints system - check for hints every 10 seconds
+    useEffect(() => {
+        const hintInterval = setInterval(() => {
+            const smartHint = getSmartHint(smartHintState, playerState.gameTime, playerState.weather, recentDiscoveries);
+
+            if (smartHint) {
+                setSmartHintState(prevState => ({
+                    ...prevState,
+                    currentHint: smartHint,
+                    hintLevel: Math.min(prevState.hintLevel + (smartHint.urgent ? 1 : 0), 2)
+                }));
+            } else {
+                setSmartHintState(prevState => ({
+                    ...prevState,
+                    currentHint: null
+                }));
+            }
+        }, 10000); // Check every 10 seconds
+
+        return () => clearInterval(hintInterval);
+    }, [smartHintState, playerState.gameTime, playerState.weather, recentDiscoveries]);
+
     const grantXp = useCallback((speciesId, amount) => {
         setEcoLog(prevLog => {
             const species = speciesData.find(s => s.id === speciesId);
@@ -454,12 +801,41 @@ export default function App() {
     }, [playerState.unlockedPerks, tNested]);
 
     const closeAllModals = () => {
-        setModalState({ encounter: false, quiz: false, result: false });
-        setActiveEncounter(null);
-        setIsRadiantEncounter(false);
-        setConstellation(null);
-        setCurrentBehavior(null);
+    setModalState({ encounter: false, quiz: false, result: false });
+    setActiveEncounter(null);
+    setIsRadiantEncounter(false);
+    setConstellation(null);
+    setCurrentBehavior(null);
+};
+
+const startConservationTask = (task) => {
+    const taskWithTimer = {
+        ...task,
+        startTime: Date.now(),
+        endTime: Date.now() + (task.duration * 1000)
     };
+
+    setActiveConservationTasks(prev => [...prev, taskWithTimer]);
+    applyConservationEffect(task, setPlayerState);
+
+    // Set up timer to complete the task
+    setTimeout(() => {
+        completeConservationTask(task);
+    }, task.duration * 1000);
+};
+
+const completeConservationTask = (task) => {
+    // Remove from active tasks
+    setActiveConservationTasks(prev => prev.filter(t => t.id !== task.id));
+
+    // Remove conservation effect
+    removeConservationEffect(task, setPlayerState);
+
+    // Award tokens and show message
+    setConservationTokens(prev => prev + task.reward.tokens);
+    setResultMessage(task.reward.message);
+    setModalState({ encounter: false, quiz: false, result: true });
+};
 
     const discoveryStages = [
         { stage: 'detecting', message: 'Bio-signature detected...', duration: 800, progress: 25 },
@@ -472,6 +848,9 @@ export default function App() {
         if (isScanning || isFocusing || !scannerWindowRef.current) return;
         sfx.play('scan');
         setIsScanning(true);
+
+        // Track scanning activity for smart hints
+        updateActivity(setSmartHintState, 'scan');
         setLastEncounterMessage(null);
         setConstellation(null);
         setScanStage('initializing');
@@ -503,6 +882,7 @@ export default function App() {
                 setHotspot(null);
                 setIsFocusing(false);
                 setLastEncounterMessage(tNested('gameUI.noBioSignatures'));
+                updateActivity(setSmartHintState, 'noEncounter');
                 return;
             }
             const hasNightVision = unlockedPerks.includes('night-vision');
@@ -602,6 +982,8 @@ export default function App() {
     const handleGameResult = (wasSuccessful) => {
         setResultMessage("");
         if (wasSuccessful) {
+            // Track successful quiz for smart hints
+            updateActivity(setSmartHintState, 'success');
             let xpGain = isRadiantEncounter ? XP_PER_ENCOUNTER * 5 : XP_PER_ENCOUNTER;
 
             // Apply behavioral XP bonus
@@ -639,6 +1021,9 @@ export default function App() {
                 setModalState({ encounter: false, quiz: false, result: true });
             }
         } else {
+            // Track failed quiz for smart hints
+            updateActivity(setSmartHintState, 'failure');
+
             // On failure, increase pity for both rare and radiant slightly
             setPlayerState(p => ({
                 ...p,
@@ -734,6 +1119,14 @@ export default function App() {
                               pityRadiant={playerState.pityRadiant}
                               lastEncounterMessage={lastEncounterMessage}
                               discoveryChain={discoveryChain}
+                              smartHint={smartHintState.currentHint}
+                            />
+                            <ConservationTasks
+                                gameTime={playerState.gameTime}
+                                weather={playerState.weather}
+                                activeTasks={activeConservationTasks}
+                                conservationTokens={conservationTokens}
+                                onStartTask={startConservationTask}
                             />
                             <div className="button-group">
                                 <button className="explore-button" onClick={handleAnalyzeBiome} disabled={isScanning || isFocusing}>

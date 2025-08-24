@@ -436,6 +436,401 @@ danger-button:hover { background-color: var(--danger-hover); }
         background: rgba(52, 211, 153, 0.4);
     }
 }
+
+/* Conservation Tasks Styles */
+.conservation-panel {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    border-radius: 12px;
+    padding: 0.6rem;
+    margin-bottom: 0.5rem;
+    backdrop-filter: blur(10px);
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.conservation-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(52, 211, 153, 0.3);
+}
+
+.conservation-icon {
+    font-size: 1.5rem;
+}
+
+.conservation-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    flex-grow: 1;
+    margin-left: 0.5rem;
+}
+
+.conservation-tokens {
+    font-size: 1rem;
+    background: rgba(52, 211, 153, 0.2);
+    padding: 0.2rem 0.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(52, 211, 153, 0.4);
+}
+
+.active-tasks, .available-tasks {
+    margin-bottom: 1rem;
+}
+
+.active-tasks h4, .available-tasks h4 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    background: rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.2);
+}
+
+.task-item.active {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.task-item.available {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.task-info {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-grow: 1;
+}
+
+.task-icon {
+    font-size: 1.5rem;
+    min-width: 1.5rem;
+    text-align: center;
+}
+
+.task-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.task-name {
+    font-weight: bold;
+    color: var(--light-text);
+    font-size: 0.9rem;
+}
+
+.task-description {
+    color: var(--light-text);
+    opacity: 0.8;
+    font-size: 0.8rem;
+}
+
+.task-timer {
+    color: var(--primary-color);
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.task-reward {
+    color: #fbbf24;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.task-progress {
+    width: 60px;
+    height: 4px;
+    background: rgba(52, 211, 153, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-left: 1rem;
+}
+
+.task-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    transition: width 1s ease;
+}
+
+.task-start-btn {
+    background: var(--primary-color);
+    color: var(--dark-text);
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.task-start-btn:hover {
+    background: var(--secondary-color);
+    transform: translateY(-1px);
+}
+
+.task-start-btn:active {
+    transform: translateY(0);
+}
+
+/* PhotoMiniGame Styles */
+.minigame-instructions {
+    background: rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.minigame-instructions p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--light-text);
+}
+
+.photo-arena {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.photo-arena.success {
+    background: rgba(52, 211, 153, 0.2);
+    border-color: #34d399;
+}
+
+@keyframes ring-pulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.7;
+    }
+}
+
+.success-message {
+    text-align: center;
+    color: #34d399;
+}
+
+.success-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.success-message p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.arena-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.background-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.1) 100%);
+}
+
+.background-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        radial-gradient(circle at 20% 20%, rgba(52, 211, 153, 0.1) 2px, transparent 2px),
+        radial-gradient(circle at 80% 80%, rgba(52, 211, 153, 0.1) 2px, transparent 2px);
+    background-size: 50px 50px;
+}
+
+.minigame-stats {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.time-bar {
+    width: 200px;
+    height: 8px;
+    background: rgba(52, 211, 153, 0.2);
+    border-radius: 4px;
+    margin: 0 auto 0.5rem;
+    overflow: hidden;
+}
+
+.time-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #34d399, #10b981);
+    transition: width 0.1s ease;
+    border-radius: 4px;
+}
+
+.time-text {
+    font-size: 0.9rem;
+    color: var(--light-text);
+    margin: 0;
+}
+
+/* Enhanced PhotoMiniGame Wildlife Target */
+.wildlife-target {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.wildlife-emoji {
+    display: block;
+    text-align: center;
+    animation: wildlife-bob 3s ease-in-out infinite;
+}
+
+@keyframes wildlife-bob {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.wildlife-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+}
+
+.glow-ring {
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgba(52, 211, 153, 0.3);
+    border-radius: 50%;
+    animation: wildlife-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes wildlife-glow {
+    0% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+.captured-species {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: rgba(52, 211, 153, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(52, 211, 153, 0.4);
+}
+
+.captured-emoji {
+    font-size: 2rem;
+}
+
+.captured-name {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #34d399;
+}
+
+.perfect-timing-guide {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 3;
+}
+
+.guide-text {
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--light-text);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+/* Smart Hints Styles */
+.hint-chip.smart-hint {
+    background: rgba(255, 193, 7, 0.2);
+    border: 1px solid rgba(255, 193, 7, 0.4);
+    animation: smart-hint-pulse 3s ease-in-out infinite;
+}
+
+.hint-chip.smart-hint.urgent {
+    background: rgba(244, 67, 54, 0.2);
+    border: 1px solid rgba(244, 67, 54, 0.4);
+    animation: urgent-hint-pulse 2s ease-in-out infinite;
+}
+
+@keyframes smart-hint-pulse {
+    0%, 100% {
+        background: rgba(255, 193, 7, 0.2);
+        transform: scale(1);
+    }
+    50% {
+        background: rgba(255, 193, 7, 0.3);
+        transform: scale(1.02);
+    }
+}
+
+@keyframes urgent-hint-pulse {
+    0%, 100% {
+        background: rgba(244, 67, 54, 0.2);
+        transform: scale(1);
+    }
+    50% {
+        background: rgba(244, 67, 54, 0.4);
+        transform: scale(1.05);
+    }
+}
 .quiz-options { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
 .quiz-option-btn {
   padding: 12px;
