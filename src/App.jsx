@@ -714,6 +714,112 @@ const AchievementCelebration = ({ achievement, onClose }) => {
     );
 };
 
+const ParticleSystem = ({ type, isActive, weather, gameTime }) => {
+    const [particles, setParticles] = useState([]);
+
+    useEffect(() => {
+        if (!isActive) {
+            setParticles([]);
+            return;
+        }
+
+        const particleConfigs = {
+            fireflies: {
+                count: 20,
+                behavior: 'float',
+                time: 'night',
+                color: '#ffff00',
+                size: 3,
+                speed: 0.5
+            },
+            pollen: {
+                count: 30,
+                behavior: 'drift',
+                time: 'day',
+                color: '#ffeb3b',
+                size: 2,
+                speed: 0.3
+            },
+            rain: {
+                count: 100,
+                behavior: 'fall',
+                weather: 'rainy',
+                color: '#64b5f6',
+                size: 1,
+                speed: 2
+            }
+        };
+
+        const config = particleConfigs[type];
+        if (!config) return;
+
+        // Check conditions
+        if (config.time && config.time !== gameTime) return;
+        if (config.weather && config.weather !== weather) return;
+
+        const newParticles = Array.from({ length: config.count }).map((_, i) => ({
+            id: i,
+            x: Math.random() * 100,
+            y: type === 'rain' ? -10 : Math.random() * 100,
+            delay: Math.random() * 5,
+            size: config.size + Math.random() * config.size,
+            speed: config.speed + Math.random() * config.speed * 0.5,
+            color: config.color,
+            behavior: config.behavior
+        }));
+
+        setParticles(newParticles);
+
+        // Update particle positions
+        const interval = setInterval(() => {
+            setParticles(prev => prev.map(particle => {
+                let { x, y } = particle;
+
+                switch (particle.behavior) {
+                    case 'float':
+                        x += Math.sin(Date.now() * 0.001 + particle.id) * 0.1;
+                        y += Math.cos(Date.now() * 0.001 + particle.id) * 0.1;
+                        break;
+                    case 'drift':
+                        x += Math.sin(Date.now() * 0.0005 + particle.id) * 0.05;
+                        y += particle.speed * 0.1;
+                        break;
+                    case 'fall':
+                        y += particle.speed;
+                        if (y > 110) y = -10; // Reset to top
+                        break;
+                }
+
+                return { ...particle, x: (x + 100) % 100, y };
+            }));
+        }, 50);
+
+        return () => clearInterval(interval);
+    }, [type, isActive, weather, gameTime]);
+
+    if (!isActive || particles.length === 0) return null;
+
+    return (
+        <div className="particle-system">
+            {particles.map(particle => (
+                <div
+                    key={particle.id}
+                    className={`particle particle-${type}`}
+                    style={{
+                        left: `${particle.x}%`,
+                        top: `${particle.y}%`,
+                        width: `${particle.size}px`,
+                        height: `${particle.size}px`,
+                        backgroundColor: particle.color,
+                        animationDelay: `${particle.delay}s`,
+                        opacity: 0.6 + Math.random() * 0.4
+                    }}
+                />
+            ))}
+        </div>
+    );
+};
+
 const ARStarfield = ({ numStars, isVisible }) => { const stars = useMemo(() => Array.from({ length: numStars }).map((_, i) => { const size = Math.random() * 2 + 1; const style = { width: `${size}px`, height: `${size}px`, top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 5}s`, }; return <div key={i} className="star" style={style}></div>; }), [numStars]); return <div className="ar-starfield" style={{ opacity: isVisible ? 1 : 0 }}>{stars}</div>; };
 const Constellation = ({ constellation }) => { if (!constellation) return null; return ( <div className="constellation" style={{ top: `${constellation.y}px`, left: `${constellation.x}px` }}> <div className="constellation-emoji">{constellation.species.emoji}</div> </div> ); };
 const HotspotVisualizer = ({ hotspot }) => { if (!hotspot) return null; const style = { top: `${hotspot.y - HOTSPOT_RADIUS}px`, left: `${hotspot.x - HOTSPOT_RADIUS}px`, width: `${HOTSPOT_RADIUS * 2}px`, height: `${HOTSPOT_RADIUS * 2}px`, }; return <div className="hotspot-visualizer" style={style}></div>; };
@@ -770,6 +876,43 @@ export default function App() {
         currentAchievement: null
     });
     const scannerWindowRef = useRef(null);
+
+    // Ambient audio management
+    useEffect(() => {
+        const ambientEnabled = true; // Can be made configurable later
+        if (!ambientEnabled) {
+            sfx.stopAllAmbient();
+            return;
+        }
+
+        const ambientSounds = {
+            day: ['birds_day', 'insects_day', 'wind'],
+            night: ['crickets_night', 'owls_night', 'rustling'],
+            rainy: ['rainfall', 'thunder', 'dripping']
+        };
+
+        let soundsToPlay = [];
+
+        // Base time sounds
+        if (playerState.weather === 'rainy') {
+            soundsToPlay = ambientSounds.rainy;
+        } else if (playerState.gameTime === 'day') {
+            soundsToPlay = ambientSounds.day;
+        } else {
+            soundsToPlay = ambientSounds.night;
+        }
+
+        // Play ambient sounds with slight delays
+        soundsToPlay.forEach((sound, index) => {
+            setTimeout(() => {
+                sfx.playAmbient(sound);
+            }, index * 1000); // Stagger by 1 second
+        });
+
+        return () => {
+            soundsToPlay.forEach(sound => sfx.stopAmbient(sound));
+        };
+    }, [playerState.gameTime, playerState.weather]);
 
     useEffect(() => {
         // Daily streak initialization
@@ -964,6 +1107,9 @@ const completeConservationTask = (task) => {
     setConservationTokens(prev => prev + task.reward.tokens);
     setResultMessage(task.reward.message);
     setModalState({ encounter: false, quiz: false, result: true });
+
+    // Play conservation success sound
+    sfx.play('success_flourish');
 };
 
     const discoveryStages = useMemo(() => [
@@ -984,6 +1130,9 @@ const completeConservationTask = (task) => {
         setConstellation(null);
         setScanStage('initializing');
         setScanProgress(0);
+
+        // Play scan pulse sound
+        sfx.play('sonar_ping');
 
         let currentDelay = 0;
         discoveryStages.forEach((stage) => {
@@ -1063,6 +1212,9 @@ const completeConservationTask = (task) => {
                 });
                 setIsFocusing(true);
                 setLastEncounterMessage(tNested('gameUI.speciesLocated'));
+
+                // Play discovery chime
+                sfx.play('discovery_chime');
             } else {
                 setIsFocusing(false);
                 setLastEncounterMessage(tNested('gameUI.noBioSignatures'));
@@ -1320,6 +1472,26 @@ const completeConservationTask = (task) => {
                     onClose={() => setAchievementState(prev => ({ ...prev, showCelebration: false }))}
                   />
                 )}
+
+                {/* Particle Systems */}
+                <ParticleSystem
+                  type="fireflies"
+                  isActive={true}
+                  weather={playerState.weather}
+                  gameTime={playerState.gameTime}
+                />
+                <ParticleSystem
+                  type="pollen"
+                  isActive={true}
+                  weather={playerState.weather}
+                  gameTime={playerState.gameTime}
+                />
+                <ParticleSystem
+                  type="rain"
+                  isActive={true}
+                  weather={playerState.weather}
+                  gameTime={playerState.gameTime}
+                />
             </div>
         </>
     );
