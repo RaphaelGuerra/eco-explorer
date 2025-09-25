@@ -43,4 +43,4 @@ Open the local server shown by Vite.
 - Learnings: pacing simple game loops, cosmetic feedback (motion/sfx), and quick i18n
 
 ## License
-All rights reserved. Personal portfolio project — not for commercial use.
+All rights reserved. Personal portfolio project — not for production use.
