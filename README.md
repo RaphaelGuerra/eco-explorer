@@ -1,13 +1,46 @@
-# React + Vite
+# Eco Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A playful, bite‑sized nature exploration game inspired by Brazil’s Itatiaia National Park.
 
-Currently, two official plugins are available:
+This is a small side project for learning and practicing — prototyping animations, game loops, lightweight state management, i18n, and delightful UI touches. It’s not a production game.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## What It Does
+- Tap Explore to scan the environment and discover wildlife species with varying rarity
+- Encounter conditions affected by time of day and weather
+- Quick mini‑games (e.g., photo timing) and short quizzes connected to each species
+- Progression via XP, streaks, and research levels
+- Shareable encounter cards (export simple PNG from a card)
+- Multi‑language UI (English and Spanish)
 
-## Expanding the ESLint configuration
+## How To Play
+- Press Explore to start a scan; if you spot something, follow prompts
+- Complete a quick interaction (quiz or photo) to “secure” the encounter
+- Earn XP, collect hints about habitats/behaviors, and keep your streak going
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# eco-explorer
+## Highlights
+- Framer Motion animations and small celebration moments (confetti, sfx)
+- Lightweight global state with Zustand
+- Simple i18n with runtime language switching
+- Compact, mobile‑first UI with a print‑free, share‑friendly layout
+
+## Tech Stack
+- React + Vite
+- Framer Motion, Howler, canvas‑confetti, Zustand
+- ESLint
+
+## Run Locally
+Prerequisites: Node.js >= 18
+
+```bash
+npm install
+npm run dev
+```
+
+Open the local server shown by Vite.
+
+## Status & Learnings
+- Current: functional prototype used for UI/gameplay experiments
+- Learnings: pacing simple game loops, cosmetic feedback (motion/sfx), and quick i18n
+
+## License
+All rights reserved. Personal portfolio project — not for commercial use.
