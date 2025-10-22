@@ -1,5 +1,19 @@
 # Eco Explorer
 
+Last updated: 2025-10-22
+
+## Table of Contents
+
+<!-- TOC start -->
+- [What It Does](#what-it-does)
+- [How To Play](#how-to-play)
+- [Highlights](#highlights)
+- [Tech Stack](#tech-stack)
+- [Run Locally](#run-locally)
+- [Status & Learnings](#status-learnings)
+- [License](#license)
+<!-- TOC end -->
+
 A playful, bite‑sized nature exploration game inspired by Brazil’s Itatiaia National Park.
 
 This is a small side project for learning and practicing — prototyping animations, game loops, lightweight state management, i18n, and delightful UI touches. It’s not a production game.
