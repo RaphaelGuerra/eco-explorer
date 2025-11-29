@@ -1,6 +1,5 @@
 # Eco Explorer
 
-Last updated: 2025-11-29
 [![Lint](https://github.com/RaphaelGuerra/eco-explorer/actions/workflows/lint.yml/badge.svg)](https://github.com/RaphaelGuerra/eco-explorer/actions/workflows/lint.yml)
 [![Security](https://github.com/RaphaelGuerra/eco-explorer/actions/workflows/security.yml/badge.svg)](https://github.com/RaphaelGuerra/eco-explorer/actions/workflows/security.yml)
 
