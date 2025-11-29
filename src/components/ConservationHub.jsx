@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import './ConservationHub.css'
 
 export default function ConservationHub({
@@ -8,8 +7,6 @@ export default function ConservationHub({
   ecosystemHealth,
   onStartTask
 }) {
-  const [selectedTask, setSelectedTask] = useState(null)
-
   return (
     <div className="conservation-hub">
       <div className="hub-header">

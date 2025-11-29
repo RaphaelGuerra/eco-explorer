@@ -8,9 +8,9 @@ export default function Week1Test() {
   const [gameTime, setGameTime] = useState('day')
   const [weather, setWeather] = useState('clear')
   const [showConfetti, setShowConfetti] = useState(false)
-  const [activeTasks, setActiveTasks] = useState([])
+  const [activeTasks] = useState([])
   const [conservationTokens, setConservationTokens] = useState(25)
-  const [ecosystemHealth, setEcosystemHealth] = useState(75)
+  const [ecosystemHealth] = useState(75)
 
   const handleExplore = () => {
     sfx.play('scan_start')
