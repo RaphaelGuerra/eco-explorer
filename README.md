@@ -25,9 +25,9 @@ Live demo: none (run locally)
 ## What It Does
 - Tap Explore to scan the environment and discover wildlife species with varying rarity
 - Encounter conditions affected by time of day and weather
-- Quick mini‑games (e.g., photo timing) and short quizzes connected to each species
+- Quick mini‑games (e.g., photo timing) and short quizzes connected to each species (in progress)
 - Progression via XP, streaks, and research levels
-- Shareable encounter cards (export simple PNG from a card)
+- Shareable encounter cards (export simple PNG from a card) (planned)
 - Multi‑language UI (English and Spanish)
 
 ## How To Play
