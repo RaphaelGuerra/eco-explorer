@@ -20,6 +20,8 @@ A playful, bite‑sized nature exploration game inspired by Brazil’s Itatiaia 
 
 This is a small side project for learning and practicing — prototyping animations, game loops, lightweight state management, i18n, and delightful UI touches. It’s not a production game.
 
+Live demo: none (run locally)
+
 ## What It Does
 - Tap Explore to scan the environment and discover wildlife species with varying rarity
 - Encounter conditions affected by time of day and weather
