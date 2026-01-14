@@ -43,6 +43,47 @@ class EnhancedSoundManager {
       volume: this.volumes.effects,
       category: 'achievement'
     })
+
+    // Scan/encounter feedback (used in App.jsx)
+    this.registerSound('scan', '/sounds/feedback/scan.mp3', {
+      volume: this.volumes.ui,
+      category: 'ui'
+    })
+    this.registerSound('sonar_ping', '/sounds/feedback/sonar_ping.mp3', {
+      volume: this.volumes.ui,
+      category: 'ui'
+    })
+    this.registerSound('scan_pulse', '/sounds/feedback/scan_pulse.mp3', {
+      volume: this.volumes.ui,
+      category: 'ui'
+    })
+    this.registerSound('focus', '/sounds/feedback/focus.mp3', {
+      volume: this.volumes.ui,
+      category: 'ui'
+    })
+    this.registerSound('discovery_chime', '/sounds/events/discovery_chime.mp3', {
+      volume: this.volumes.effects,
+      category: 'discovery'
+    })
+    this.registerSound('success', '/sounds/events/success.mp3', {
+      volume: this.volumes.effects,
+      category: 'achievement'
+    })
+    this.registerSound('success_flourish', '/sounds/events/success_flourish.mp3', {
+      volume: this.volumes.effects,
+      category: 'achievement'
+    })
+
+    // Ambient layers
+    this.registerAmbient('birds_day', '/sounds/ambient/birds_day.mp3')
+    this.registerAmbient('insects_day', '/sounds/ambient/insects_day.mp3')
+    this.registerAmbient('wind', '/sounds/ambient/wind.mp3')
+    this.registerAmbient('crickets_night', '/sounds/ambient/crickets_night.mp3')
+    this.registerAmbient('owls_night', '/sounds/ambient/owls_night.mp3')
+    this.registerAmbient('rustling', '/sounds/ambient/rustling.mp3')
+    this.registerAmbient('rainfall', '/sounds/ambient/rainfall.mp3')
+    this.registerAmbient('thunder', '/sounds/ambient/thunder.mp3')
+    this.registerAmbient('dripping', '/sounds/ambient/dripping.mp3')
   }
 
   registerSound(id, src, options = {}) {
