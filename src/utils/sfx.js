@@ -125,12 +125,20 @@ class EnhancedSoundManager {
     }
   }
 
+  playAmbient(ambientId, fadeTime = 2000) {
+    this.startAmbient(ambientId, fadeTime)
+  }
+
   stopAmbient(ambientId, fadeTime = 2000) {
     const ambient = this.ambientLayers.get(ambientId)
     if (ambient) {
       ambient.fade(ambient.volume(), 0, fadeTime)
       setTimeout(() => ambient.stop(), fadeTime)
     }
+  }
+
+  stopAllAmbient() {
+    this.ambientLayers.forEach((_, id) => this.stopAmbient(id))
   }
 
   crossfadeAmbient(fromId, toId, duration = 3000) {
