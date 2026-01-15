@@ -218,7 +218,7 @@ body, html, #root { margin: 0; padding: 0; width: 100%; height: 100%; font-famil
 .danger-button { color: var(--light-text); background-color: var(--danger-color); }
 .explore-button:not(:disabled):hover { transform: translateY(-2px); background-color: var(--secondary-color); }
 .secondary-button:hover { background-color: rgba(52, 211, 153, 0.4); }
-danger-button:hover { background-color: var(--danger-hover); }
+.danger-button:hover { background-color: var(--danger-hover); }
 .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; align-items: center; z-index: 100; }
 .modal-content { background-color: #fff; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); color: var(--dark-text); padding: 30px; border-radius: 16px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.25); }
 .modal-content .emoji { font-size: 5rem; margin-bottom: 1rem; }

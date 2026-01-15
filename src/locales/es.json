@@ -33,6 +33,8 @@
   "gameUI": {
     "viewEcoLog": "Ver Eco-Log",
     "viewPerks": "Ver Perks",
+    "resetProgress": "Restablecer progreso",
+    "resetConfirm": "¿Restablecer todo el progreso? Esta acción no se puede deshacer.",
     "back": "Atrás",
     "ok": "OK",
     "logIt": "Registrar",

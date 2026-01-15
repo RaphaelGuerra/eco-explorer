@@ -7,7 +7,7 @@ import ObjectiveRibbon from './components/ObjectiveRibbon';
 import ConfettiBurst from './components/ConfettiBurst';
 import sfx from './utils/sfx';
 import PhotoMiniGame from './components/PhotoMiniGame';
-import { loadEcoState, saveEcoState } from './utils/statePersistence';
+import { loadEcoState, saveEcoState, clearEcoState } from './utils/statePersistence';
 
 // ===================== DATA STRUCTURES & GAME CONSTANTS =====================
 const MAX_RESEARCH_LEVEL = 2;
@@ -1174,6 +1174,38 @@ const completeConservationTask = (task) => {
     sfx.play('success_flourish');
 };
 
+const handleResetProgress = () => {
+    const confirmText = tNested('gameUI.resetConfirm');
+    if (typeof window !== 'undefined' && !window.confirm(confirmText)) return;
+    clearEcoState();
+    try {
+        localStorage.removeItem('ee-last-login');
+    } catch {
+        // ignore storage errors
+    }
+    setCurrentScreen('explore');
+    setEcoLog({});
+    setRecentDiscoveries([]);
+    setConservationTokens(0);
+    setAchievementState(createDefaultAchievementState());
+    setPlayerState(createDefaultPlayerState());
+    setActiveConservationTasks([]);
+    setDiscoveryChain(null);
+    setCurrentBehavior(null);
+    setActiveEncounter(null);
+    setModalState({ encounter: false, quiz: false, result: false });
+    setIsRadiantEncounter(false);
+    setLastEncounterMessage(null);
+    setIsScanning(false);
+    setIsFocusing(false);
+    setHotspot(null);
+    setConstellation(null);
+    setResultMessage('');
+    setScanStage('');
+    setScanProgress(0);
+    setSmartHintState(createDefaultSmartHintState());
+};
+
     const discoveryStages = useMemo(() => [
         { stage: 'detecting', message: 'Bio-signature detected...', duration: 800, progress: 25 },
         { stage: 'analyzing', message: 'Analyzing patterns...', duration: 1000, progress: 50 },
@@ -1510,6 +1542,9 @@ const completeConservationTask = (task) => {
                             <div className="button-group">
                                 <button className="secondary-button" onClick={() => setCurrentScreen('ecoLog')}>{tNested('gameUI.viewEcoLog')}</button>
                                 <button className="secondary-button" onClick={() => setCurrentScreen('perks')}>{tNested('gameUI.viewPerks')}</button>
+                            </div>
+                            <div className="button-group">
+                                <button className="danger-button" onClick={handleResetProgress}>{tNested('gameUI.resetProgress')}</button>
                             </div>
                             {lastEncounterMessage && <p style={{ color: 'var(--light-text)', marginTop: '1rem' }}>{lastEncounterMessage}</p>}
                         </>

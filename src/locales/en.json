@@ -33,6 +33,8 @@
   "gameUI": {
     "viewEcoLog": "View Eco-Log",
     "viewPerks": "View Perks",
+    "resetProgress": "Reset progress",
+    "resetConfirm": "Reset all progress? This cannot be undone.",
     "back": "Back",
     "ok": "OK",
     "logIt": "Log It",
