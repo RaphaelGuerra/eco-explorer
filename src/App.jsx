@@ -8,6 +8,7 @@ import ConfettiBurst from './components/ConfettiBurst';
 import sfx from './utils/sfx';
 import PhotoMiniGame from './components/PhotoMiniGame';
 import { loadEcoState, saveEcoState, clearEcoState } from './utils/statePersistence';
+import { getDiscoveryChainBonus, selectBehavior, selectByRarity, RADIANT_PITY_MAX, RADIANT_PITY_STEP, RARE_PITY_MAX, RARE_PITY_STEP } from './utils/encounters';
 
 // ===================== DATA STRUCTURES & GAME CONSTANTS =====================
 const MAX_RESEARCH_LEVEL = 2;
@@ -17,11 +18,6 @@ const SCAN_DURATION = 3000;
 const FOCUS_TIMEOUT = 7000;
 const BASE_ENCOUNTER_CHANCE = 0.80;
 const BASE_RADIANT_CHANCE = 0.05;
-const RARITY_WEIGHTS = { common: 10, uncommon: 5, rare: 1 };
-const RARE_PITY_STEP = 0.25;
-const RARE_PITY_MAX = 2.0; // up to +200% weight for rare
-const RADIANT_PITY_STEP = 0.01; // +1% per non-radiant encounter
-const RADIANT_PITY_MAX = 0.15; // cap +15%
 const HOTSPOT_RADIUS = 75;
 const IMAGE_ASSETS = {
     day: '/images/eco-explorer-day.jpg',
@@ -148,112 +144,6 @@ const mergeAchievementState = (base, saved) => {
 };
 
 // ===================== COMPONENTS =====================
-const selectByRarity = (speciesPool, rareMultiplier = 1, chainBonus = null) => {
-    if (speciesPool.length === 0) return null;
-
-    // Apply discovery chain bonuses
-    const adjustedPool = speciesPool.map(species => {
-        let bonus = 1;
-        if (chainBonus && chainBonus.speciesId === species.id) {
-            bonus = chainBonus.multiplier;
-        }
-        return { ...species, selectionWeight: (RARITY_WEIGHTS[species.rarity] || 1) * (species.rarity === 'rare' ? rareMultiplier : 1) * bonus };
-    });
-
-    const totalWeight = adjustedPool.reduce((sum, s) => sum + s.selectionWeight, 0);
-    let random = Math.random() * totalWeight;
-
-    for (const species of adjustedPool) {
-        if (random < species.selectionWeight) return species;
-        random -= species.selectionWeight;
-    }
-    return adjustedPool[adjustedPool.length - 1];
-};
-
-const getDiscoveryChainBonus = (recentDiscoveries, allSpecies) => {
-    if (recentDiscoveries.length === 0) return null;
-
-    const latestDiscovery = recentDiscoveries[recentDiscoveries.length - 1];
-    const discoveredSpecies = allSpecies.find(s => s.id === latestDiscovery);
-
-    if (!discoveredSpecies || !discoveredSpecies.relationships) return null;
-
-    // Predator-prey chain: after discovering prey, increase predator chance
-    if (discoveredSpecies.relationships.prey_of) {
-        const predators = discoveredSpecies.relationships.prey_of;
-        const randomPredator = predators[Math.floor(Math.random() * predators.length)];
-        return {
-            speciesId: randomPredator,
-            multiplier: 2.5,
-            hint: `Fresh tracks suggest a predator is nearby...`
-        };
-    }
-
-    // Pollination chain: after discovering pollinators, increase flower-dependent species
-    if (discoveredSpecies.relationships.pollination_trigger) {
-        const flowerSpecies = allSpecies.filter(s =>
-            s.relationships && s.relationships.flower_dependent
-        );
-        if (flowerSpecies.length > 0) {
-            const randomFlowerSpecies = flowerSpecies[Math.floor(Math.random() * flowerSpecies.length)];
-            return {
-                speciesId: randomFlowerSpecies.id,
-                multiplier: 2.0,
-                hint: `These flowers attract certain pollinators...`
-            };
-        }
-    }
-
-    // Social species chain: after discovering social species, increase similar species
-    if (discoveredSpecies.relationships.social) {
-        const socialSpecies = allSpecies.filter(s =>
-            s.relationships && s.relationships.social && s.id !== discoveredSpecies.id
-        );
-        if (socialSpecies.length > 0) {
-            const randomSocialSpecies = socialSpecies[Math.floor(Math.random() * socialSpecies.length)];
-            return {
-                speciesId: randomSocialSpecies.id,
-                multiplier: 1.8,
-                hint: `Other social creatures may be nearby...`
-            };
-        }
-    }
-
-    return null;
-};
-
-const selectBehavior = (species, gameTime, weather) => {
-    if (!species.behaviors) return null;
-
-    const availableBehaviors = Object.entries(species.behaviors).filter(([, behaviorData]) => {
-        // Check time restrictions
-        if (behaviorData.time_restricted && gameTime === 'night') return false;
-        if (behaviorData.weather_restricted && behaviorData.weather_restricted !== weather) return false;
-        return true;
-    });
-
-    if (availableBehaviors.length === 0) return null;
-
-    // Weight behaviors based on XP bonus and context
-    const weightedBehaviors = availableBehaviors.map(([behaviorKey, behaviorData]) => ({
-        key: behaviorKey,
-        data: behaviorData,
-        weight: behaviorData.xp_bonus * 10 // Higher XP bonus = higher chance
-    }));
-
-    const totalWeight = weightedBehaviors.reduce((sum, b) => sum + b.weight, 0);
-    let random = Math.random() * totalWeight;
-
-    for (const behavior of weightedBehaviors) {
-        if (random < behavior.weight) {
-            return { key: behavior.key, ...behavior.data };
-        }
-        random -= behavior.weight;
-    }
-
-    return { key: availableBehaviors[0][0], ...availableBehaviors[0][1] };
-};
-
 const conservationTasks = {
     remove_litter: {
         id: 'remove_litter',
