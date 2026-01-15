@@ -24,8 +24,8 @@ const RADIANT_PITY_STEP = 0.01; // +1% per non-radiant encounter
 const RADIANT_PITY_MAX = 0.15; // cap +15%
 const HOTSPOT_RADIUS = 75;
 const IMAGE_ASSETS = {
-    day: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop',
-    night: 'https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?q=80&w=2670&auto=format&fit=crop',
+    day: '/images/eco-explorer-day.jpg',
+    night: '/images/eco-explorer-night.jpg',
 };
 const speciesData = [
     { id: 'onca_pintada', name: 'Onça-pintada', emoji: '🐆', rarity: 'rare', habitat: 'ground', quizPool: [
@@ -938,6 +938,15 @@ export default function App() {
             if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
         };
     }, [playerState, ecoLog, recentDiscoveries, conservationTokens, achievementState.unlockedAchievements]);
+
+    useEffect(() => {
+        const images = [IMAGE_ASSETS.day, IMAGE_ASSETS.night];
+        images.forEach((src) => {
+            const img = new Image();
+            img.src = src;
+        });
+        sfx.preload(['scan', 'sonar_ping', 'discover_common'], ['birds_day']);
+    }, []);
 
     // Ambient audio management
     useEffect(() => {

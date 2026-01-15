@@ -181,6 +181,17 @@ class EnhancedSoundManager {
     }
     return this.enabled
   }
+
+  preload(soundIds = [], ambientIds = []) {
+    soundIds.forEach((id) => {
+      const sound = this.sounds.get(id)
+      if (sound) sound.load()
+    })
+    ambientIds.forEach((id) => {
+      const ambient = this.ambientLayers.get(id)
+      if (ambient) ambient.load()
+    })
+  }
 }
 
 export default new EnhancedSoundManager()
