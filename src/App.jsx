@@ -7,6 +7,7 @@ import ObjectiveRibbon from './components/ObjectiveRibbon';
 import ConfettiBurst from './components/ConfettiBurst';
 import sfx from './utils/sfx';
 import PhotoMiniGame from './components/PhotoMiniGame';
+import { loadEcoState, saveEcoState } from './utils/statePersistence';
 
 // ===================== DATA STRUCTURES & GAME CONSTANTS =====================
 const MAX_RESEARCH_LEVEL = 2;
@@ -93,6 +94,58 @@ const speciesData = [
         { question: 'O beija-flor é encontrado em...', correctAnswer: 'Américas', wrongAnswers: ['Europa', 'Ásia', 'África'] }
     ], encounterRules: { time: ['day'], weather: ['clear'] }, masteryPerk: { id: 'nectar-seeker', name: 'Nectar Seeker', description: 'Increases chance of finding flower-dependent species.' }, relationships: { pollinates: true, flower_dependent: true, territorial: true }, behaviors: { feeding: { emoji: '🌸', description: 'Hovering at flowers', xp_bonus: 1.8, time_restricted: true }, hovering: { emoji: '💫', description: 'Hovering in place', xp_bonus: 2.0 }, territorial: { emoji: '⚔️', description: 'Chasing intruders', xp_bonus: 2.5 } } }
 ];
+
+const createDefaultPlayerState = () => ({
+    gameTime: 'day',
+    weather: 'clear',
+    unlockedPerks: [],
+    pityRare: 0,
+    pityRadiant: 0,
+    streakDays: 1,
+    lastLoginDate: null,
+    conservationBuffs: {
+        encounterRate: 1,
+        waterSpecies: 1,
+        herbivoreSpecies: 1,
+        smallSpecies: 1,
+        rareSpecies: 1
+    }
+});
+
+const createDefaultSmartHintState = () => ({
+    failedScans: 0,
+    failedQuizzes: 0,
+    lastActivity: Date.now(),
+    hintLevel: 0,
+    currentHint: null
+});
+
+const createDefaultAchievementState = () => ({
+    unlockedAchievements: [],
+    showCelebration: false,
+    currentAchievement: null
+});
+
+const mergePlayerState = (base, saved) => {
+    if (!saved || typeof saved !== 'object') return base;
+    const mergedBuffs = { ...base.conservationBuffs, ...(saved.conservationBuffs || {}) };
+    return {
+        ...base,
+        ...saved,
+        unlockedPerks: Array.isArray(saved.unlockedPerks) ? saved.unlockedPerks : base.unlockedPerks,
+        conservationBuffs: mergedBuffs
+    };
+};
+
+const mergeAchievementState = (base, saved) => {
+    if (!saved || typeof saved !== 'object') return base;
+    return {
+        ...base,
+        unlockedAchievements: Array.isArray(saved.unlockedAchievements) ? saved.unlockedAchievements : base.unlockedAchievements,
+        showCelebration: false,
+        currentAchievement: null
+    };
+};
 
 // ===================== COMPONENTS =====================
 const selectByRarity = (speciesPool, rareMultiplier = 1, chainBonus = null) => {
@@ -830,22 +883,7 @@ const LightingOverlay = ({ time }) => { return <div className={`visual-overlay $
 export default function App() {
     const { t, tNested } = useTranslation();
     const [currentScreen, setCurrentScreen] = useState('explore');
-    const [playerState, setPlayerState] = useState({
-        gameTime: 'day',
-        weather: 'clear',
-        unlockedPerks: [],
-        pityRare: 0,
-        pityRadiant: 0,
-        streakDays: 1,
-        lastLoginDate: null,
-        conservationBuffs: {
-            encounterRate: 1,
-            waterSpecies: 1,
-            herbivoreSpecies: 1,
-            smallSpecies: 1,
-            rareSpecies: 1
-        }
-    });
+    const [playerState, setPlayerState] = useState(() => createDefaultPlayerState());
     const [ecoLog, setEcoLog] = useState({});
     const [modalState, setModalState] = useState({ encounter: false, quiz: false, result: false });
     const [activeEncounter, setActiveEncounter] = useState(null);
@@ -863,19 +901,43 @@ export default function App() {
     const [currentBehavior, setCurrentBehavior] = useState(null);
     const [activeConservationTasks, setActiveConservationTasks] = useState([]);
     const [conservationTokens, setConservationTokens] = useState(0);
-    const [smartHintState, setSmartHintState] = useState({
-        failedScans: 0,
-        failedQuizzes: 0,
-        lastActivity: Date.now(),
-        hintLevel: 0,
-        currentHint: null
-    });
-    const [achievementState, setAchievementState] = useState({
-        unlockedAchievements: [],
-        showCelebration: false,
-        currentAchievement: null
-    });
+    const [smartHintState, setSmartHintState] = useState(() => createDefaultSmartHintState());
+    const [achievementState, setAchievementState] = useState(() => createDefaultAchievementState());
     const scannerWindowRef = useRef(null);
+    const hasHydratedRef = useRef(false);
+    const saveTimerRef = useRef(null);
+
+    useEffect(() => {
+        const saved = loadEcoState();
+        if (saved) {
+            setPlayerState(prev => mergePlayerState(prev, saved.playerState));
+            setEcoLog(saved.ecoLog && typeof saved.ecoLog === 'object' ? saved.ecoLog : {});
+            setRecentDiscoveries(Array.isArray(saved.recentDiscoveries) ? saved.recentDiscoveries : []);
+            setConservationTokens(Number.isFinite(saved.conservationTokens) ? saved.conservationTokens : 0);
+            setAchievementState(prev => mergeAchievementState(prev, saved.achievementState));
+        }
+        hasHydratedRef.current = true;
+    }, []);
+
+    useEffect(() => {
+        if (!hasHydratedRef.current) return;
+        if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+        const unlockedAchievements = Array.isArray(achievementState.unlockedAchievements)
+            ? achievementState.unlockedAchievements
+            : [];
+        saveTimerRef.current = setTimeout(() => {
+            saveEcoState({
+                playerState,
+                ecoLog,
+                recentDiscoveries,
+                conservationTokens,
+                achievementState: { unlockedAchievements }
+            });
+        }, 400);
+        return () => {
+            if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+        };
+    }, [playerState, ecoLog, recentDiscoveries, conservationTokens, achievementState.unlockedAchievements]);
 
     // Ambient audio management
     useEffect(() => {
