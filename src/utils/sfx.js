@@ -182,6 +182,13 @@ class EnhancedSoundManager {
     return this.enabled
   }
 
+  setEnabled(enabled) {
+    this.enabled = Boolean(enabled)
+    if (!this.enabled) {
+      this.stopAll()
+    }
+  }
+
   preload(soundIds = [], ambientIds = []) {
     soundIds.forEach((id) => {
       const sound = this.sounds.get(id)

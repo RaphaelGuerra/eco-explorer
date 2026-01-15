@@ -23,6 +23,7 @@ const IMAGE_ASSETS = {
     day: '/images/eco-explorer-day.jpg',
     night: '/images/eco-explorer-night.jpg',
 };
+const SOUND_PREF_KEY = 'eco.v1.sound';
 const speciesData = [
     { id: 'onca_pintada', name: 'Onça-pintada', emoji: '🐆', rarity: 'rare', habitat: 'ground', quizPool: [
         { question: 'Qual é o maior felino das Américas?', correctAnswer: 'Onça-pintada', wrongAnswers: ['Leão', 'Tigre', 'Puma'] },
@@ -375,6 +376,7 @@ const updateActivity = (setSmartHintState, action) => {
 
 const EcoLogComponent = ({ ecoLog, onBack }) => {
     const { tNested } = useTranslation();
+
     return (
         <div className="screen-container">
             <h1>{tNested('screens.ecoLog.title')}</h1>
@@ -793,6 +795,13 @@ export default function App() {
     const [conservationTokens, setConservationTokens] = useState(0);
     const [smartHintState, setSmartHintState] = useState(() => createDefaultSmartHintState());
     const [achievementState, setAchievementState] = useState(() => createDefaultAchievementState());
+    const [soundEnabled, setSoundEnabled] = useState(() => {
+        if (typeof window === 'undefined') return true;
+        const raw = localStorage.getItem(SOUND_PREF_KEY);
+        if (raw == null) return true;
+        return raw !== '0' && raw !== 'false';
+    });
+    const [reduceMotion, setReduceMotion] = useState(false);
     const scannerWindowRef = useRef(null);
     const hasHydratedRef = useRef(false);
     const saveTimerRef = useRef(null);
@@ -808,6 +817,28 @@ export default function App() {
         }
         hasHydratedRef.current = true;
     }, []);
+
+    useEffect(() => {
+        if (typeof window === 'undefined' || !window.matchMedia) return;
+        const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const handleChange = () => setReduceMotion(media.matches);
+        handleChange();
+        if (media.addEventListener) {
+            media.addEventListener('change', handleChange);
+            return () => media.removeEventListener('change', handleChange);
+        }
+        media.addListener(handleChange);
+        return () => media.removeListener(handleChange);
+    }, []);
+
+    useEffect(() => {
+        sfx.setEnabled(soundEnabled);
+        try {
+            localStorage.setItem(SOUND_PREF_KEY, soundEnabled ? '1' : '0');
+        } catch {
+            // ignore storage errors
+        }
+    }, [soundEnabled]);
 
     useEffect(() => {
         if (!hasHydratedRef.current) return;
@@ -840,7 +871,7 @@ export default function App() {
 
     // Ambient audio management
     useEffect(() => {
-        const ambientEnabled = true; // Can be made configurable later
+        const ambientEnabled = soundEnabled;
         if (!ambientEnabled) {
             sfx.stopAllAmbient();
             return;
@@ -873,7 +904,7 @@ export default function App() {
         return () => {
             soundsToPlay.forEach(sound => sfx.stopAmbient(sound));
         };
-    }, [playerState.gameTime, playerState.weather]);
+    }, [playerState.gameTime, playerState.weather, soundEnabled]);
 
     useEffect(() => {
         // Daily streak initialization
@@ -1340,6 +1371,8 @@ const handleResetProgress = () => {
         }
     };
 
+    const soundLabel = soundEnabled ? tNested('gameUI.soundOn') : tNested('gameUI.soundOff');
+
     return (
         <>
             <div className="app-container">
@@ -1367,36 +1400,48 @@ const handleResetProgress = () => {
                                 <span className="status-icon">🔥</span>
                                 <span className="status-text">{tNested('status.streak')}: {(playerState.streakDays||1)} {tNested('status.days')}</span>
                             </div>
+                            <button
+                                type="button"
+                                className="status-item sound-toggle"
+                                onClick={() => setSoundEnabled(prev => !prev)}
+                                aria-pressed={soundEnabled}
+                                aria-label={soundLabel}
+                            >
+                                <span className="status-icon">{soundEnabled ? '🔊' : '🔇'}</span>
+                                <span className="status-text">{soundLabel}</span>
+                            </button>
                         </div>
                         <LanguageSwitcher />
                     </div>
                 </div>
                 <div className={`bio-scanner-window ${isFocusing ? 'focus-active' : ''}`} ref={scannerWindowRef}>
-                    <div className={`image-layer ${playerState.gameTime === 'day' ? 'animated-background' : ''}`} style={{ backgroundImage: `url(${IMAGE_ASSETS.day})`, opacity: playerState.gameTime === 'day' ? 1 : 0 }}></div>
-                    <div className={`image-layer ${playerState.gameTime === 'night' ? 'animated-background' : ''}`} style={{ backgroundImage: `url(${IMAGE_ASSETS.night})`, opacity: playerState.gameTime === 'night' ? 1 : 0 }}></div>
+                    <div className={`image-layer ${playerState.gameTime === 'day' && !reduceMotion ? 'animated-background' : ''}`} style={{ backgroundImage: `url(${IMAGE_ASSETS.day})`, opacity: playerState.gameTime === 'day' ? 1 : 0 }}></div>
+                    <div className={`image-layer ${playerState.gameTime === 'night' && !reduceMotion ? 'animated-background' : ''}`} style={{ backgroundImage: `url(${IMAGE_ASSETS.night})`, opacity: playerState.gameTime === 'night' ? 1 : 0 }}></div>
                     <WeatherOverlay weather={playerState.weather} />
                     <LightingOverlay time={playerState.gameTime} />
                     <div className="bio-scanner-overlay"></div>
-                    <ARStarfield numStars={150} isVisible={isFocusing || !!constellation} />
+                    <ARStarfield numStars={150} isVisible={!reduceMotion && (isFocusing || !!constellation)} />
                     <Constellation constellation={constellation} />
                     <HotspotVisualizer hotspot={hotspot} />
                     {isScanning && (
                         <div className="exploration-animation visible">
-                            <div className="radar">
-                                <div className="radar-grid"></div>
-                                <div className="radar-sweep"></div>
-                                {scanStage && (
-                                    <div className={`scan-stage-indicator ${scanStage}`}>
-                                        <div className="stage-pulse"></div>
-                                        <div className="stage-icon">
-                                            {scanStage === 'detecting' && '🔍'}
-                                            {scanStage === 'analyzing' && '⚡'}
-                                            {scanStage === 'processing' && '🧠'}
-                                            {scanStage === 'identifying' && '🎯'}
-                            </div>
-                                    </div>
-                                )}
-                            </div>
+                            {!reduceMotion && (
+                                <div className="radar">
+                                    <div className="radar-grid"></div>
+                                    <div className="radar-sweep"></div>
+                                    {scanStage && (
+                                        <div className={`scan-stage-indicator ${scanStage}`}>
+                                            <div className="stage-pulse"></div>
+                                            <div className="stage-icon">
+                                                {scanStage === 'detecting' && '🔍'}
+                                                {scanStage === 'analyzing' && '⚡'}
+                                                {scanStage === 'processing' && '🧠'}
+                                                {scanStage === 'identifying' && '🎯'}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                             <div className="scan-progress-bar">
                                 <div
                                     className="scan-progress-fill"
@@ -1458,7 +1503,7 @@ const handleResetProgress = () => {
                 )}
                 {modalState.result && (
                   <>
-                    <ConfettiBurst trigger={/Success|Mastery/.test(resultMessage)} />
+                    <ConfettiBurst trigger={!reduceMotion && /Success|Mastery/.test(resultMessage)} />
                     <ResultModal message={resultMessage} onClose={closeAllModals} />
                   </>
                 )}
@@ -1472,19 +1517,19 @@ const handleResetProgress = () => {
                 {/* Particle Systems */}
                 <ParticleSystem
                   type="fireflies"
-                  isActive={true}
+                  isActive={!reduceMotion}
                   weather={playerState.weather}
                   gameTime={playerState.gameTime}
                 />
                 <ParticleSystem
                   type="pollen"
-                  isActive={true}
+                  isActive={!reduceMotion}
                   weather={playerState.weather}
                   gameTime={playerState.gameTime}
                 />
                 <ParticleSystem
                   type="rain"
-                  isActive={true}
+                  isActive={!reduceMotion}
                   weather={playerState.weather}
                   gameTime={playerState.gameTime}
                 />

@@ -63,7 +63,9 @@
     "masterToUnlock": "Master the",
     "to unlock": "to unlock.",
     "speciesLocated": "Bio-signatures detected! Focus your scanner to identify the species.",
-    "active": "Active"
+    "active": "Active",
+    "soundOn": "Sound On",
+    "soundOff": "Sound Off"
   },
   "rarity": { "common": "Common", "uncommon": "Uncommon", "rare": "Rare" },
   "status": { "location": "Itatiaia NP", "researchActive": "Research Active", "streak": "Streak", "days": "days" },

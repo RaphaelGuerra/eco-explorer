@@ -61,7 +61,9 @@
     "undiscovered": "Non Découvert",
     "keepExploring": "Continuez à explorer pour trouver cette espèce.",
     "masterToUnlock": "Maîtrisez le",
-    "to unlock": "pour débloquer."
+    "to unlock": "pour débloquer.",
+    "soundOn": "Son activé",
+    "soundOff": "Son désactivé"
   },
   "rarity": { "common": "Commun", "uncommon": "Peu commun", "rare": "Rare" },
   "status": { "location": "PN d'Itatiaia", "researchActive": "Recherche active", "streak": "Série", "days": "jours" },
