@@ -1,7 +1,7 @@
 {
-  "pageTitle": "Eco-Explorer: Itatiaia Nature Sanctuary",
+  "pageTitle": "Eco-Explorer: Atlantic Forest Reserves",
   "appTitle": "Eco-Explorer",
-  "subtitle": "Itatiaia Nature Sanctuary",
+  "subtitle": "Atlantic Forest Reserves",
   "exploreButton": "Explore",
   "discoveringText": "Discovering...",
   "foundClueText": "Found a clue!",
@@ -27,7 +27,7 @@
     "discoveryRate": "Discovery Rate"
   },
   "footer": {
-    "description": "An educational nature exploration game set in Brazil's Itatiaia National Park",
+    "description": "An educational nature exploration game set across Brazil's Atlantic Forest reserves",
     "madeWith": "Made with ❤️ for nature lovers"
   },
   "gameUI": {
@@ -69,7 +69,11 @@
     "soundUnavailable": "Sound Unavailable"
   },
   "rarity": { "common": "Common", "uncommon": "Uncommon", "rare": "Rare" },
-  "status": { "location": "Itatiaia NP", "researchActive": "Research Active", "streak": "Streak", "days": "days" },
+  "status": { "location": "Location", "researchActive": "Research Active", "streak": "Streak", "days": "days" },
+  "locations": {
+    "itatiaia": "Itatiaia National Park",
+    "serraDoMar": "Serra do Mar Reserve"
+  },
   "hints": {
     "noBio": "No strong bio-signatures here. Try scanning again.",
     "tryRain": "Rain may attract different species.",

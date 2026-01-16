@@ -1,6 +1,6 @@
 # Eco Explorer
 
-Last updated: 2026-01-15
+Last updated: 2026-01-16
 
 ## Table of Contents
 
@@ -8,6 +8,7 @@ Last updated: 2026-01-15
 - [What It Does](#what-it-does)
 - [How To Play](#how-to-play)
 - [Highlights](#highlights)
+- [Goals](#goals)
 - [Tech Stack](#tech-stack)
 - [Run Locally](#run-locally)
 - [Status & Learnings](#status--learnings)
@@ -18,19 +19,19 @@ Last updated: 2026-01-15
 [![Security](https://github.com/RaphaelGuerra/eco-explorer/actions/workflows/security.yml/badge.svg)](https://github.com/RaphaelGuerra/eco-explorer/actions/workflows/security.yml)
 
 
-A playful, bite‑sized nature exploration game inspired by Brazil’s Itatiaia National Park.
+A playful, bite-sized nature exploration game inspired by Brazil's Atlantic Forest reserves.
 
 This is a small side project for learning and practicing — prototyping animations, game loops, lightweight state management, i18n, and delightful UI touches. It’s not a production game.
 
 Live demo: none (run locally)
 
 ## What It Does
-- Tap Explore to scan the environment and discover wildlife species with varying rarity
+- Choose a location (Itatiaia National Park, Serra do Mar Reserve) and scan the environment for wildlife
 - Encounter conditions affected by time of day and weather
-- Quick mini‑games (e.g., photo timing) and short quizzes connected to each species (in progress)
+- Quick mini-games (photo timing) and short quizzes connected to each species
 - Progression via XP, streaks, and research levels
-- Shareable encounter cards (export simple PNG from a card) (planned)
-- Multi‑language UI (English and Spanish)
+- Shareable encounter cards (PNG export from a card)
+- Multi-language UI (English, Portuguese, French, Spanish)
 
 ## How To Play
 - Press Explore to start a scan; if you spot something, follow prompts
@@ -41,7 +42,14 @@ Live demo: none (run locally)
 - Framer Motion animations and small celebration moments (confetti, sfx)
 - Lightweight global state with Zustand
 - Simple i18n with runtime language switching
-- Compact, mobile‑first UI with a print‑free, share‑friendly layout
+- Compact, mobile-first UI with a clean, share-friendly layout
+- Location picker with distinct environment imagery
+
+## Goals
+- Expand the sense of place with multiple Atlantic Forest locations and visuals
+- Keep the core loop quick, readable, and mobile-friendly
+- Make content easy to extend (locations, species, mini-games)
+See `GOALS.md` for the longer-term roadmap.
 
 ## Tech Stack
 - React + Vite

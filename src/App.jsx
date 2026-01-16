@@ -22,10 +22,26 @@ const FOCUS_TIMEOUT = 7000;
 const BASE_ENCOUNTER_CHANCE = 0.80;
 const BASE_RADIANT_CHANCE = 0.05;
 const HOTSPOT_RADIUS = 75;
-const IMAGE_ASSETS = {
-    day: withBase('images/eco-explorer-day.jpg'),
-    night: withBase('images/eco-explorer-night.jpg'),
-};
+const DEFAULT_LOCATION_ID = 'itatiaia';
+const LOCATIONS = [
+    {
+        id: 'itatiaia',
+        nameKey: 'locations.itatiaia',
+        images: {
+            day: withBase('images/itatiaia-forest.jpg'),
+            night: withBase('images/itatiaia-forest.jpg'),
+        },
+    },
+    {
+        id: 'serra-do-mar',
+        nameKey: 'locations.serraDoMar',
+        images: {
+            day: withBase('images/eco-explorer-day.jpg'),
+            night: withBase('images/eco-explorer-day.jpg'),
+        },
+    },
+];
+const LOCATION_IDS = new Set(LOCATIONS.map((location) => location.id));
 const SOUND_PREF_KEY = 'eco.v1.sound';
 const speciesData = [
     { id: 'onca_pintada', name: 'Onça-pintada', emoji: '🐆', rarity: 'rare', habitat: 'ground', quizPool: [
@@ -96,6 +112,7 @@ const speciesData = [
 ];
 
 const createDefaultPlayerState = () => ({
+    locationId: DEFAULT_LOCATION_ID,
     gameTime: 'day',
     weather: 'clear',
     unlockedPerks: [],
@@ -129,11 +146,15 @@ const createDefaultAchievementState = () => ({
 const mergePlayerState = (base, saved) => {
     if (!saved || typeof saved !== 'object') return base;
     const mergedBuffs = { ...base.conservationBuffs, ...(saved.conservationBuffs || {}) };
-    return {
+    const mergedState = {
         ...base,
         ...saved,
         unlockedPerks: Array.isArray(saved.unlockedPerks) ? saved.unlockedPerks : base.unlockedPerks,
         conservationBuffs: mergedBuffs
+    };
+    return {
+        ...mergedState,
+        locationId: LOCATION_IDS.has(mergedState.locationId) ? mergedState.locationId : base.locationId,
     };
 };
 
@@ -812,6 +833,9 @@ export default function App() {
     const scannerWindowRef = useRef(null);
     const hasHydratedRef = useRef(false);
     const saveTimerRef = useRef(null);
+    const currentLocation = useMemo(() => {
+        return LOCATIONS.find((location) => location.id === playerState.locationId) || LOCATIONS[0];
+    }, [playerState.locationId]);
 
     useEffect(() => {
         const saved = loadEcoState();
@@ -886,8 +910,9 @@ export default function App() {
     }, [playerState, ecoLog, recentDiscoveries, conservationTokens, achievementState.unlockedAchievements]);
 
     useEffect(() => {
-        const images = [IMAGE_ASSETS.day, IMAGE_ASSETS.night];
-        images.forEach((src) => {
+        const images = LOCATIONS.flatMap((location) => [location.images.day, location.images.night]);
+        const uniqueImages = Array.from(new Set(images));
+        uniqueImages.forEach((src) => {
             const img = new Image();
             img.src = src;
         });
@@ -1415,9 +1440,22 @@ const handleResetProgress = () => {
                     </div>
                     <div className="header-right">
                         <div className="status-indicators">
-                            <div className="status-item">
+                            <div className="status-item location-select">
                                 <span className="status-icon">🌍</span>
-                            <span className="status-text">{tNested('status.location')}</span>
+                                <span className="status-text">{tNested('status.location')}</span>
+                                <select
+                                    className="location-dropdown"
+                                    value={playerState.locationId}
+                                    onChange={(event) => setPlayerState((prev) => ({ ...prev, locationId: event.target.value }))}
+                                    disabled={isScanning || isFocusing}
+                                    aria-label={tNested('status.location')}
+                                >
+                                    {LOCATIONS.map((location) => (
+                                        <option key={location.id} value={location.id}>
+                                            {tNested(location.nameKey)}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="status-item">
                                 <span className="status-icon">🔬</span>
@@ -1444,8 +1482,8 @@ const handleResetProgress = () => {
                     </div>
                 </div>
                 <div className={`bio-scanner-window ${isFocusing ? 'focus-active' : ''}`} ref={scannerWindowRef}>
-                    <div className={`image-layer ${playerState.gameTime === 'day' && !reduceMotion ? 'animated-background' : ''}`} style={{ backgroundImage: `url(${IMAGE_ASSETS.day})`, opacity: playerState.gameTime === 'day' ? 1 : 0 }}></div>
-                    <div className={`image-layer ${playerState.gameTime === 'night' && !reduceMotion ? 'animated-background' : ''}`} style={{ backgroundImage: `url(${IMAGE_ASSETS.night})`, opacity: playerState.gameTime === 'night' ? 1 : 0 }}></div>
+                    <div className={`image-layer ${playerState.gameTime === 'day' && !reduceMotion ? 'animated-background' : ''}`} style={{ backgroundImage: `url(${currentLocation.images.day})`, opacity: playerState.gameTime === 'day' ? 1 : 0 }}></div>
+                    <div className={`image-layer ${playerState.gameTime === 'night' && !reduceMotion ? 'animated-background' : ''}`} style={{ backgroundImage: `url(${currentLocation.images.night})`, opacity: playerState.gameTime === 'night' ? 1 : 0 }}></div>
                     <WeatherOverlay weather={playerState.weather} />
                     <LightingOverlay time={playerState.gameTime} />
                     <div className="bio-scanner-overlay"></div>
@@ -1519,7 +1557,6 @@ const handleResetProgress = () => {
                             <div className="button-group">
                                 <button className="danger-button" onClick={handleResetProgress}>{tNested('gameUI.resetProgress')}</button>
                             </div>
-                            {lastEncounterMessage && <p style={{ color: 'var(--light-text)', marginTop: '1rem' }}>{lastEncounterMessage}</p>}
                         </>
                     ) : ( <div/> )}
                 </div>

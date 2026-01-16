@@ -1,7 +1,7 @@
 {
-  "pageTitle": "Éco-Explorateur: Sanctuaire Naturel d'Itatiaia",
+  "pageTitle": "Éco-Explorateur: Reserves de la Foret Atlantique",
   "appTitle": "Éco-Explorateur",
-  "subtitle": "Sanctuaire Naturel d'Itatiaia",
+  "subtitle": "Reserves de la Foret Atlantique",
   "exploreButton": "Explorer",
   "discoveringText": "Découverte...",
   "foundClueText": "Indice trouvé !",
@@ -27,7 +27,7 @@
     "discoveryRate": "Taux de Découverte"
   },
   "footer": {
-    "description": "Un jeu éducatif d'exploration naturelle dans le Parc National d'Itatiaia au Brésil",
+    "description": "Un jeu educatif d'exploration naturelle dans les reserves de la Foret Atlantique du Bresil",
     "madeWith": "Fait avec ❤️ pour les amoureux de la nature"
   },
   "gameUI": {
@@ -49,6 +49,7 @@
     "mastery": "Maîtrise !",
     "youLearned": "Vous avez appris",
     "noBioSignatures": "Aucune bio-signature dominante trouvée.",
+    "speciesLocated": "Bio-signatures detectees ! Concentrez votre scanner pour identifier l'espece.",
     "scanningBiome": "Scan du Biome...",
     "focusing": "Focus...",
     "analyzeBiome": "Analyser le Biome",
@@ -67,7 +68,11 @@
     "soundUnavailable": "Son indisponible"
   },
   "rarity": { "common": "Commun", "uncommon": "Peu commun", "rare": "Rare" },
-  "status": { "location": "PN d'Itatiaia", "researchActive": "Recherche active", "streak": "Série", "days": "jours" },
+  "status": { "location": "Lieu", "researchActive": "Recherche active", "streak": "Série", "days": "jours" },
+  "locations": {
+    "itatiaia": "Parc national d'Itatiaia",
+    "serraDoMar": "Reserve de la Serra do Mar"
+  },
   "hints": {
     "noBio": "Aucune bio-signature forte ici. Réessayez un scan.",
     "tryRain": "La pluie peut attirer des espèces différentes.",

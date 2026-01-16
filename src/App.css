@@ -109,6 +109,30 @@ body, html, #root { margin: 0; padding: 0; width: 100%; height: 100%; font-famil
     color: var(--light-text);
 }
 
+.location-select {
+    gap: 0.75rem;
+}
+
+.location-dropdown {
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--light-text);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 999px;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.location-dropdown:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.location-dropdown:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
 /* Mobile responsive design */
 @media (max-width: 768px) {
     .header {
@@ -133,6 +157,8 @@ body, html, #root { margin: 0; padding: 0; width: 100%; height: 100%; font-famil
     
     .status-indicators {
         gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
     }
     
     .status-item {
@@ -145,6 +171,11 @@ body, html, #root { margin: 0; padding: 0; width: 100%; height: 100%; font-famil
     
     .status-icon {
         font-size: 1rem;
+    }
+
+    .location-dropdown {
+        padding: 0.25rem 0.6rem;
+        font-size: 0.75rem;
     }
 }
 
@@ -202,8 +233,8 @@ body, html, #root { margin: 0; padding: 0; width: 100%; height: 100%; font-famil
     background: var(--accent-color);
     color: black;
 }
-.app-container { width: 100%; height: 100%; background-color: #0c0a09; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1rem; padding-top: 5rem; box-sizing: border-box; color: var(--light-text); }
-.bio-scanner-window { width: 100%; flex-grow: 1; position: relative; border-radius: 16px; overflow: hidden; background-color: #1c1917; box-shadow: inset 0 0 15px rgba(0,0,0,0.5); }
+.app-container { width: 100%; max-width: 1200px; height: 100%; background-color: #0c0a09; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1rem; padding-top: 5rem; box-sizing: border-box; color: var(--light-text); gap: 1rem; margin: 0 auto; }
+.bio-scanner-window { width: 100%; height: clamp(240px, 50vh, 520px); flex-grow: 0; position: relative; border-radius: 16px; overflow: hidden; background-color: #1c1917; box-shadow: inset 0 0 15px rgba(0,0,0,0.5); }
 .bio-scanner-window.focus-active { cursor: crosshair; }
 .image-layer { width: 100%; height: 100%; position: absolute; top: 0; left: 0; background-size: cover; background-position: center; transition: opacity 1.5s ease-in-out; }
 .animated-background { animation: kenburns 45s ease-out infinite; }
@@ -1044,13 +1075,16 @@ body, html, #root { margin: 0; padding: 0; width: 100%; height: 100%; font-famil
 }
 
 .guide-text {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(6, 10, 12, 0.85);
     color: var(--light-text);
     padding: 0.5rem 1rem;
     border-radius: 20px;
     font-size: 0.8rem;
-    border: 1px solid rgba(52, 211, 153, 0.3);
+    font-weight: 600;
+    border: 1px solid rgba(52, 211, 153, 0.6);
     backdrop-filter: blur(5px);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 /* Smart Hints Styles */

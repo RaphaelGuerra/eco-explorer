@@ -1,7 +1,7 @@
 {
-  "pageTitle": "Eco-Explorador: Santuário Natural de Itatiaia",
+  "pageTitle": "Eco-Explorador: Reservas da Mata Atlantica",
   "appTitle": "Eco-Explorador",
-  "subtitle": "Santuário Natural de Itatiaia",
+  "subtitle": "Reservas da Mata Atlantica",
   "exploreButton": "Explorar",
   "discoveringText": "Descobrindo...",
   "foundClueText": "Pista encontrada!",
@@ -27,7 +27,7 @@
     "discoveryRate": "Taxa de Descoberta"
   },
   "footer": {
-    "description": "Um jogo educativo de exploração natural no Parque Nacional de Itatiaia no Brasil",
+    "description": "Um jogo educativo de exploracao natural nas reservas da Mata Atlantica do Brasil",
     "madeWith": "Feito com ❤️ para amantes da natureza"
   },
   "gameUI": {
@@ -49,6 +49,7 @@
     "mastery": "Maestria!",
     "youLearned": "Você aprendeu",
     "noBioSignatures": "Nenhuma bioassinatura dominante encontrada.",
+    "speciesLocated": "Bioassinaturas detectadas! Foque o scanner para identificar a espécie.",
     "scanningBiome": "Escaneando Bioma...",
     "focusing": "Focando...",
     "analyzeBiome": "Analisar Bioma",
@@ -67,7 +68,11 @@
     "soundUnavailable": "Som indisponível"
   },
   "rarity": { "common": "Comum", "uncommon": "Incomum", "rare": "Raro" },
-  "status": { "location": "Parque Nacional de Itatiaia", "researchActive": "Pesquisa Ativa", "streak": "Sequência", "days": "dias" },
+  "status": { "location": "Local", "researchActive": "Pesquisa Ativa", "streak": "Sequência", "days": "dias" },
+  "locations": {
+    "itatiaia": "Parque Nacional de Itatiaia",
+    "serraDoMar": "Reserva da Serra do Mar"
+  },
   "hints": {
     "noBio": "Sem bioassinaturas fortes aqui. Tente escanear novamente.",
     "tryRain": "A chuva pode atrair espécies diferentes.",
