@@ -10,6 +10,9 @@ import PhotoMiniGame from './components/PhotoMiniGame';
 import { loadEcoState, saveEcoState, clearEcoState } from './utils/statePersistence';
 import { getDiscoveryChainBonus, selectBehavior, selectByRarity, RADIANT_PITY_MAX, RADIANT_PITY_STEP, RARE_PITY_MAX, RARE_PITY_STEP } from './utils/encounters';
 
+const BASE_URL = import.meta.env.BASE_URL || '/';
+const withBase = (path) => `${BASE_URL}${path.replace(/^\//, '')}`;
+
 // ===================== DATA STRUCTURES & GAME CONSTANTS =====================
 const MAX_RESEARCH_LEVEL = 2;
 const XP_PER_LEVEL = 100;
@@ -20,8 +23,8 @@ const BASE_ENCOUNTER_CHANCE = 0.80;
 const BASE_RADIANT_CHANCE = 0.05;
 const HOTSPOT_RADIUS = 75;
 const IMAGE_ASSETS = {
-    day: '/images/eco-explorer-day.jpg',
-    night: '/images/eco-explorer-night.jpg',
+    day: withBase('images/eco-explorer-day.jpg'),
+    night: withBase('images/eco-explorer-night.jpg'),
 };
 const SOUND_PREF_KEY = 'eco.v1.sound';
 const speciesData = [

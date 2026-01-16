@@ -1,5 +1,8 @@
 import { Howl, Howler } from 'howler'
 
+const BASE_URL = import.meta.env.BASE_URL || '/'
+const withBase = (path) => `${BASE_URL}${path.replace(/^\//, '')}`
+
 class EnhancedSoundManager {
   constructor() {
     this.sounds = new Map()
@@ -17,73 +20,73 @@ class EnhancedSoundManager {
 
   initializeSounds() {
     // Discovery sounds
-    this.registerSound('discover_common', '/sounds/events/discovery_common.mp3', {
+    this.registerSound('discover_common', withBase('sounds/events/discovery_common.mp3'), {
       volume: this.volumes.effects,
       category: 'discovery'
     })
-    this.registerSound('discover_rare', '/sounds/events/discovery_rare.mp3', {
+    this.registerSound('discover_rare', withBase('sounds/events/discovery_rare.mp3'), {
       volume: this.volumes.effects * 1.2,
       category: 'discovery'
     })
-    this.registerSound('discover_radiant', '/sounds/events/discovery_radiant.mp3', {
+    this.registerSound('discover_radiant', withBase('sounds/events/discovery_radiant.mp3'), {
       volume: this.volumes.effects * 1.5,
       category: 'discovery'
     })
 
     // UI feedback sounds
-    this.registerSound('scan_start', '/sounds/feedback/scan_start.mp3', {
+    this.registerSound('scan_start', withBase('sounds/feedback/scan_start.mp3'), {
       volume: this.volumes.ui,
       category: 'ui'
     })
-    this.registerSound('focus_found', '/sounds/feedback/focus_found.mp3', {
+    this.registerSound('focus_found', withBase('sounds/feedback/focus_found.mp3'), {
       volume: this.volumes.ui,
       category: 'ui'
     })
-    this.registerSound('task_complete', '/sounds/feedback/task_complete.mp3', {
+    this.registerSound('task_complete', withBase('sounds/feedback/task_complete.mp3'), {
       volume: this.volumes.effects,
       category: 'achievement'
     })
 
     // Scan/encounter feedback (used in App.jsx)
-    this.registerSound('scan', '/sounds/feedback/scan.mp3', {
+    this.registerSound('scan', withBase('sounds/feedback/scan.mp3'), {
       volume: this.volumes.ui,
       category: 'ui'
     })
-    this.registerSound('sonar_ping', '/sounds/feedback/sonar_ping.mp3', {
+    this.registerSound('sonar_ping', withBase('sounds/feedback/sonar_ping.mp3'), {
       volume: this.volumes.ui,
       category: 'ui'
     })
-    this.registerSound('scan_pulse', '/sounds/feedback/scan_pulse.mp3', {
+    this.registerSound('scan_pulse', withBase('sounds/feedback/scan_pulse.mp3'), {
       volume: this.volumes.ui,
       category: 'ui'
     })
-    this.registerSound('focus', '/sounds/feedback/focus.mp3', {
+    this.registerSound('focus', withBase('sounds/feedback/focus.mp3'), {
       volume: this.volumes.ui,
       category: 'ui'
     })
-    this.registerSound('discovery_chime', '/sounds/events/discovery_chime.mp3', {
+    this.registerSound('discovery_chime', withBase('sounds/events/discovery_chime.mp3'), {
       volume: this.volumes.effects,
       category: 'discovery'
     })
-    this.registerSound('success', '/sounds/events/success.mp3', {
+    this.registerSound('success', withBase('sounds/events/success.mp3'), {
       volume: this.volumes.effects,
       category: 'achievement'
     })
-    this.registerSound('success_flourish', '/sounds/events/success_flourish.mp3', {
+    this.registerSound('success_flourish', withBase('sounds/events/success_flourish.mp3'), {
       volume: this.volumes.effects,
       category: 'achievement'
     })
 
     // Ambient layers
-    this.registerAmbient('birds_day', '/sounds/ambient/birds_day.mp3')
-    this.registerAmbient('insects_day', '/sounds/ambient/insects_day.mp3')
-    this.registerAmbient('wind', '/sounds/ambient/wind.mp3')
-    this.registerAmbient('crickets_night', '/sounds/ambient/crickets_night.mp3')
-    this.registerAmbient('owls_night', '/sounds/ambient/owls_night.mp3')
-    this.registerAmbient('rustling', '/sounds/ambient/rustling.mp3')
-    this.registerAmbient('rainfall', '/sounds/ambient/rainfall.mp3')
-    this.registerAmbient('thunder', '/sounds/ambient/thunder.mp3')
-    this.registerAmbient('dripping', '/sounds/ambient/dripping.mp3')
+    this.registerAmbient('birds_day', withBase('sounds/ambient/birds_day.mp3'))
+    this.registerAmbient('insects_day', withBase('sounds/ambient/insects_day.mp3'))
+    this.registerAmbient('wind', withBase('sounds/ambient/wind.mp3'))
+    this.registerAmbient('crickets_night', withBase('sounds/ambient/crickets_night.mp3'))
+    this.registerAmbient('owls_night', withBase('sounds/ambient/owls_night.mp3'))
+    this.registerAmbient('rustling', withBase('sounds/ambient/rustling.mp3'))
+    this.registerAmbient('rainfall', withBase('sounds/ambient/rainfall.mp3'))
+    this.registerAmbient('thunder', withBase('sounds/ambient/thunder.mp3'))
+    this.registerAmbient('dripping', withBase('sounds/ambient/dripping.mp3'))
   }
 
   registerSound(id, src, options = {}) {
