@@ -63,7 +63,8 @@
     "masterToUnlock": "Domine o",
     "to unlock": "para desbloquear.",
     "soundOn": "Som ligado",
-    "soundOff": "Som desligado"
+    "soundOff": "Som desligado",
+    "soundUnavailable": "Som indisponível"
   },
   "rarity": { "common": "Comum", "uncommon": "Incomum", "rare": "Raro" },
   "status": { "location": "Parque Nacional de Itatiaia", "researchActive": "Pesquisa Ativa", "streak": "Sequência", "days": "dias" },

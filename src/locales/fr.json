@@ -63,7 +63,8 @@
     "masterToUnlock": "Maîtrisez le",
     "to unlock": "pour débloquer.",
     "soundOn": "Son activé",
-    "soundOff": "Son désactivé"
+    "soundOff": "Son désactivé",
+    "soundUnavailable": "Son indisponible"
   },
   "rarity": { "common": "Commun", "uncommon": "Peu commun", "rare": "Rare" },
   "status": { "location": "PN d'Itatiaia", "researchActive": "Recherche active", "streak": "Série", "days": "jours" },

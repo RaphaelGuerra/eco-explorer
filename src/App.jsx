@@ -799,11 +799,15 @@ export default function App() {
     const [smartHintState, setSmartHintState] = useState(() => createDefaultSmartHintState());
     const [achievementState, setAchievementState] = useState(() => createDefaultAchievementState());
     const [soundEnabled, setSoundEnabled] = useState(() => {
+        if (sfx.hasMissingAssets && sfx.hasMissingAssets()) return false;
         if (typeof window === 'undefined') return true;
         const raw = localStorage.getItem(SOUND_PREF_KEY);
         if (raw == null) return true;
         return raw !== '0' && raw !== 'false';
     });
+    const [soundUnavailable, setSoundUnavailable] = useState(() => (
+        sfx.hasMissingAssets ? sfx.hasMissingAssets() : false
+    ));
     const [reduceMotion, setReduceMotion] = useState(false);
     const scannerWindowRef = useRef(null);
     const hasHydratedRef = useRef(false);
@@ -835,13 +839,31 @@ export default function App() {
     }, []);
 
     useEffect(() => {
+        const handleMissing = () => {
+            setSoundUnavailable(true);
+            setSoundEnabled(false);
+        };
+        sfx.setMissingAssetsHandler(handleMissing);
+        return () => sfx.setMissingAssetsHandler(null);
+    }, []);
+
+    useEffect(() => {
+        if (soundUnavailable) {
+            sfx.setEnabled(false);
+            try {
+                localStorage.setItem(SOUND_PREF_KEY, '0');
+            } catch {
+                // ignore storage errors
+            }
+            return;
+        }
         sfx.setEnabled(soundEnabled);
         try {
             localStorage.setItem(SOUND_PREF_KEY, soundEnabled ? '1' : '0');
         } catch {
             // ignore storage errors
         }
-    }, [soundEnabled]);
+    }, [soundEnabled, soundUnavailable]);
 
     useEffect(() => {
         if (!hasHydratedRef.current) return;
@@ -1374,7 +1396,9 @@ const handleResetProgress = () => {
         }
     };
 
-    const soundLabel = soundEnabled ? tNested('gameUI.soundOn') : tNested('gameUI.soundOff');
+    const soundLabel = soundUnavailable
+        ? tNested('gameUI.soundUnavailable')
+        : (soundEnabled ? tNested('gameUI.soundOn') : tNested('gameUI.soundOff'));
 
     return (
         <>
@@ -1407,6 +1431,8 @@ const handleResetProgress = () => {
                                 type="button"
                                 className="status-item sound-toggle"
                                 onClick={() => setSoundEnabled(prev => !prev)}
+                                disabled={soundUnavailable}
+                                aria-disabled={soundUnavailable}
                                 aria-pressed={soundEnabled}
                                 aria-label={soundLabel}
                             >

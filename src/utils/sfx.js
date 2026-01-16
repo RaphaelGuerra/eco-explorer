@@ -8,6 +8,8 @@ class EnhancedSoundManager {
     this.sounds = new Map()
     this.ambientLayers = new Map()
     this.enabled = true
+    this.assetsMissing = false
+    this.onMissingAssets = null
     this.volumes = {
       master: 0.7,
       ambient: 0.3,
@@ -16,6 +18,26 @@ class EnhancedSoundManager {
     }
 
     this.initializeSounds()
+  }
+
+  setMissingAssetsHandler(handler) {
+    this.onMissingAssets = typeof handler === 'function' ? handler : null
+  }
+
+  hasMissingAssets() {
+    return this.assetsMissing
+  }
+
+  handleAssetError(id, src, error) {
+    if (this.assetsMissing) return
+    this.assetsMissing = true
+    this.setEnabled(false)
+    if (typeof console !== 'undefined' && console.warn) {
+      console.warn('[SFX] Audio asset failed to load; disabling sound.', { id, src, error })
+    }
+    if (this.onMissingAssets) {
+      this.onMissingAssets({ id, src, error })
+    }
   }
 
   initializeSounds() {
@@ -90,19 +112,44 @@ class EnhancedSoundManager {
   }
 
   registerSound(id, src, options = {}) {
+    const { volume, onloaderror, onplayerror, ...rest } = options
+    const resolvedVolume = Number.isFinite(volume) ? volume : this.volumes.effects
+    const handleLoadError = (...args) => {
+      if (onloaderror) onloaderror(...args)
+      this.handleAssetError(id, src, args[1])
+    }
+    const handlePlayError = (...args) => {
+      if (onplayerror) onplayerror(...args)
+      this.handleAssetError(id, src, args[1])
+    }
+
     this.sounds.set(id, new Howl({
       src: [src],
-      volume: options.volume || this.volumes.effects,
-      ...options
+      volume: resolvedVolume,
+      onloaderror: handleLoadError,
+      onplayerror: handlePlayError,
+      ...rest
     }))
   }
 
   registerAmbient(id, src, options = {}) {
+    const { onloaderror, onplayerror, ...rest } = options
+    const handleLoadError = (...args) => {
+      if (onloaderror) onloaderror(...args)
+      this.handleAssetError(id, src, args[1])
+    }
+    const handlePlayError = (...args) => {
+      if (onplayerror) onplayerror(...args)
+      this.handleAssetError(id, src, args[1])
+    }
+
     this.ambientLayers.set(id, new Howl({
       src: [src],
       loop: true,
       volume: 0, // Start at 0 for fade in
-      ...options
+      onloaderror: handleLoadError,
+      onplayerror: handlePlayError,
+      ...rest
     }))
   }
 
@@ -178,6 +225,12 @@ class EnhancedSoundManager {
   }
 
   toggle() {
+    if (this.assetsMissing) {
+      this.enabled = false
+      this.stopAll()
+      return this.enabled
+    }
+
     this.enabled = !this.enabled
     if (!this.enabled) {
       this.stopAll()
@@ -186,7 +239,13 @@ class EnhancedSoundManager {
   }
 
   setEnabled(enabled) {
-    this.enabled = Boolean(enabled)
+    const nextEnabled = Boolean(enabled)
+    if (nextEnabled && this.assetsMissing) {
+      this.enabled = false
+      return
+    }
+
+    this.enabled = nextEnabled
     if (!this.enabled) {
       this.stopAll()
     }
