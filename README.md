@@ -1,6 +1,6 @@
 # Eco Explorer
 
-Last updated: 2026-01-16
+Last updated: 2026-01-19
 
 ## Table of Contents
 
@@ -26,10 +26,11 @@ This is a small side project for learning and practicing — prototyping animati
 Live demo: none (run locally)
 
 ## What It Does
-- Choose a location (Itatiaia National Park, Serra do Mar Reserve) and scan the environment for wildlife
+- Choose a location (Itatiaia National Park, Serra do Mar Reserve, Tijuca National Park) and scan the environment for wildlife
 - Encounter conditions affected by time of day and weather
 - Quick mini-games (photo timing) and short quizzes connected to each species
 - Progression via XP, streaks, and research levels
+- Daily objectives and mission-based conservation tasks for tokens
 - Shareable encounter cards (PNG export from a card)
 - Multi-language UI (English, Portuguese, French, Spanish)
 
@@ -43,7 +44,8 @@ Live demo: none (run locally)
 - Lightweight global state with Zustand
 - Simple i18n with runtime language switching
 - Compact, mobile-first UI with a clean, share-friendly layout
-- Location picker with distinct environment imagery
+- Location picker with distinct day/night environment imagery
+- Objective-driven conservation tasks with rewards
 
 ## Goals
 - Expand the sense of place with multiple Atlantic Forest locations and visuals

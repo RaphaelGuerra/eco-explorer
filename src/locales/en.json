@@ -72,7 +72,8 @@
   "status": { "location": "Location", "researchActive": "Research Active", "streak": "Streak", "days": "days" },
   "locations": {
     "itatiaia": "Itatiaia National Park",
-    "serraDoMar": "Serra do Mar Reserve"
+    "serraDoMar": "Serra do Mar Reserve",
+    "tijuca": "Tijuca National Park"
   },
   "hints": {
     "noBio": "No strong bio-signatures here. Try scanning again.",

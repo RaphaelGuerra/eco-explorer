@@ -71,7 +71,8 @@
   "status": { "location": "Ubicacion", "researchActive": "Investigación Activa", "streak": "Racha", "days": "días" },
   "locations": {
     "itatiaia": "Parque Nacional de Itatiaia",
-    "serraDoMar": "Reserva de la Serra do Mar"
+    "serraDoMar": "Reserva de la Serra do Mar",
+    "tijuca": "Parque Nacional de Tijuca"
   },
   "hints": {
     "noBio": "Sin biofirmas fuertes aquí. Intenta escanear de nuevo.",

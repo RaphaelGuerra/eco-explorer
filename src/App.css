@@ -595,6 +595,12 @@ body, html, #root { margin: 0; padding: 0; width: 100%; height: 100%; font-famil
     font-weight: bold;
 }
 
+.task-count {
+    color: var(--primary-color);
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
 .task-reward {
     color: #fbbf24;
     font-size: 0.8rem;
@@ -635,6 +641,12 @@ body, html, #root { margin: 0; padding: 0; width: 100%; height: 100%; font-famil
 
 .task-start-btn:active {
     transform: translateY(0);
+}
+
+.task-start-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
 }
 
 /* PhotoMiniGame Styles */

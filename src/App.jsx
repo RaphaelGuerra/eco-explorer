@@ -28,16 +28,24 @@ const LOCATIONS = [
         id: 'itatiaia',
         nameKey: 'locations.itatiaia',
         images: {
-            day: withBase('images/itatiaia-forest.jpg'),
-            night: withBase('images/itatiaia-forest.jpg'),
+            day: withBase('images/itatiaia-day.jpg'),
+            night: withBase('images/itatiaia-night.jpg'),
         },
     },
     {
         id: 'serra-do-mar',
         nameKey: 'locations.serraDoMar',
         images: {
-            day: withBase('images/eco-explorer-day.jpg'),
-            night: withBase('images/eco-explorer-day.jpg'),
+            day: withBase('images/serra-do-mar-day.jpg'),
+            night: withBase('images/serra-do-mar-night.jpg'),
+        },
+    },
+    {
+        id: 'tijuca',
+        nameKey: 'locations.tijuca',
+        images: {
+            day: withBase('images/tijuca-day.jpg'),
+            night: withBase('images/tijuca-night.jpg'),
         },
     },
 ];
@@ -169,61 +177,65 @@ const mergeAchievementState = (base, saved) => {
 };
 
 // ===================== COMPONENTS =====================
+const MAX_ACTIVE_MISSIONS = 3;
 const conservationTasks = {
-    remove_litter: {
-        id: 'remove_litter',
-        name: 'Remove Litter',
-        description: 'Clean up human waste from the habitat',
-        icon: '🗑️',
-        duration: 300, // 5 minutes
-        effect: 'increases_encounter_rate',
-        value: 0.1, // +10% encounter rate
-        requirements: { weather: ['clear', 'rainy'] },
-        reward: { tokens: 5, message: 'Habitat cleaned! +5 conservation tokens' }
+    scan_sweep: {
+        id: 'scan_sweep',
+        name: 'Scanner Sweep',
+        description: 'Complete 3 scans.',
+        icon: '📡',
+        objective: { type: 'scan', target: 3 },
+        reward: { tokens: 4, message: 'Scanner sweep complete! +4 field tokens' }
     },
-    fill_water: {
-        id: 'fill_water',
-        name: 'Refill Water Source',
-        description: 'Restore a dried water source for wildlife',
-        icon: '💧',
-        duration: 600, // 10 minutes
-        effect: 'water_species_bonus',
-        value: 2.0, // 2x water-dependent species
-        requirements: { weather: ['clear'], time: ['day'] },
-        reward: { tokens: 8, message: 'Water source restored! +8 conservation tokens' }
+    photo_proof: {
+        id: 'photo_proof',
+        name: 'Photo Proof',
+        description: 'Land 1 successful photo capture.',
+        icon: '📸',
+        objective: { type: 'photo', target: 1 },
+        reward: { tokens: 6, message: 'Photo evidence secured! +6 field tokens' }
     },
-    plant_native: {
-        id: 'plant_native',
-        name: 'Plant Native Trees',
-        description: 'Plant native fruit trees to support local wildlife',
-        icon: '🌱',
-        duration: 900, // 15 minutes
-        effect: 'herbivore_bonus',
-        value: 1.5, // 1.5x herbivore encounters
-        requirements: { weather: ['clear'], time: ['day'] },
-        reward: { tokens: 12, message: 'Trees planted! +12 conservation tokens' }
+    quiz_notes: {
+        id: 'quiz_notes',
+        name: 'Field Notes',
+        description: 'Answer 1 quiz correctly.',
+        icon: '📝',
+        objective: { type: 'quiz', target: 1 },
+        reward: { tokens: 6, message: 'Field notes verified! +6 field tokens' }
     },
-    create_shelter: {
-        id: 'create_shelter',
-        name: 'Build Wildlife Shelter',
-        description: 'Create shelter for small animals',
-        icon: '🏠',
-        duration: 450, // 7.5 minutes
-        effect: 'small_species_bonus',
-        value: 1.8, // 1.8x small species encounters
-        requirements: { weather: ['clear', 'rainy'] },
-        reward: { tokens: 7, message: 'Shelter built! +7 conservation tokens' }
+    sky_survey: {
+        id: 'sky_survey',
+        name: 'Canopy Survey',
+        description: 'Log 2 sky species.',
+        icon: '🦜',
+        objective: { type: 'log', target: 2, conditions: { habitat: 'sky' } },
+        reward: { tokens: 7, message: 'Canopy survey complete! +7 field tokens' }
     },
-    mark_trail: {
-        id: 'mark_trail',
-        name: 'Mark Educational Trail',
-        description: 'Create signs to educate visitors about wildlife',
-        icon: '🚶',
-        duration: 240, // 4 minutes
-        effect: 'rare_species_bonus',
-        value: 1.3, // 1.3x rare species encounters
-        requirements: { time: ['day'] },
-        reward: { tokens: 6, message: 'Educational trail marked! +6 conservation tokens' }
+    ground_trace: {
+        id: 'ground_trace',
+        name: 'Ground Trace',
+        description: 'Log 2 ground species.',
+        icon: '🐾',
+        objective: { type: 'log', target: 2, conditions: { habitat: 'ground' } },
+        reward: { tokens: 7, message: 'Ground trace complete! +7 field tokens' }
+    },
+    night_watch: {
+        id: 'night_watch',
+        name: 'Night Watch',
+        description: 'Log a species at night.',
+        icon: '🌙',
+        objective: { type: 'log', target: 1, conditions: { time: 'night' } },
+        requirements: { time: ['night'] },
+        reward: { tokens: 8, message: 'Night watch complete! +8 field tokens' }
+    },
+    rain_tracker: {
+        id: 'rain_tracker',
+        name: 'Rain Tracker',
+        description: 'Log a species in rainy weather.',
+        icon: '🌧️',
+        objective: { type: 'log', target: 1, conditions: { weather: 'rainy' } },
+        requirements: { weather: ['rainy'] },
+        reward: { tokens: 8, message: 'Rain tracker complete! +8 field tokens' }
     }
 };
 
@@ -234,69 +246,79 @@ const getAvailableConservationTasks = (gameTime, weather, activeTasks) => {
         if (isActive) return false;
 
         // Check requirements
-        if (task.requirements.time && !task.requirements.time.includes(gameTime)) return false;
-        if (task.requirements.weather && !task.requirements.weather.includes(weather)) return false;
+        if (task.requirements?.time && !task.requirements.time.includes(gameTime)) return false;
+        if (task.requirements?.weather && !task.requirements.weather.includes(weather)) return false;
 
         return true;
     });
 };
 
-const applyConservationEffect = (task, setPlayerState) => {
-    setPlayerState(prevState => {
-        const newBuffs = { ...prevState.conservationBuffs };
-
-        switch (task.effect) {
-            case 'increases_encounter_rate':
-                newBuffs.encounterRate = (newBuffs.encounterRate || 1) + task.value;
-                break;
-            case 'water_species_bonus':
-                newBuffs.waterSpecies = (newBuffs.waterSpecies || 1) * task.value;
-                break;
-            case 'herbivore_bonus':
-                newBuffs.herbivoreSpecies = (newBuffs.herbivoreSpecies || 1) * task.value;
-                break;
-            case 'small_species_bonus':
-                newBuffs.smallSpecies = (newBuffs.smallSpecies || 1) * task.value;
-                break;
-            case 'rare_species_bonus':
-                newBuffs.rareSpecies = (newBuffs.rareSpecies || 1) * task.value;
-                break;
-        }
-
-        return {
-            ...prevState,
-            conservationBuffs: newBuffs
-        };
-    });
+const getTaskProgress = (task) => {
+    const target = Math.max(1, task.objective?.target || 1);
+    const current = Math.min(task.progress?.current || 0, target);
+    const pct = Math.round((current / target) * 100);
+    return { current, target, pct };
 };
 
-const removeConservationEffect = (task, setPlayerState) => {
-    setPlayerState(prevState => {
-        const newBuffs = { ...prevState.conservationBuffs };
+const matchesObjectiveConditions = (objective, context = {}) => {
+    const conditions = objective?.conditions;
+    if (!conditions) return true;
+    if (conditions.habitat && conditions.habitat !== context.habitat) return false;
+    if (conditions.time && conditions.time !== context.time) return false;
+    if (conditions.weather && conditions.weather !== context.weather) return false;
+    return true;
+};
 
-        switch (task.effect) {
-            case 'increases_encounter_rate':
-                newBuffs.encounterRate = Math.max(1, (newBuffs.encounterRate || 1) - task.value);
-                break;
-            case 'water_species_bonus':
-                newBuffs.waterSpecies = (newBuffs.waterSpecies || 1) / task.value;
-                break;
-            case 'herbivore_bonus':
-                newBuffs.herbivoreSpecies = (newBuffs.herbivoreSpecies || 1) / task.value;
-                break;
-            case 'small_species_bonus':
-                newBuffs.smallSpecies = (newBuffs.smallSpecies || 1) / task.value;
-                break;
-            case 'rare_species_bonus':
-                newBuffs.rareSpecies = (newBuffs.rareSpecies || 1) / task.value;
-                break;
+const resolveConservationProgress = (tasks, eventTypes, context) => {
+    const types = Array.isArray(eventTypes) ? eventTypes.filter(Boolean) : [eventTypes].filter(Boolean);
+    if (types.length === 0) {
+        return { nextTasks: tasks, completedTasks: [] };
+    }
+
+    const completedTasks = [];
+    let changed = false;
+    const nextTasks = tasks.reduce((acc, task) => {
+        if (!task?.objective || !types.includes(task.objective.type)) {
+            acc.push(task);
+            return acc;
         }
 
-        return {
-            ...prevState,
-            conservationBuffs: newBuffs
-        };
-    });
+        if (!matchesObjectiveConditions(task.objective, context)) {
+            acc.push(task);
+            return acc;
+        }
+
+        const target = Math.max(1, task.objective.target || 1);
+        const current = Math.min(task.progress?.current || 0, target);
+        const nextCurrent = Math.min(target, current + 1);
+        changed = true;
+
+        if (nextCurrent >= target) {
+            completedTasks.push({ ...task, progress: { current: target, target } });
+            return acc;
+        }
+
+        acc.push({ ...task, progress: { current: nextCurrent, target } });
+        return acc;
+    }, []);
+
+    if (!changed) {
+        return { nextTasks: tasks, completedTasks: [] };
+    }
+
+    return { nextTasks, completedTasks };
+};
+
+const getConservationTokenReward = (completedTasks) => (
+    completedTasks.reduce((sum, task) => sum + (task.reward?.tokens || 0), 0)
+);
+
+const buildConservationCompletionMessage = (completedTasks) => {
+    if (!completedTasks.length) return null;
+    if (completedTasks.length === 1) return completedTasks[0].reward?.message || null;
+    const totalTokens = getConservationTokenReward(completedTasks);
+    const names = completedTasks.map(task => task.name).join(', ');
+    return `Missions complete: ${names}. +${totalTokens} field tokens`;
 };
 
 const smartHints = {
@@ -575,10 +597,10 @@ const QuizModal = ({ species, onResult, behavior }) => {
 };
 const ConservationTasks = ({ gameTime, weather, activeTasks, conservationTokens, onStartTask }) => {
     const availableTasks = getAvailableConservationTasks(gameTime, weather, activeTasks);
+    const maxedOut = activeTasks.length >= MAX_ACTIVE_MISSIONS;
 
-    // Only show if there are active tasks or at least 2 available tasks
+    // Only show if there are active tasks or available tasks
     if (availableTasks.length === 0 && activeTasks.length === 0) return null;
-    if (availableTasks.length < 2 && activeTasks.length === 0) return null;
 
     return (
         <div className="conservation-panel">
@@ -593,8 +615,7 @@ const ConservationTasks = ({ gameTime, weather, activeTasks, conservationTokens,
                 <div className="active-tasks">
                     <h4>Active Tasks:</h4>
                     {activeTasks.map(task => {
-                        const remainingTime = Math.max(0, Math.ceil((task.endTime - Date.now()) / 1000));
-                        const progress = ((task.duration - remainingTime) / task.duration) * 100;
+                        const progress = getTaskProgress(task);
 
                         return (
                             <div key={task.id} className="task-item active">
@@ -602,13 +623,14 @@ const ConservationTasks = ({ gameTime, weather, activeTasks, conservationTokens,
                                     <span className="task-icon">{task.icon}</span>
                                     <div className="task-details">
                                         <span className="task-name">{task.name}</span>
-                                        <span className="task-timer">{Math.floor(remainingTime / 60)}:{(remainingTime % 60).toString().padStart(2, '0')}</span>
+                                        <span className="task-description">{task.description}</span>
+                                        <span className="task-count">{progress.current} / {progress.target}</span>
                                     </div>
                                 </div>
                                 <div className="task-progress">
                                     <div
                                         className="task-progress-fill"
-                                        style={{ width: `${progress}%` }}
+                                        style={{ width: `${progress.pct}%` }}
                                     ></div>
                                 </div>
                             </div>
@@ -634,8 +656,9 @@ const ConservationTasks = ({ gameTime, weather, activeTasks, conservationTokens,
                             <button
                                 className="task-start-btn"
                                 onClick={() => onStartTask(task)}
+                                disabled={maxedOut}
                             >
-                                Start ({Math.floor(task.duration / 60)}m)
+                                {maxedOut ? 'Slots full' : 'Start mission'}
                             </button>
                         </div>
                     ))}
@@ -803,6 +826,7 @@ export default function App() {
     const [ecoLog, setEcoLog] = useState({});
     const [modalState, setModalState] = useState({ encounter: false, quiz: false, result: false });
     const [activeEncounter, setActiveEncounter] = useState(null);
+    const [activeChallengeType, setActiveChallengeType] = useState(null);
     const [isRadiantEncounter, setIsRadiantEncounter] = useState(false);
     const [lastEncounterMessage, setLastEncounterMessage] = useState(null);
     const [isScanning, setIsScanning] = useState(false);
@@ -1031,6 +1055,7 @@ export default function App() {
     const closeAllModals = () => {
     setModalState({ encounter: false, quiz: false, result: false });
     setActiveEncounter(null);
+    setActiveChallengeType(null);
     setIsRadiantEncounter(false);
     setConstellation(null);
     setCurrentBehavior(null);
@@ -1121,38 +1146,36 @@ export default function App() {
     }), []);
 
 
+    const progressConservationTasks = useCallback((eventTypes, context) => {
+        const { nextTasks, completedTasks } = resolveConservationProgress(
+            activeConservationTasks,
+            eventTypes,
+            context
+        );
 
-const startConservationTask = (task) => {
-    const taskWithTimer = {
-        ...task,
-        startTime: Date.now(),
-        endTime: Date.now() + (task.duration * 1000)
+        if (nextTasks !== activeConservationTasks) {
+            setActiveConservationTasks(nextTasks);
+        }
+
+        if (completedTasks.length > 0) {
+            const rewardTokens = getConservationTokenReward(completedTasks);
+            if (rewardTokens > 0) {
+                setConservationTokens(prev => prev + rewardTokens);
+            }
+            sfx.play('success_flourish');
+        }
+
+        return completedTasks;
+    }, [activeConservationTasks]);
+
+    const startConservationTask = (task) => {
+        setActiveConservationTasks(prev => {
+            if (prev.some(t => t.id === task.id)) return prev;
+            if (prev.length >= MAX_ACTIVE_MISSIONS) return prev;
+            const target = Math.max(1, task.objective?.target || 1);
+            return [...prev, { ...task, progress: { current: 0, target } }];
+        });
     };
-
-    setActiveConservationTasks(prev => [...prev, taskWithTimer]);
-    applyConservationEffect(task, setPlayerState);
-
-    // Set up timer to complete the task
-    setTimeout(() => {
-        completeConservationTask(task);
-    }, task.duration * 1000);
-};
-
-const completeConservationTask = (task) => {
-    // Remove from active tasks
-    setActiveConservationTasks(prev => prev.filter(t => t.id !== task.id));
-
-    // Remove conservation effect
-    removeConservationEffect(task, setPlayerState);
-
-    // Award tokens and show message
-    setConservationTokens(prev => prev + task.reward.tokens);
-    setResultMessage(task.reward.message);
-    setModalState({ encounter: false, quiz: false, result: true });
-
-    // Play conservation success sound
-    sfx.play('success_flourish');
-};
 
 const handleResetProgress = () => {
     const confirmText = tNested('gameUI.resetConfirm');
@@ -1173,6 +1196,7 @@ const handleResetProgress = () => {
     setDiscoveryChain(null);
     setCurrentBehavior(null);
     setActiveEncounter(null);
+    setActiveChallengeType(null);
     setModalState({ encounter: false, quiz: false, result: false });
     setIsRadiantEncounter(false);
     setLastEncounterMessage(null);
@@ -1200,6 +1224,15 @@ const handleResetProgress = () => {
 
         // Track scanning activity for smart hints
         updateActivity(setSmartHintState, 'scan');
+        const scanCompletions = progressConservationTasks(['scan'], {
+            time: playerState.gameTime,
+            weather: playerState.weather
+        });
+        const scanCompletionMessage = buildConservationCompletionMessage(scanCompletions);
+        if (scanCompletionMessage) {
+            setResultMessage(scanCompletionMessage);
+            setModalState({ encounter: false, quiz: false, result: true });
+        }
         setLastEncounterMessage(null);
         setConstellation(null);
         setScanStage('initializing');
@@ -1294,7 +1327,7 @@ const handleResetProgress = () => {
                 setLastEncounterMessage(tNested('gameUI.noBioSignatures'));
             }
         }, SCAN_DURATION);
-    }, [isScanning, isFocusing, playerState, tNested, discoveryStages, recentDiscoveries]);
+    }, [isScanning, isFocusing, playerState, tNested, discoveryStages, recentDiscoveries, progressConservationTasks]);
 
     useEffect(() => {
         if (!isFocusing) return;
@@ -1307,6 +1340,8 @@ const handleResetProgress = () => {
             if (distance < HOTSPOT_RADIUS) {
                 sfx.play('focus');
                 setConstellation({ x: hotspot.x, y: hotspot.y, species: hotspot.species });
+                const nextChallenge = Math.random() < 0.5 ? 'photo' : 'quiz';
+                setActiveChallengeType(nextChallenge);
                 setActiveEncounter(hotspot.species);
                 const hasKeenEye = playerState.unlockedPerks.includes('keen-eye');
                 const pityBonus = Math.min(playerState.pityRadiant * RADIANT_PITY_STEP, RADIANT_PITY_MAX);
@@ -1336,6 +1371,7 @@ const handleResetProgress = () => {
 
     const handleGameResult = (wasSuccessful) => {
         setResultMessage("");
+        let missionMessage = null;
         if (wasSuccessful) {
             // Track successful quiz for smart hints
             updateActivity(setSmartHintState, 'success');
@@ -1348,6 +1384,16 @@ const handleResetProgress = () => {
 
             grantXp(activeEncounter.id, xpGain);
             sfx.play('success');
+
+            const missionCompletions = progressConservationTasks(
+                ['log', activeChallengeType],
+                {
+                    habitat: activeEncounter?.habitat,
+                    time: playerState.gameTime,
+                    weather: playerState.weather
+                }
+            );
+            missionMessage = buildConservationCompletionMessage(missionCompletions);
 
             // Check for achievements after successful discovery
             const newAchievements = [];
@@ -1404,6 +1450,9 @@ const handleResetProgress = () => {
                 const speciesName = tNested(`species.${activeEncounter.id}.name`) || activeEncounter.name;
                 setResultMessage(`${tNested('gameUI.success')} ${speciesName} ${tNested('gameUI.hasBeenLogged')}`);
                 setModalState({ encounter: false, quiz: false, result: true });
+            }
+            if (missionMessage) {
+                setResultMessage(prev => (prev ? `${prev}\n\n${missionMessage}` : missionMessage));
             }
         } else {
             // Track failed quiz for smart hints
@@ -1563,7 +1612,7 @@ const handleResetProgress = () => {
                 {currentScreen === 'ecoLog' && <EcoLogComponent ecoLog={ecoLog} onBack={() => setCurrentScreen('explore')} />}
                 {currentScreen === 'perks' && <PerksScreen unlockedPerks={playerState.unlockedPerks} onBack={() => setCurrentScreen('explore')} />}
                 {activeEncounter && modalState.quiz && (
-                  Math.random() < 0.5
+                  activeChallengeType === 'photo'
                     ? <PhotoMiniGame species={activeEncounter} onResult={handleGameResult} />
                     : <QuizModal species={activeEncounter} onResult={handleGameResult} behavior={currentBehavior} />
                 )}
