@@ -1,6 +1,6 @@
 # Eco Explorer
 
-Last updated: 2026-02-17
+Last updated: 2026-02-21
 
 ## Table of Contents
 
