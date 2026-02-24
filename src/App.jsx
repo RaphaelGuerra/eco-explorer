@@ -9,6 +9,15 @@ import sfx from './utils/sfx';
 import PhotoMiniGame from './components/PhotoMiniGame';
 import { loadEcoState, saveEcoState, clearEcoState } from './utils/statePersistence';
 import { getDiscoveryChainBonus, selectBehavior, selectByRarity, RADIANT_PITY_MAX, RADIANT_PITY_STEP, RARE_PITY_MAX, RARE_PITY_STEP } from './utils/encounters';
+import {
+    MAX_ACTIVE_MISSIONS,
+    buildConservationCompletionMessage,
+    getAvailableConservationTasks,
+    getConservationTokenReward,
+    getTaskProgress,
+    resolveConservationProgress
+} from './utils/conservation';
+import { createDefaultSmartHintState, getSmartHint, updateActivity } from './utils/smartHints';
 
 const BASE_URL = import.meta.env.BASE_URL || '/';
 const withBase = (path) => `${BASE_URL}${path.replace(/^\//, '')}`;
@@ -137,14 +146,6 @@ const createDefaultPlayerState = () => ({
     }
 });
 
-const createDefaultSmartHintState = () => ({
-    failedScans: 0,
-    failedQuizzes: 0,
-    lastActivity: Date.now(),
-    hintLevel: 0,
-    currentHint: null
-});
-
 const createDefaultAchievementState = () => ({
     unlockedAchievements: [],
     showCelebration: false,
@@ -177,248 +178,6 @@ const mergeAchievementState = (base, saved) => {
 };
 
 // ===================== COMPONENTS =====================
-const MAX_ACTIVE_MISSIONS = 3;
-const conservationTasks = {
-    scan_sweep: {
-        id: 'scan_sweep',
-        name: 'Scanner Sweep',
-        description: 'Complete 3 scans.',
-        icon: '📡',
-        objective: { type: 'scan', target: 3 },
-        reward: { tokens: 4, message: 'Scanner sweep complete! +4 field tokens' }
-    },
-    photo_proof: {
-        id: 'photo_proof',
-        name: 'Photo Proof',
-        description: 'Land 1 successful photo capture.',
-        icon: '📸',
-        objective: { type: 'photo', target: 1 },
-        reward: { tokens: 6, message: 'Photo evidence secured! +6 field tokens' }
-    },
-    quiz_notes: {
-        id: 'quiz_notes',
-        name: 'Field Notes',
-        description: 'Answer 1 quiz correctly.',
-        icon: '📝',
-        objective: { type: 'quiz', target: 1 },
-        reward: { tokens: 6, message: 'Field notes verified! +6 field tokens' }
-    },
-    sky_survey: {
-        id: 'sky_survey',
-        name: 'Canopy Survey',
-        description: 'Log 2 sky species.',
-        icon: '🦜',
-        objective: { type: 'log', target: 2, conditions: { habitat: 'sky' } },
-        reward: { tokens: 7, message: 'Canopy survey complete! +7 field tokens' }
-    },
-    ground_trace: {
-        id: 'ground_trace',
-        name: 'Ground Trace',
-        description: 'Log 2 ground species.',
-        icon: '🐾',
-        objective: { type: 'log', target: 2, conditions: { habitat: 'ground' } },
-        reward: { tokens: 7, message: 'Ground trace complete! +7 field tokens' }
-    },
-    night_watch: {
-        id: 'night_watch',
-        name: 'Night Watch',
-        description: 'Log a species at night.',
-        icon: '🌙',
-        objective: { type: 'log', target: 1, conditions: { time: 'night' } },
-        requirements: { time: ['night'] },
-        reward: { tokens: 8, message: 'Night watch complete! +8 field tokens' }
-    },
-    rain_tracker: {
-        id: 'rain_tracker',
-        name: 'Rain Tracker',
-        description: 'Log a species in rainy weather.',
-        icon: '🌧️',
-        objective: { type: 'log', target: 1, conditions: { weather: 'rainy' } },
-        requirements: { weather: ['rainy'] },
-        reward: { tokens: 8, message: 'Rain tracker complete! +8 field tokens' }
-    }
-};
-
-const getAvailableConservationTasks = (gameTime, weather, activeTasks) => {
-    return Object.values(conservationTasks).filter(task => {
-        // Check if task is already active
-        const isActive = activeTasks.some(t => t.id === task.id);
-        if (isActive) return false;
-
-        // Check requirements
-        if (task.requirements?.time && !task.requirements.time.includes(gameTime)) return false;
-        if (task.requirements?.weather && !task.requirements.weather.includes(weather)) return false;
-
-        return true;
-    });
-};
-
-const getTaskProgress = (task) => {
-    const target = Math.max(1, task.objective?.target || 1);
-    const current = Math.min(task.progress?.current || 0, target);
-    const pct = Math.round((current / target) * 100);
-    return { current, target, pct };
-};
-
-const matchesObjectiveConditions = (objective, context = {}) => {
-    const conditions = objective?.conditions;
-    if (!conditions) return true;
-    if (conditions.habitat && conditions.habitat !== context.habitat) return false;
-    if (conditions.time && conditions.time !== context.time) return false;
-    if (conditions.weather && conditions.weather !== context.weather) return false;
-    return true;
-};
-
-const resolveConservationProgress = (tasks, eventTypes, context) => {
-    const types = Array.isArray(eventTypes) ? eventTypes.filter(Boolean) : [eventTypes].filter(Boolean);
-    if (types.length === 0) {
-        return { nextTasks: tasks, completedTasks: [] };
-    }
-
-    const completedTasks = [];
-    let changed = false;
-    const nextTasks = tasks.reduce((acc, task) => {
-        if (!task?.objective || !types.includes(task.objective.type)) {
-            acc.push(task);
-            return acc;
-        }
-
-        if (!matchesObjectiveConditions(task.objective, context)) {
-            acc.push(task);
-            return acc;
-        }
-
-        const target = Math.max(1, task.objective.target || 1);
-        const current = Math.min(task.progress?.current || 0, target);
-        const nextCurrent = Math.min(target, current + 1);
-        changed = true;
-
-        if (nextCurrent >= target) {
-            completedTasks.push({ ...task, progress: { current: target, target } });
-            return acc;
-        }
-
-        acc.push({ ...task, progress: { current: nextCurrent, target } });
-        return acc;
-    }, []);
-
-    if (!changed) {
-        return { nextTasks: tasks, completedTasks: [] };
-    }
-
-    return { nextTasks, completedTasks };
-};
-
-const getConservationTokenReward = (completedTasks) => (
-    completedTasks.reduce((sum, task) => sum + (task.reward?.tokens || 0), 0)
-);
-
-const buildConservationCompletionMessage = (completedTasks) => {
-    if (!completedTasks.length) return null;
-    if (completedTasks.length === 1) return completedTasks[0].reward?.message || null;
-    const totalTokens = getConservationTokenReward(completedTasks);
-    const names = completedTasks.map(task => task.name).join(', ');
-    return `Missions complete: ${names}. +${totalTokens} field tokens`;
-};
-
-const smartHints = {
-    noEncounters: {
-        threshold: 3,
-        hints: [
-            { level: 1, text: "Try scanning at different times of day", urgent: false },
-            { level: 2, text: "Different weather conditions attract different species", urgent: false },
-            { level: 3, text: "Some species are very rare - try conservation tasks to improve your chances", urgent: true }
-        ]
-    },
-    struggling: {
-        threshold: 2,
-        hints: [
-            { level: 1, text: "Take your time to observe the species carefully", urgent: false },
-            { level: 2, text: "Check the Eco-Dex for patterns and best conditions", urgent: false },
-            { level: 3, text: "Each animal has unique traits - focus on what makes them special", urgent: true }
-        ]
-    },
-    inactive: {
-        threshold: 60, // seconds
-        hints: [
-            { level: 1, text: "New species are waiting to be discovered", urgent: false },
-            { level: 2, text: "Try completing a conservation task to help the ecosystem", urgent: false },
-            { level: 3, text: "Check your objectives for daily goals and rewards", urgent: true }
-        ]
-    },
-    optimalTime: {
-        hints: [
-            { level: 1, text: "This is a great time for sky species - look up!", urgent: false },
-            { level: 2, text: "Ground animals are most active now", urgent: false },
-            { level: 3, text: "Nocturnal species become more active at night", urgent: false }
-        ]
-    }
-};
-
-const getSmartHint = (hintState, gameTime, weather, recentDiscoveries) => {
-    const now = Date.now();
-    const timeSinceActivity = (now - hintState.lastActivity) / 1000;
-
-    // Check for inactivity
-    if (timeSinceActivity > smartHints.inactive.threshold) {
-        const hint = smartHints.inactive.hints[Math.min(hintState.hintLevel, smartHints.inactive.hints.length - 1)];
-        return { ...hint, type: 'inactive' };
-    }
-
-    // Check for failed scans
-    if (hintState.failedScans >= smartHints.noEncounters.threshold) {
-        const hint = smartHints.noEncounters.hints[Math.min(hintState.hintLevel, smartHints.noEncounters.hints.length - 1)];
-        return { ...hint, type: 'noEncounters' };
-    }
-
-    // Check for failed quizzes
-    if (hintState.failedQuizzes >= smartHints.struggling.threshold) {
-        const hint = smartHints.struggling.hints[Math.min(hintState.hintLevel, smartHints.struggling.hints.length - 1)];
-        return { ...hint, type: 'struggling' };
-    }
-
-    // Provide time-specific hints
-    if (recentDiscoveries.length === 0) {
-        const timeHints = smartHints.optimalTime.hints;
-        let hintIndex = 0;
-
-        if (gameTime === 'night') hintIndex = 2;
-        else if (gameTime === 'day') hintIndex = 1;
-
-        const hint = timeHints[hintIndex];
-        return { ...hint, type: 'optimalTime' };
-    }
-
-    return null;
-};
-
-const updateActivity = (setSmartHintState, action) => {
-    setSmartHintState(prevState => {
-        const now = Date.now();
-        let newState = {
-            ...prevState,
-            lastActivity: now
-        };
-
-        switch (action) {
-            case 'scan':
-                newState.failedScans = 0;
-                break;
-            case 'success':
-                newState.failedQuizzes = 0;
-                newState.hintLevel = Math.max(0, prevState.hintLevel - 1);
-                break;
-            case 'failure':
-                newState.failedQuizzes = prevState.failedQuizzes + 1;
-                break;
-            case 'noEncounter':
-                newState.failedScans = prevState.failedScans + 1;
-                break;
-        }
-
-        return newState;
-    });
-};
 
 const EcoLogComponent = ({ ecoLog, onBack }) => {
     const { tNested } = useTranslation();
@@ -510,38 +269,6 @@ const ResultModal = ({ message, onClose }) => {
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <h2>{message}</h2>
                 <button className="explore-button" onClick={onClose} style={{marginTop: '1rem'}}>{tNested('gameUI.ok')}</button>
-            </div>
-        </div>
-    );
-};
-const EncounterModal = ({ encounter, isRadiant, onLog, onRelease, behavior }) => {
-    const { tNested } = useTranslation();
-    const speciesName = tNested(`species.${encounter.id}.name`) || encounter.name;
-    const radiantPrefix = isRadiant ? `${tNested('gameUI.radiant')} ` : '';
-
-    return (
-        <div className="modal-overlay">
-            <div className="modal-content">
-                <div className="encounter-header">
-                    <div className="emoji" style={{ filter: isRadiant ? 'drop-shadow(0 0 1rem #fde047)' : 'none' }}>
-                        {encounter.emoji}
-                    </div>
-                    {behavior && (
-                        <div className="behavior-indicator">
-                            <span className="behavior-emoji">{behavior.emoji}</span>
-                            <span className="behavior-text">{behavior.description}</span>
-                            {behavior.xp_bonus > 1 && (
-                                <span className="xp-bonus">+{Math.round((behavior.xp_bonus - 1) * 100)}% XP</span>
-                            )}
-                        </div>
-                    )}
-                </div>
-                <h2>A {radiantPrefix}{speciesName} {tNested('gameUI.appeared')}</h2>
-                <p>{tNested('gameUI.whatWillYouDo')}</p>
-                <div className="button-group">
-                    <button className="explore-button" onClick={onLog}>{tNested('gameUI.logIt')}</button>
-                    <button className="danger-button" onClick={onRelease}>{tNested('gameUI.letItGo')}</button>
-                </div>
             </div>
         </div>
     );
@@ -969,13 +696,14 @@ export default function App() {
         }
 
         // Play ambient sounds with slight delays
-        soundsToPlay.forEach((sound, index) => {
+        const pendingAmbientStarts = soundsToPlay.map((sound, index) => (
             setTimeout(() => {
                 sfx.playAmbient(sound);
-            }, index * 1000); // Stagger by 1 second
-        });
+            }, index * 1000)
+        )); // Stagger by 1 second
 
         return () => {
+            pendingAmbientStarts.forEach((timerId) => clearTimeout(timerId));
             soundsToPlay.forEach(sound => sfx.stopAmbient(sound));
         };
     }, [playerState.gameTime, playerState.weather, soundEnabled]);
@@ -991,9 +719,12 @@ export default function App() {
             } else if (saved !== today) {
                 const prev = new Date(saved);
                 const diffDays = Math.round((new Date(today) - prev) / (1000*60*60*24));
-                const nextStreak = diffDays === 1 ? (playerState.streakDays || 0) + 1 : 1;
                 localStorage.setItem('ee-last-login', today);
-                setPlayerState(p => ({ ...p, streakDays: nextStreak, lastLoginDate: today }));
+                setPlayerState(p => ({
+                    ...p,
+                    streakDays: diffDays === 1 ? (p.streakDays || 0) + 1 : 1,
+                    lastLoginDate: today
+                }));
             }
         } catch {
             // ignore storage errors
@@ -1003,29 +734,38 @@ export default function App() {
             setPlayerState(p => ({ ...p, gameTime: p.gameTime === 'day' ? 'night' : 'day', weather: Math.random() > 0.7 ? 'rainy' : 'clear' }));
         }, 30000);
         return () => clearInterval(gameLoop);
-    }, [playerState.streakDays]);
+    }, []);
 
     // Smart hints system - check for hints every 10 seconds
     useEffect(() => {
         const hintInterval = setInterval(() => {
-            const smartHint = getSmartHint(smartHintState, playerState.gameTime, playerState.weather, recentDiscoveries);
+            setSmartHintState(prevState => {
+                const smartHint = getSmartHint(prevState, playerState.gameTime, playerState.weather, recentDiscoveries);
 
-            if (smartHint) {
-                setSmartHintState(prevState => ({
+                if (!smartHint) {
+                    return prevState.currentHint ? { ...prevState, currentHint: null } : prevState;
+                }
+
+                const nextHintLevel = Math.min(prevState.hintLevel + (smartHint.urgent ? 1 : 0), 2);
+                const hasSameHint =
+                    prevState.currentHint?.type === smartHint.type &&
+                    prevState.currentHint?.text === smartHint.text &&
+                    prevState.currentHint?.urgent === smartHint.urgent;
+
+                if (hasSameHint && nextHintLevel === prevState.hintLevel) {
+                    return prevState;
+                }
+
+                return {
                     ...prevState,
                     currentHint: smartHint,
-                    hintLevel: Math.min(prevState.hintLevel + (smartHint.urgent ? 1 : 0), 2)
-                }));
-            } else {
-                setSmartHintState(prevState => ({
-                    ...prevState,
-                    currentHint: null
-                }));
-            }
+                    hintLevel: nextHintLevel
+                };
+            });
         }, 10000); // Check every 10 seconds
 
         return () => clearInterval(hintInterval);
-    }, [smartHintState, playerState.gameTime, playerState.weather, recentDiscoveries]);
+    }, [playerState.gameTime, playerState.weather, recentDiscoveries]);
 
     const grantXp = useCallback((speciesId, amount) => {
         setEcoLog(prevLog => {

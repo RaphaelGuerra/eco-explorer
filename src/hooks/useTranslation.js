@@ -9,23 +9,30 @@ export function useTranslation() {
     const [currentLanguage, setCurrentLanguage] = useState(i18n.getCurrentLanguage());
 
     useEffect(() => {
-        // Initialize i18n if not already done
-        if (!i18n.translations[currentLanguage]) {
-            i18n.initialize();
-        }
-
-        // Add listener for language changes
+        let isMounted = true;
         const handleLanguageChange = (lang) => {
-            setCurrentLanguage(lang);
+            if (isMounted) {
+                setCurrentLanguage(lang);
+            }
         };
 
+        const initializeI18n = async () => {
+            if (!i18n.isInitialized()) {
+                await i18n.initialize();
+            }
+            if (isMounted) {
+                setCurrentLanguage(i18n.getCurrentLanguage());
+            }
+        };
+
+        initializeI18n();
         i18n.addListener(handleLanguageChange);
 
-        // Cleanup
         return () => {
+            isMounted = false;
             i18n.removeListener(handleLanguageChange);
         };
-    }, [currentLanguage]);
+    }, []);
 
     const t = (key) => i18n.t(key);
     const tNested = (key) => i18n.tNested(key);

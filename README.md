@@ -9,6 +9,7 @@ Last updated: 2026-02-24
 - [How To Play](#how-to-play)
 - [Highlights](#highlights)
 - [Goals](#goals)
+- [Stewardship](#stewardship)
 - [Tech Stack](#tech-stack)
 - [Run Locally](#run-locally)
 - [Status & Learnings](#status--learnings)
@@ -52,6 +53,10 @@ Live demo: none (run locally)
 - Keep the core loop quick, readable, and mobile-friendly
 - Make content easy to extend (locations, species, mini-games)
 See `GOALS.md` for the longer-term roadmap.
+
+## Stewardship
+- Current modernization plan: [`docs/STEWARDSHIP_PLAN.md`](docs/STEWARDSHIP_PLAN.md)
+- Current strategy: stabilize runtime behavior first, then decompose the monolithic app shell into feature modules
 
 ## Tech Stack
 - React + Vite

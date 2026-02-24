@@ -15,22 +15,36 @@ class I18nManager {
             es: '🇪🇸 Español'
         };
         this.listeners = [];
+        this.initialized = false;
     }
 
     /**
      * Initialize the i18n system
      */
     async initialize() {
+        if (this.initialized) return;
+
+        const urlLang = this.getLanguageFromURL();
         // Get saved language preference or detect browser language
         const savedLang = localStorage.getItem('preferred-language');
         const browserLang = this.detectBrowserLanguage();
-        const initialLang = savedLang || browserLang;
+        const initialLang = urlLang || savedLang || browserLang;
 
         // Load initial language
         await this.setLanguage(initialLang);
-        
-        // Update URL with language parameter
-        this.updateURL();
+        this.initialized = true;
+    }
+
+    getLanguageFromURL() {
+        try {
+            const url = new URL(window.location.href);
+            const urlLang = url.searchParams.get('lang');
+            if (!urlLang) return null;
+            const normalized = urlLang.toLowerCase();
+            return this.supportedLanguages.includes(normalized) ? normalized : null;
+        } catch {
+            return null;
+        }
     }
 
     /**
@@ -175,6 +189,10 @@ class I18nManager {
      */
     removeListener(callback) {
         this.listeners = this.listeners.filter(listener => listener !== callback);
+    }
+
+    isInitialized() {
+        return this.initialized;
     }
 
     /**
